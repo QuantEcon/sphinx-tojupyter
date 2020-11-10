@@ -1,0 +1,254 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Builders &mdash; sphinx-tojupyter 20.1.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/togglebutton.css" type="text/css" />
+  <link rel="stylesheet" href="_static/mystnb.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/togglebutton.js"></script>
+        <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Managing Large Projects" href="config-project.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> sphinx-tojupyter
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                20.1.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html#todo">Todo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config-sphinx.html">Sphinx Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config-extension.html">Extension Configuration and Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">RST Conversion Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config-example.html">Example conf.py file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config-project.html">Managing Large Projects</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Builders</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#jupyter">jupyter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#jupyterpdf">jupyterpdf</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">sphinx-tojupyter</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Builders</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/builders.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="builders">
+<span id="id1"></span><h1>Builders<a class="headerlink" href="#builders" title="Permalink to this headline">¶</a></h1>
+<p>This extension has the following Builders</p>
+<div class="section" id="jupyter">
+<h2>jupyter<a class="headerlink" href="#jupyter" title="Permalink to this headline">¶</a></h2>
+<p>This builder currently handles jupyter, html, and coverage output</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>@<span class="k">$(</span>SPHINXBUILD<span class="k">)</span> -M jupyter <span class="s2">&quot;</span><span class="k">$(</span>SOURCEDIR<span class="k">)</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="k">$(</span>BUILDCOVERAGE<span class="k">)</span><span class="s2">&quot;</span> <span class="k">$(</span>FILES<span class="k">)</span> <span class="k">$(</span>SPHINXOPTS<span class="k">)</span> <span class="k">$(</span>O<span class="k">)</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If your project needs to build jupyter and html then configuration for html
+and coverage is currently handled through Makefile overrides.
+The project is working on separate builders for html and coverage</p>
+</div>
+<p>Example Configuration for HTML production</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>@<span class="k">$(</span>SPHINXBUILD<span class="k">)</span> -M jupyter <span class="s2">&quot;</span><span class="k">$(</span>SOURCEDIR<span class="k">)</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="k">$(</span>BUILDWEBSITE<span class="k">)</span><span class="s2">&quot;</span> <span class="k">$(</span>FILES<span class="k">)</span> <span class="k">$(</span>SPHINXOPTS<span class="k">)</span> <span class="k">$(</span>O<span class="k">)</span> -D <span class="nv">jupyter_make_site</span><span class="o">=</span><span class="m">1</span> -D <span class="nv">jupyter_generate_html</span><span class="o">=</span><span class="m">1</span> -D <span class="nv">jupyter_download_nb</span><span class="o">=</span><span class="m">1</span> -D <span class="nv">jupyter_execute_notebooks</span><span class="o">=</span><span class="m">1</span> -D <span class="nv">jupyter_target_html</span><span class="o">=</span><span class="m">1</span> -D <span class="nv">jupyter_download_nb_image_urlpath</span><span class="o">=</span><span class="s2">&quot;https://s3-ap-southeast-2.amazonaws.com/lectures.quantecon.org/py/_static/&quot;</span> -D <span class="nv">jupyter_images_markdown</span><span class="o">=</span><span class="m">0</span> -D <span class="nv">jupyter_html_template</span><span class="o">=</span><span class="s2">&quot;python-html.tpl&quot;</span> -D <span class="nv">jupyter_download_nb_urlpath</span><span class="o">=</span><span class="s2">&quot;https://lectures.quantecon.org/&quot;</span> -D <span class="nv">jupyter_coverage_dir</span><span class="o">=</span><span class="k">$(</span>BUILDCOVERAGE<span class="k">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="jupyterpdf">
+<h2>jupyterpdf<a class="headerlink" href="#jupyterpdf" title="Permalink to this headline">¶</a></h2>
+<p>This builder handles production of pdf</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>@<span class="k">$(</span>SPHINXBUILD<span class="k">)</span> -M jupyterpdf <span class="s2">&quot;</span><span class="k">$(</span>SOURCEDIR<span class="k">)</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="k">$(</span>BUILDCOVERAGE<span class="k">)</span><span class="s2">&quot;</span> <span class="k">$(</span>FILES<span class="k">)</span> <span class="k">$(</span>SPHINXOPTS<span class="k">)</span> <span class="k">$(</span>O<span class="k">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="config-project.html" class="btn btn-neutral float-left" title="Managing Large Projects" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019, QuantEcon Development Team
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -70,6 +70,8 @@ def setup(app):
     app.add_config_value("tojupyter_download_nb_urlpath", None, "jupyter")
     app.add_config_value("tojupyter_download_nb_image_urlpath", None, "jupyter")
     app.add_config_value("tojupyter_images_markdown", False, "jupyter")
+    app.add_config_value("tojupyter_urlpath", None, "jupyter")
+    app.add_config_value("tojupyter_image_urlpath", None, "jupyter")
 
     # Jupyter pdf options
     app.add_config_value("tojupyter_latex_template", None, "jupyter")

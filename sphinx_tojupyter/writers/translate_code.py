@@ -44,7 +44,7 @@ class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
         self.tojupyter_ignore_skip_test = builder.config["tojupyter_ignore_skip_test"]
         self.tojupyter_lang_synonyms = builder.config["tojupyter_lang_synonyms"]
         self.tojupyter_target_html = builder.config["tojupyter_target_html"]
-        self.tojupyter_download_nb_image_urlpath = builder.tojupyter_download_nb_image_urlpath
+        self.tojupyter_image_urlpath = builder.tojupyter_image_urlpath
         self.tojupyter_images_markdown = builder.config["tojupyter_images_markdown"]
         self.tojupyter_target_pdf = builder.config["tojupyter_target_pdf"]
         self.tojupyter_pdf_showcontentdepth = builder.config["tojupyter_pdf_showcontentdepth"]

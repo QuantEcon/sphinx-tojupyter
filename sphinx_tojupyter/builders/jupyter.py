@@ -147,12 +147,20 @@ class JupyterBuilder(Builder):
         doctree = doctree.deepcopy()
         destination = docutils.io.StringOutput(encoding="utf-8")
         ### print an output for downloading notebooks as well with proper links if variable is set
+        if "tojupyter_urlpath" in self.config:
+            self.writer._set_ref_urlpath(self.config["tojupyter_urlpath"])
+        else:
+            self.writer._set_ref_urlpath(None)
+        if "tojupyter_image_urlpath" in self.config:
+            self.writer._set_tojupyter_image_urlpath((self.config["tojupyter_image_urlpath"]))
+        else:
+            self.writer._set_tojupyter_image_urlpath(None)
         if "tojupyter_download_nb" in self.config and self.config["tojupyter_download_nb"]:
 
             outfilename = os.path.join(self.downloadsdir, os_path(docname) + self.out_suffix)
             ensuredir(os.path.dirname(outfilename))
             self.writer._set_ref_urlpath(self.config["tojupyter_download_nb_urlpath"])
-            self.writer._set_tojupyter_download_nb_image_urlpath((self.config["tojupyter_download_nb_image_urlpath"]))
+            self.writer._set_tojupyter_image_urlpath((self.config["tojupyter_download_nb_image_urlpath"]))
             self.writer.write(doctree, destination)
 
             # get a NotebookNode object from a string
@@ -174,8 +182,6 @@ class JupyterBuilder(Builder):
                     self._execute_notebook_class.execute_notebook(self, nb, docname, self.download_execution_vars, self.download_execution_vars['futures'])
 
         ### output notebooks for executing
-        self.writer._set_ref_urlpath(None)
-        self.writer._set_tojupyter_download_nb_image_urlpath(None)
         self.writer.write(doctree, destination)
 
         # get a NotebookNode object from a string

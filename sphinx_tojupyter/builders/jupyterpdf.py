@@ -144,7 +144,7 @@ class JupyterPDFBuilder(Builder):
 
         ### output notebooks for executing for single pdfs, the urlpath should be set to website url
         self.writer._set_ref_urlpath(self.config["tojupyter_pdf_urlpath"])
-        self.writer._set_tojupyter_download_nb_image_urlpath(None)
+        self.writer._set_tojupyter_image_urlpath(None)
         self.writer.write(doctree, destination)
 
         # get a NotebookNode object from a string

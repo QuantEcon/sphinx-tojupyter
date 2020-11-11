@@ -24,7 +24,6 @@ SPHINX_VERSION = sphinx.version_info
 CONFIGSETS = {
     'base'  : "jupyter", 
     'pdf'   : "jupyterpdf",
-    'no_inline_exercises' : "jupyter",
 }
 
 #-Diff Configuration-#

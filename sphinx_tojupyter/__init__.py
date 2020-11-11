@@ -18,15 +18,8 @@ VERSION = pkg_resources.get_distribution('pip').version
 import sphinx
 SPHINX_VERSION = sphinx.version_info
 
-if SPHINX_VERSION[0] >= 2:
-    from .directive import exercise
-
 def _noop(*args, **kwargs):
     pass
-
-def depart_exercise_node(self, node):
-    return HTML.depart_admonition(self, node)
-    
 
 def setup(app):
     execute_nb_obj = {
@@ -87,29 +80,10 @@ def setup(app):
     app.add_config_value("tojupyter_pdf_book_title", None, "jupyter")
     app.add_config_value("tojupyter_pdf_book_name", None, "jupyter")
 
-
-
-    
     # Jupyter Directive
     app.add_node(tojupyter_node, html=(_noop, _noop), latex=(_noop, _noop))
     app.add_directive("jupyter", JupyterDirective)
     app.add_directive("jupyter-dependency", JupyterDependency)
-
-    # Exercise directive
-    if SPHINX_VERSION[0] >= 2:
-        app.add_config_value('exercise_include_exercises', True, 'html')
-        app.add_config_value('exercise_inline_exercises', False, 'html')
-        app.add_node(exercise.exerciselist_node)
-        app.add_node(
-            exercise.exercise_node,
-            html=(exercise.visit_exercise_node, exercise.depart_exercise_node),
-            latex=(exercise.visit_exercise_node, exercise.depart_exercise_node),
-            text=(exercise.visit_exercise_node, exercise.depart_exercise_node)
-        )
-        app.add_directive('exercise', exercise.ExerciseDirective)
-        app.add_directive('exerciselist', exercise.ExerciselistDirective)
-        app.connect('doctree-resolved', exercise.process_exercise_nodes)
-        app.connect('env-purge-doc', exercise.purge_exercises)
 
     # jupyter setup
     app.add_transform(JupyterOnlyTransform)

@@ -29,32 +29,6 @@ help:
 test: clean clean-pdf jupyter pdf
 	python check_diffs.py
 
-no-inline:
-	@$(SPHINXBUILD) -M jupyter "$(SOURCENOEX)" "$(BUILDNOEX)" $(SPHINXOPTS) $(O)
-
-clean-no-inline:
-	rm -rf $(BUILDNOEX)
-
-no-inline-test: clean-no-inline no-inline
-	python check_diffs.py
-
-preview:
-ifneq (,$(filter $(parallel),website Website))
-	cd _build/jupyter_html/ && python -m http.server
-else
-ifdef lecture
-	cd _build/jupyter/ && jupyter notebook $(basename $(lecture)).ipynb
-else
-	cd _build/jupyter/ && jupyter notebook
-endif
-endif
-
-clean-coverage:
-	rm -rf $(BUILDCOVERAGE)
-
-clean-website:
-	rm -rf $(BUILDWEBSITE)
-
 clean-pdf:
 	rm -rf $(BUILDPDF)
 

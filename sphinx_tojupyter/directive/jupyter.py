@@ -18,7 +18,7 @@ class Jupyter(Directive):
                    'slide-type': directives.unchanged}
     has_content = True
     add_index = False
- 
+
     def run(self):
         # we create a new cell and we add it to the node tree
         node = tojupyter_node()
@@ -26,15 +26,13 @@ class Jupyter(Directive):
             node['cell-break'] = True
         if 'slide' in self.options:
             if self.options['slide'] == 'enable':
-                node['slide'] = True 
+                node['slide'] = True
             else:
-                node['slide'] = False     
+                node['slide'] = False
         if 'slide-type' in self.options:
             #node.parent.append(nodes.literal(self.content.data))
             node['slide-type'] = self.options['slide-type']
-        
-    
- 
+
         # we return the result
         return [ node ]
 

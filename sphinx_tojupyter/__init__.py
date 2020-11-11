@@ -65,6 +65,11 @@ def setup(app):
     app.add_config_value("tojupyter_dependencies", None, "jupyter")
     app.add_config_value("tojupyter_download_nb_execute", None, "jupyter")
     app.add_config_value("tojupyter_nextprev_ignore", [], "jupyter")
+    app.add_config_value("tojupyter_target_html", False, "jupyter")
+    app.add_config_value("tojupyter_download_nb", False, "jupyter")
+    app.add_config_value("tojupyter_download_nb_urlpath", None, "jupyter")
+    app.add_config_value("tojupyter_download_nb_image_urlpath", None, "jupyter")
+    app.add_config_value("tojupyter_images_markdown", False, "jupyter")
 
     # Jupyter pdf options
     app.add_config_value("tojupyter_latex_template", None, "jupyter")
@@ -80,19 +85,14 @@ def setup(app):
     app.add_config_value("tojupyter_pdf_book_title", None, "jupyter")
     app.add_config_value("tojupyter_pdf_book_name", None, "jupyter")
 
-    # Jupyter Directive
+    # Jupyter Directives
     app.add_node(tojupyter_node, html=(_noop, _noop), latex=(_noop, _noop))
     app.add_directive("jupyter", JupyterDirective)
     app.add_directive("jupyter-dependency", JupyterDependency)
 
-    # jupyter setup
+    # jupyter HTML only passthrough
     app.add_transform(JupyterOnlyTransform)
     app.add_config_value("tojupyter_allow_html_only", False, "jupyter")
-    app.add_config_value("tojupyter_target_html", False, "jupyter")
-    app.add_config_value("tojupyter_download_nb", False, "jupyter")
-    app.add_config_value("tojupyter_download_nb_urlpath", None, "jupyter")
-    app.add_config_value("tojupyter_download_nb_image_urlpath", None, "jupyter")
-    app.add_config_value("tojupyter_images_markdown", False, "jupyter")
 
     return {
         "version": VERSION,

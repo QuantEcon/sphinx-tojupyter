@@ -164,7 +164,7 @@ class ExecuteNotebookWriter():
             if "tojupyter_pdf_book_title" in builderSelf.config and builderSelf.config['tojupyter_pdf_book_title']:
                 executed_nb['metadata']['site_title'] = builderSelf.config['tojupyter_pdf_book_title']
             if "tojupyter_download_nb" in builderSelf.config and builderSelf.config['tojupyter_download_nb']:
-                executed_nb['metadata']['download_nb_path'] = builderSelf.config['tojupyter_download_nb_urlpath']
+                executed_nb['metadata']['download_nb_path'] = builderSelf.config['tojupyter_urlpath']
             if (futures_name.startswith('delayed') != -1):
                 # adding in executed notebooks list
                 params['executed_notebooks'].append(filename)

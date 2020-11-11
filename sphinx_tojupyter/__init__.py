@@ -18,6 +18,9 @@ VERSION = pkg_resources.get_distribution('pip').version
 import sphinx
 SPHINX_VERSION = sphinx.version_info
 
+def _noop(*args, **kwargs):
+    pass
+
 def setup(app):
     execute_nb_obj = {
         "no-text": True,

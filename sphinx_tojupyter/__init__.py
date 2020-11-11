@@ -18,6 +18,17 @@ VERSION = pkg_resources.get_distribution('pip').version
 import sphinx
 SPHINX_VERSION = sphinx.version_info
 
+JUPYTER_KERNELS = {
+    "python3": {
+        "kernelspec": {
+            "display_name": "Python",
+            "language": "python3",
+            "name": "python3"
+            },
+        "file_extension": ".py",
+    },
+}
+
 def _noop(*args, **kwargs):
     pass
 
@@ -35,7 +46,7 @@ def setup(app):
     # Jupyter Builder and Options
     app.add_builder(JupyterPDFBuilder)
     app.add_builder(JupyterBuilder)
-    app.add_config_value("tojupyter_kernels", None, "jupyter")
+    app.add_config_value("tojupyter_kernels", JUPYTER_KERNELS, "jupyter")
     app.add_config_value("tojupyter_conversion_mode", "all", "jupyter")
     app.add_config_value("tojupyter_write_metadata", False, "jupyter")
     app.add_config_value("tojupyter_static_file_path", [], "jupyter")
@@ -69,7 +80,7 @@ def setup(app):
     app.add_config_value("tojupyter_download_nb", False, "jupyter")
     app.add_config_value("tojupyter_download_nb_urlpath", None, "jupyter")
     app.add_config_value("tojupyter_download_nb_image_urlpath", None, "jupyter")
-    app.add_config_value("tojupyter_images_markdown", False, "jupyter")
+    app.add_config_value("tojupyter_images_markdown", True, "jupyter")
     app.add_config_value("tojupyter_urlpath", None, "jupyter")
     app.add_config_value("tojupyter_image_urlpath", None, "jupyter")
 

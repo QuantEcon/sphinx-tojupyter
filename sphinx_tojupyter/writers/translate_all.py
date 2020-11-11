@@ -907,7 +907,7 @@ class JupyterTranslator(JupyterCodeTranslator, object):
     # Jupyter Nodes
     # =============
 
-    def visit_tojupyter_node(self, node):
+    def visit_jupyter_node(self, node):
         try:
             if 'cell-break' in node.attributes:
                 self.add_markdown_cell()
@@ -925,7 +925,7 @@ class JupyterTranslator(JupyterCodeTranslator, object):
         except:
             pass
 
-    def depart_tojupyter_node(self, node):
+    def depart_jupyter_node(self, node):
         if 'cell-break' in node.attributes:
             pass
         if 'slide' in node.attributes:

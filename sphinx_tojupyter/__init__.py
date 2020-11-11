@@ -7,7 +7,7 @@ except AttributeError:
 
 from .builders.jupyter import JupyterBuilder
 from .builders.jupyterpdf import JupyterPDFBuilder
-from .directive.jupyter import tojupyter_node
+from .directive.jupyter import jupyter_node
 from .directive.jupyter import Jupyter as JupyterDirective
 from .directive.jupyter import JupyterDependency
 from .transform import JupyterOnlyTransform
@@ -86,7 +86,7 @@ def setup(app):
     app.add_config_value("tojupyter_pdf_book_name", None, "jupyter")
 
     # Jupyter Directives
-    app.add_node(tojupyter_node, html=(_noop, _noop), latex=(_noop, _noop))
+    app.add_node(jupyter_node, html=(_noop, _noop), latex=(_noop, _noop))
     app.add_directive("jupyter", JupyterDirective)
     app.add_directive("jupyter-dependency", JupyterDependency)
 

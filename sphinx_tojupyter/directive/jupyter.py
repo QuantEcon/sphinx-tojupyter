@@ -1,7 +1,7 @@
 from docutils import nodes
 from docutils.parsers.rst import directives, Directive
 
-class tojupyter_node(nodes.Structural, nodes.Element): 
+class jupyter_node(nodes.Structural, nodes.Element): 
     pass
 
 class Jupyter(Directive):
@@ -21,7 +21,7 @@ class Jupyter(Directive):
 
     def run(self):
         # we create a new cell and we add it to the node tree
-        node = tojupyter_node()
+        node = jupyter_node()
         if 'cell-break' in self.options:
             node['cell-break'] = True
         if 'slide' in self.options:
@@ -47,7 +47,7 @@ class JupyterDependency(Directive):
 
     def run(self):
         # we create a new cell and add uri reference to specified file and we add it to the node tree
-        node = tojupyter_node()
+        node = jupyter_node()
         node['uri'] = directives.uri(self.arguments[0])
         # we return the result
         return [node]

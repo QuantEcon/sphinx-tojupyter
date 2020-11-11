@@ -37,7 +37,7 @@ def setup(app):
     app.add_builder(JupyterBuilder)
     app.add_config_value("tojupyter_kernels", None, "jupyter")
     app.add_config_value("tojupyter_conversion_mode", "all", "jupyter")
-    app.add_config_value("tojupyter_write_metadata", True, "jupyter")
+    app.add_config_value("tojupyter_write_metadata", False, "jupyter")
     app.add_config_value("tojupyter_static_file_path", [], "jupyter")
     app.add_config_value("tojupyter_header_block", None, "jupyter")
     app.add_config_value("tojupyter_options", None, "jupyter")

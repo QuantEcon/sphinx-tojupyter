@@ -307,11 +307,11 @@ class JupyterTranslator(JupyterCodeTranslator, object):
 
         self.in_math_block = True
 
-        if self.in_list and node["label"]:
+        if self.in_list and "label" in node and node["label"]:
             self.markdown_lines.pop()  #remove entry \n from table builder
 
         #check for labelled math
-        if node["label"]:
+        if "label" in node and node["label"]:
             #Use \tags in the LaTeX environment
             if self.tojupyter_target_pdf:
                 if "ids" in node and len(node["ids"]):

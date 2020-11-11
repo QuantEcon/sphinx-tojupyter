@@ -29,6 +29,20 @@ JUPYTER_KERNELS = {
     },
 }
 
+NB_RENDER_PRIORITY = {
+  "jupyter": (
+            "application/vnd.jupyter.widget-view+json",
+            "application/javascript",
+            "text/html",
+            "image/svg+xml",
+            "image/png",
+            "image/jpeg",
+            "text/markdown",
+            "text/latex",
+            "text/plain",
+        )
+}
+
 def _noop(*args, **kwargs):
     pass
 
@@ -106,6 +120,12 @@ def setup(app):
     # jupyter HTML only passthrough
     app.add_transform(JupyterOnlyTransform)
     app.add_config_value("tojupyter_allow_html_only", False, "jupyter")
+
+    #Add config to support myst_nb
+    if "nb_render_priority" in app.config:
+        app.config["nb_render_priority"]["jupyter"] = NB_RENDER_PRIORITY["jupyter"]
+    else:
+        app.add_config_value("nb_render_priority", NB_RENDER_PRIORITY, "jupyter")
 
     return {
         "version": VERSION,

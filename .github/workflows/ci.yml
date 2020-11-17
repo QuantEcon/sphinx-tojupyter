@@ -22,4 +22,4 @@ jobs:
       - name: Run Tests
         shell: bash -l {0}
         run: |
-          make test
+          cd tests && make test

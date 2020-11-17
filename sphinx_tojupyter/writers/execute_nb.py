@@ -42,47 +42,11 @@ class ExecuteNotebookWriter():
         elif (language.lower().find('julia') != -1):
             language = 'julia'
 
-        ## adding latex metadata
-        if builderSelf.config["tojupyter_target_pdf"]:
-            nb = self.add_latex_metadata(builderSelf, nb, subdirectory, filename)
-
         # - Parse Directories and execute them - #
         if coverage:
             self.execution_cases(builderSelf, params['destination'], False, subdirectory, language, futures, nb, filename, full_path)
         else:
             self.execution_cases(builderSelf, params['destination'], True, subdirectory, language, futures, nb, filename, full_path)
-
-    def add_latex_metadata(self, builder, nb, subdirectory, filename=""):
-
-        ## initialize latex metadata
-        if 'latex_metadata' not in nb['metadata']:
-            nb['metadata']['latex_metadata'] = {}
-
-        ## check for relative paths
-        path = ''
-        if subdirectory != '':
-            path = "../"
-            slashes = subdirectory.count('/')
-            for i in range(slashes):
-                path += "../"
-
-        ## add check for logo here as well
-        if nb.metadata.title:
-            nb.metadata.latex_metadata.title = nb.metadata.title
-        if "tojupyter_pdf_logo" in builder.config and builder.config['tojupyter_pdf_logo']:
-            nb.metadata.latex_metadata.logo = path + builder.config['tojupyter_pdf_logo']
-        
-        if builder.config["tojupyter_bib_file"]:
-            nb.metadata.latex_metadata.bib = path + builder.config["tojupyter_bib_file"]
-
-        if builder.config["tojupyter_pdf_author"]:
-            nb.metadata.latex_metadata.author = builder.config["tojupyter_pdf_author"]
-        
-        if builder.config["tojupyter_pdf_book_index"] is not None and (filename and builder.config["tojupyter_pdf_book_index"] in filename):
-            nb.metadata.latex_metadata.tojupyter_pdf_book_title = builder.config["tojupyter_pdf_book_title"]
-
-        # nb_string = json.dumps(nb_obj, indent=2, sort_keys=True)
-        return nb
 
     def execution_cases(self, builderSelf, directory, allow_errors, subdirectory, language, futures, nb, filename, full_path):
         ## function to handle the cases of execution for coverage reports or html conversion pipeline
@@ -161,8 +125,6 @@ class ExecuteNotebookWriter():
             language_info = executed_nb['metadata']['kernelspec']
             executed_nb['metadata']['filename_with_path'] = filename_with_path
             executed_nb['metadata']['download_nb'] = builderSelf.config['tojupyter_download_nb']
-            if "tojupyter_pdf_book_title" in builderSelf.config and builderSelf.config['tojupyter_pdf_book_title']:
-                executed_nb['metadata']['site_title'] = builderSelf.config['tojupyter_pdf_book_title']
             if "tojupyter_download_nb" in builderSelf.config and builderSelf.config['tojupyter_download_nb']:
                 executed_nb['metadata']['download_nb_path'] = builderSelf.config['tojupyter_download_nb_urlpath']
             if (futures_name.startswith('delayed') != -1):
@@ -192,19 +154,12 @@ class ExecuteNotebookWriter():
             #Write Executed Notebook as File
             with open(executed_notebook_path, "wt", encoding="UTF-8") as f:
                 nbformat.write(executed_nb, f)
-            
+
             ## generate html if needed
             if (builderSelf.config['tojupyter_generate_html'] and params['target'] == 'website'):
                 builderSelf._convert_class.convert(executed_nb, filename, language_info, params['destination'], passed_metadata['path'])
-            
-            ## generate pdfs if set to true
-            if (builderSelf.config['tojupyter_target_pdf']):
-                builderSelf._pdf_class.convert_to_latex(builderSelf, filename_with_path, executed_nb['metadata']['latex_metadata'])
-                builderSelf._pdf_class.move_pdf(builderSelf)
-            
-        print('({}/{})  {} -- {} -- {:.2f}s'.format(count, total_count, filename, status, computing_time))
-            
 
+        print('({}/{})  {} -- {} -- {:.2f}s'.format(count, total_count, filename, status, computing_time))
 
         # storing error info if any execution throws an error
         results = dict()

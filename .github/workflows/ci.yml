@@ -13,7 +13,7 @@ jobs:
           auto-activate-base: true
           miniconda-version: 'latest'
           python-version: 3.8
-          environment-file: sphinx-tojupyter
+          environment-file: environment.yml
           activate-environment: sphinx-tojupyter
       - name: Install sphinx-tojupyter
         shell: bash -l {0}

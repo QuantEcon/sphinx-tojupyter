@@ -259,6 +259,12 @@ class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
 
         self.in_code_block = False
 
+    def visit_CellOutputNode(self, node):
+        raise docutils.nodes.SkipChildren
+
+    def depart_CellOutputNode(self, node):
+        pass
+
     # ===================
     #  general methods
     # ===================

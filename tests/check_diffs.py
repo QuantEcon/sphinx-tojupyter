@@ -22,8 +22,7 @@ if sys.version_info.major == 2:
 
 SPHINX_VERSION = sphinx.version_info
 CONFIGSETS = {
-    'base'  : "jupyter", 
-    'pdf'   : "jupyterpdf",
+    'base'  : "jupyter",
 }
 
 #-Diff Configuration-#

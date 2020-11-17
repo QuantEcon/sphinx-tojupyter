@@ -1,0 +1,25 @@
+name: Run Tests
+on: [push]
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Anaconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          auto-activate-base: true
+          miniconda-version: 'latest'
+          python-version: 3.8
+          environment-file: environment.yml
+          activate-environment: sphinx-tojupyter
+      - name: Install sphinx-tojupyter
+        shell: bash -l {0}
+        run: |
+          python setup.py install
+      - name: Run Tests
+        shell: bash -l {0}
+        run: |
+          cd tests && make test

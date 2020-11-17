@@ -68,7 +68,7 @@ class JupyterTranslator(JupyterCodeTranslator, object):
         # Slideshow option
         self.metadata_slide = False  #False is the value by default for all the notebooks
         self.slide = "slide" #value by default
-        
+
         ## pdf book options
         self.in_book_index = False
         self.book_index_previous_links = []
@@ -86,9 +86,6 @@ class JupyterTranslator(JupyterCodeTranslator, object):
         ## if the source file parsed is book index file and target is pdf
         if self.book_index is not None and self.book_index in self.source_file_name and self.tojupyter_pdf_book:
             self.in_book_index = True
-
-
-
 
     def depart_document(self, node):
         """at end
@@ -234,6 +231,8 @@ class JupyterTranslator(JupyterCodeTranslator, object):
     def depart_image(self, node):
         if self.tojupyter_target_pdf:
             self.markdown_lines.append("\n")
+        if self.tojupyter_images_markdown:
+            self.markdown_lines.append("\n\n")
 
     # math
     def visit_math(self, node):

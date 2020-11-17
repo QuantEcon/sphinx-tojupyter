@@ -46,12 +46,6 @@ class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
         self.tojupyter_target_html = builder.config["tojupyter_target_html"]
         self.tojupyter_image_urlpath = builder.tojupyter_image_urlpath
         self.tojupyter_images_markdown = builder.config["tojupyter_images_markdown"]
-        self.tojupyter_target_pdf = builder.config["tojupyter_target_pdf"]
-        self.tojupyter_pdf_showcontentdepth = builder.config["tojupyter_pdf_showcontentdepth"]
-        self.tojupyter_pdf_book = builder.config["tojupyter_pdf_book"]
-        self.book_index = builder.config["tojupyter_pdf_book_index"]
-        if hasattr(builder, 'add_bib_to_latex'):
-            self.add_bib_to_latex = builder.add_bib_to_latex
 
         # set the value of the cell metadata["slideshow"] to slide as the default option
         self.slide = "slide" 

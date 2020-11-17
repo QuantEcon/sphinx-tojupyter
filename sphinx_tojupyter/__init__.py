@@ -6,7 +6,6 @@ except AttributeError:
     pass
 
 from .builders.jupyter import JupyterBuilder
-from .builders.jupyterpdf import JupyterPDFBuilder
 from .directive.jupyter import jupyter_node
 from .directive.jupyter import Jupyter as JupyterDirective
 from .directive.jupyter import JupyterDependency
@@ -58,7 +57,6 @@ def setup(app):
     app.add_config_value('SPHINX_VERSION', SPHINX_VERSION, 'env')
 
     # Jupyter Builder and Options
-    app.add_builder(JupyterPDFBuilder)
     app.add_builder(JupyterBuilder)
     app.add_config_value("tojupyter_kernels", JUPYTER_KERNELS, "jupyter")
     app.add_config_value("tojupyter_conversion_mode", "all", "jupyter")
@@ -97,20 +95,6 @@ def setup(app):
     app.add_config_value("tojupyter_images_markdown", True, "jupyter")
     app.add_config_value("tojupyter_urlpath", None, "jupyter")
     app.add_config_value("tojupyter_image_urlpath", None, "jupyter")
-
-    # Jupyter pdf options
-    app.add_config_value("tojupyter_latex_template", None, "jupyter")
-    app.add_config_value("tojupyter_latex_template_book", None, "jupyter")
-    app.add_config_value("tojupyter_pdf_logo", None, "jupyter")
-    app.add_config_value("tojupyter_bib_file", None, "jupyter")
-    app.add_config_value("tojupyter_pdf_author", None, "jupyter")
-    app.add_config_value("tojupyter_pdf_showcontentdepth", 2, "jupyter")
-    app.add_config_value("tojupyter_pdf_urlpath", None, "jupyter")
-    app.add_config_value("tojupyter_pdf_excludepatterns", [], "jupyter")
-    app.add_config_value("tojupyter_pdf_book", False, "jupyter")
-    app.add_config_value("tojupyter_pdf_book_index", None, "jupyter")
-    app.add_config_value("tojupyter_pdf_book_title", None, "jupyter")
-    app.add_config_value("tojupyter_pdf_book_name", None, "jupyter")
 
     # Jupyter Directives
     app.add_node(jupyter_node, html=(_noop, _noop), latex=(_noop, _noop))

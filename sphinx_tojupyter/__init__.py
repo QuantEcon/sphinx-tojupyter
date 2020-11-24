@@ -40,7 +40,15 @@ NB_RENDER_PRIORITY = {
             "text/markdown",
             "text/latex",
             "text/plain",
-        )
+        ),
+  "jupyterpdf": (
+        "application/pdf",
+        "image/png",
+        "image/jpeg",
+        "text/latex",
+        "text/markdown",
+        "text/plain",
+    )
 }
 
 def _noop(*args, **kwargs):
@@ -124,8 +132,10 @@ def setup(app):
     #Add config to support myst_nb
     if "nb_render_priority" in app.config:
         app.config["nb_render_priority"]["jupyter"] = NB_RENDER_PRIORITY["jupyter"]
+        app.config["nb_render_priority"]["jupyterpdf"] = NB_RENDER_PRIORITY["jupyterpdf"]
     else:
         app.add_config_value("nb_render_priority", NB_RENDER_PRIORITY, "jupyter")
+        app.add_config_value("nb_render_priority", NB_RENDER_PRIORITY, "jupyterpdf")
 
     return {
         "version": VERSION,

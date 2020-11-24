@@ -134,8 +134,7 @@ def setup(app):
         app.config["nb_render_priority"]["jupyter"] = NB_RENDER_PRIORITY["jupyter"]
         app.config["nb_render_priority"]["jupyterpdf"] = NB_RENDER_PRIORITY["jupyterpdf"]
     else:
-        app.add_config_value("nb_render_priority", NB_RENDER_PRIORITY, "jupyter")
-        app.add_config_value("nb_render_priority", NB_RENDER_PRIORITY, "jupyterpdf")
+        app.add_config_value("nb_render_priority", NB_RENDER_PRIORITY, "env")
 
     return {
         "version": VERSION,

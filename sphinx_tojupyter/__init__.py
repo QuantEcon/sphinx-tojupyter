@@ -59,7 +59,6 @@ def setup(app):
         "no-text": True,
         "timeout": 600,
         "text_reports": True,
-        "coverage": False,
     }
 
     #Add Sphinx Version to ENV Configuration
@@ -81,7 +80,6 @@ def setup(app):
     app.add_config_value("tojupyter_ignore_no_execute", False, "jupyter")
     app.add_config_value("tojupyter_ignore_skip_test", False, "jupyter")
     app.add_config_value("tojupyter_execute_nb", execute_nb_obj, "jupyter")
-    app.add_config_value("tojupyter_template_coverage_file_path", None, "jupyter")
     app.add_config_value("tojupyter_generate_html", False, "jupyter")
     app.add_config_value("tojupyter_html_template", None, "jupyter")
     app.add_config_value("tojupyter_execute_notebooks", False, "jupyter")
@@ -89,9 +87,7 @@ def setup(app):
     app.add_config_value("tojupyter_dependency_lists", {}, "jupyter")
     app.add_config_value("tojupyter_threads_per_worker", 1, "jupyter")
     app.add_config_value("tojupyter_number_workers", 1, "jupyter")
-    app.add_config_value("tojupyter_make_coverage", False, "jupyter")
     app.add_config_value("tojupyter_target_pdf", False, "jupyter")
-    app.add_config_value("tojupyter_coverage_dir", None, "jupyter")
     app.add_config_value("tojupyter_theme", None, "jupyter")
     app.add_config_value("tojupyter_theme_path", "theme", "jupyter")
     app.add_config_value("tojupyter_template_path", "templates", "jupyter")

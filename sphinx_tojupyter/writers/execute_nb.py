@@ -25,7 +25,6 @@ class ExecuteNotebookWriter():
         pass
     def execute_notebook(self, builderSelf, nb, filename, params, futures):
         execute_nb_config = builderSelf.config["tojupyter_execute_nb"]
-        coverage = builderSelf.config["tojupyter_make_coverage"]
         timeout = execute_nb_config["timeout"]
         filename = filename
         subdirectory = ''
@@ -47,10 +46,7 @@ class ExecuteNotebookWriter():
             nb = self.add_latex_metadata(builderSelf, nb, subdirectory, filename)
 
         # - Parse Directories and execute them - #
-        if coverage:
-            self.execution_cases(builderSelf, params['destination'], False, subdirectory, language, futures, nb, filename, full_path)
-        else:
-            self.execution_cases(builderSelf, params['destination'], True, subdirectory, language, futures, nb, filename, full_path)
+        self.execution_cases(builderSelf, params['destination'], True, subdirectory, language, futures, nb, filename, full_path)
 
     def add_latex_metadata(self, builder, nb, subdirectory, filename=""):
 
@@ -85,7 +81,6 @@ class ExecuteNotebookWriter():
         return nb
 
     def execution_cases(self, builderSelf, directory, allow_errors, subdirectory, language, futures, nb, filename, full_path):
-        ## function to handle the cases of execution for coverage reports or html conversion pipeline
         if subdirectory != '':
             builderSelf.executed_notebook_dir = directory + "/" + subdirectory
         else:
@@ -108,7 +103,6 @@ class ExecuteNotebookWriter():
         if (self.startFlag == 0):
             self.startFlag = 1
             builderSelf.client.get_task_stream()
-
 
         future = builderSelf.client.submit(ep.preprocess, nb, {"metadata": {"path": builderSelf.executed_notebook_dir, "filename": filename, "filename_with_path": full_path}})
 
@@ -334,156 +328,3 @@ class ExecuteNotebookWriter():
                     json_file.write(x)
         except IOError:
             self.logger.warning("Unable to save dask reports JSON file. Does the {} directory exist?".format(builderSelf.reportdir))
-
-    def create_coverage_report(self, builderSelf, error_results, params):
-        """
-        Creates a coverage report of the errors in notebook
-        """
-        errors = []
-        error_results = []
-        errors_by_language = dict()
-        produce_text_reports = builderSelf.config["tojupyter_execute_nb"]["text_reports"]
-        
-        #Parse Error Set
-        for full_error_set in error_results:
-            error_result = full_error_set['errors']
-            filename = full_error_set['filename']
-            current_language = full_error_set['language']
-            language_name = current_language['extension']
-            if error_result:
-                if language_name not in errors_by_language:
-                    errors_by_language[language_name] = dict()
-                    errors_by_language[language_name]['display_name'] = current_language['display_name']
-                    errors_by_language[language_name]['language'] = current_language['language']
-                    errors_by_language[language_name]['files'] = dict()
-
-                errors += error_result
-                error_files.append(filename)
-
-                errors_by_language[language_name]['files'][filename] = error_result
-
-        # Create the error report from the HTML template, if it exists.
-        templateFolder = builderSelf.config['tojupyter_template_path']
-        error_report_template_file = templateFolder + "/" + builderSelf.config["tojupyter_template_coverage_file_path"]
-
-        error_report_template = []
-        if not os.path.isfile(error_report_template_file):
-            print("Unable to generate error report - template not found.")
-        else:
-            with open(error_report_template_file, encoding="UTF-8") as inputFile:
-                error_report_template = inputFile.readlines()
-
-        lang_summary = ""
-        notebook_looper = ""
-        for lang_ext in errors_by_language:
-            language_display_name = errors_by_language[lang_ext]['display_name']
-            language = errors_by_language[lang_ext]['language']
-            errors_by_file = errors_by_language[lang_ext]['files']
-            error_dir = builderSelf.errordir.format(lang_ext)
-
-            if produce_text_reports:
-                # set specific language output file
-                lang_error_dir = "{}/{}_errors".format(error_dir, lang_ext)
-                # purge language results directory and recreate
-                shutil.rmtree(path=lang_error_dir, ignore_errors=True)
-                os.makedirs(lang_error_dir)
-
-            if errors_by_file:
-                # errors dictionary
-                error_count_dict = dict()
-                error_files_dict = dict()
-
-                # create the HTML for the notebook filenames
-                notebook_list_HTML = ""
-
-                # write to results file
-                # overview output file
-                if produce_text_reports:
-                    results_file = open("{}/{}_overview.txt".format(error_dir, lang_ext), 'w')
-                    results_file.write(language_display_name + " execution errors occurred in the notebooks below:\n")
-
-                self.logger.error(language_display_name + " execution errors occurred in the notebooks below")
-
-                error_number = 1
-                for filename in errors_by_file:
-                    self.logger.error(filename)
-
-                    number_of_errors = str(len(errors_by_file[filename]))
-                    if produce_text_reports:
-                        results_file.write("\t{} - {} errors.\n".format(filename, number_of_errors))
-
-                    notebook_list_HTML += "<li><a href=\"#{}\">{}</a></li>".format(lang_ext + "_" + filename, filename)
-                    notebook_looper += "<h3 id=\"{}\">{} - {} {} errors</h3>\n".format(
-                        lang_ext + "_" + filename, filename, number_of_errors, language_display_name)
-
-                    if produce_text_reports:
-                        error_file = open("{}/{}_errors.txt".format(lang_error_dir, filename), "w")
-
-                    for error in errors_by_file[filename]:
-                        # Some errors don't provide a traceback. Make sure that some useful information is provided
-                        # to the report - if nothing else, the type of error that was caught.
-                        traceback = getattr(error, "traceback", None)
-                        if traceback is None:
-                            error.traceback = str(error)
-
-                        last_line = error.traceback.splitlines()[-1]
-                        if last_line not in error_files_dict:
-                            error_files_dict[last_line] = []
-                        error_files_dict[last_line].append(error_number)
-
-                        if last_line not in error_count_dict:
-                            error_count_dict[last_line] = 0
-                        error_count_dict[last_line] += 1
-
-                        notebook_looper += "<pre><code class=\""\
-                                        + language\
-                                        + "\">{}</code></pre>\n".format(error.traceback)
-
-                        error_number += 1
-
-                        if produce_text_reports:
-                            error_file.write(error.traceback + "\n")
-
-                    if produce_text_reports:
-                        error_file.close()
-
-                if notebook_list_HTML != "":
-                    lang_summary += "<p>" + language_display_name \
-                                    + " execution errors occured in the following notebooks:</p><ul>"\
-                                    + notebook_list_HTML + " </ul>"
-
-                # write error count and errors to overview.txt
-                if produce_text_reports:
-                    results_file.write("\n----------------------\nError count details: [count] error\n\n")
-                    for key, value in error_count_dict.items():
-                        results_file.write("[{}] {}\n".format(value, key))
-                        results_file.write('\n')
-
-                    results_file.write("\nFor specifics, including the cell block, refer to [notebook name]_errors.txt\n")
-                    results_file.close()
-
-            else:
-                # no errors. Update overview to show that
-                if produce_text_reports:
-                    results_file = open("{}/{}_overview.txt".format(error_dir, lang_ext), 'w')
-                    results_file.write("No errors occurred!\n")
-                    results_file.close()
-
-            # create the dictionary of variables to inject into the HTML template
-            variables = dict()
-            variables['ERROR_SUMMARY'] = lang_summary
-            variables['NOTEBOOK_LOOP'] = notebook_looper
-            variables['DATETIME'] = time.strftime("%c")
-
-            # Save the error report.
-            filename = "errors-" + time.strftime("%d%m%Y") + ".html"
-            full_error_report_filename = os.path.normpath(error_dir + "/" + filename)
-            with open(full_error_report_filename, "w", encoding="UTF-8") as error_output_file:
-                for line in error_report_template:
-                    for keyName in variables:
-                        target_string = "{" + keyName + "}"
-                        line = line.replace(target_string, variables[keyName])
-
-                    error_output_file.write(line)
-
-

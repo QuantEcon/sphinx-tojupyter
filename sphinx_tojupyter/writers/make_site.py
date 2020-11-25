@@ -57,19 +57,6 @@ class MakeSiteWriter():
             copy_tree(htmlFolder, self.websitedir, preserve_symlinks=1)
         else:
             self.logger.warning("html folder not present in the themes directory")
-
-
-        if "tojupyter_coverage_dir" in builderSelf.config and builderSelf.config["tojupyter_coverage_dir"]:
-            if os.path.exists(builderSelf.config['tojupyter_coverage_dir']):
-                self.coveragedir = builderSelf.config['tojupyter_coverage_dir']
-                ## copies the report of execution results
-                if os.path.exists(self.coveragedir + "/jupyter/reports/code-execution-results.json"):
-                    shutil.copy2(self.coveragedir + "/jupyter/reports/code-execution-results.json", self.websitedir + "_static/")
-            else:
-                self.logger.error("coverage directory not found. Please ensure to run coverage build before running website build")
-        else:
-            self.logger.error(" coverage directory nbot specified. Please specify coverage directory for creating website reports ")
-
         
         ## copies the downloads folder
         if "tojupyter_download_nb" in builderSelf.config and builderSelf.config["tojupyter_download_nb"]:

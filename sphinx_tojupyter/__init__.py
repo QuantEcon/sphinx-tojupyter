@@ -72,7 +72,6 @@ def setup(app):
     app.add_config_value("tojupyter_write_metadata", False, "jupyter")
     app.add_config_value("tojupyter_static_file_path", [], "jupyter")
     app.add_config_value("tojupyter_header_block", None, "jupyter")
-    app.add_config_value("tojupyter_options", None, "jupyter")
     app.add_config_value("tojupyter_default_lang", "python3", "jupyter")
     app.add_config_value("tojupyter_lang_synonyms", [], "jupyter")
     app.add_config_value("tojupyter_drop_solutions", True, "jupyter")

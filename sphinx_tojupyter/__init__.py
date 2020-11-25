@@ -77,8 +77,6 @@ def setup(app):
     app.add_config_value("tojupyter_lang_synonyms", [], "jupyter")
     app.add_config_value("tojupyter_drop_solutions", True, "jupyter")
     app.add_config_value("tojupyter_drop_tests", True, "jupyter")
-    app.add_config_value("tojupyter_ignore_no_execute", False, "jupyter")
-    app.add_config_value("tojupyter_ignore_skip_test", False, "jupyter")
     app.add_config_value("tojupyter_execute_nb", execute_nb_obj, "jupyter")
     app.add_config_value("tojupyter_generate_html", False, "jupyter")
     app.add_config_value("tojupyter_html_template", None, "jupyter")

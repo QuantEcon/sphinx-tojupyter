@@ -66,20 +66,7 @@ class JupyterPDFBuilder(Builder):
                 "Set default language to python3"
                 .format(def_lng))
             self.config["tojupyter_default_lang"] = "python3"
-        # If the user has overridden anything on the command line, set these things which have been overridden.
-        instructions = []
-        overrides = self.config['tojupyter_options']
-        if overrides:
-            instructions = overrides.split(",")
-
-        for instruction in instructions:
-            if instruction:
-                if instruction == 'code_only':
-                    self.config["tojupyter_conversion_mode"] = "code"
-                else:
-                    # Fail on unrecognised command.
-                    self.logger.warning("Unrecognise command line parameter " + instruction + ", ignoring.")
-
+        
         #threads per worker for dask distributed processing
         if "tojupyter_threads_per_worker" in self.config:
             self.threads_per_worker = self.config["tojupyter_threads_per_worker"]

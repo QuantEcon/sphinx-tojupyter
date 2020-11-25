@@ -82,7 +82,7 @@ def setup(app):
     app.add_config_value("tojupyter_target_pdf", False, "jupyter")
     app.add_config_value("tojupyter_template_path", "templates", "jupyter")
     app.add_config_value("tojupyter_dependencies", None, "jupyter")
-    app.add_config_value("tojupyter_use_html", True, "jupyter")
+    app.add_config_value("tojupyter_use_html", False, "jupyter")
     app.add_config_value("tojupyter_images_markdown", True, "jupyter")
     app.add_config_value("tojupyter_urlpath", None, "jupyter")
     app.add_config_value("tojupyter_image_urlpath", None, "jupyter")

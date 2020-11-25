@@ -5,7 +5,6 @@ import shutil
 import time
 import json
 from nbconvert.preprocessors import ExecutePreprocessor
-from ..writers.convert import convertToHtmlWriter
 from sphinx.util import logging
 import dask
 from dask.distributed import as_completed
@@ -154,11 +153,8 @@ class ExecuteNotebookWriter():
             executed_nb = nb[0]
             language_info = executed_nb['metadata']['kernelspec']
             executed_nb['metadata']['filename_with_path'] = filename_with_path
-            executed_nb['metadata']['download_nb'] = builderSelf.config['tojupyter_download_nb']
             if "tojupyter_pdf_book_title" in builderSelf.config and builderSelf.config['tojupyter_pdf_book_title']:
                 executed_nb['metadata']['site_title'] = builderSelf.config['tojupyter_pdf_book_title']
-            if "tojupyter_download_nb" in builderSelf.config and builderSelf.config['tojupyter_download_nb']:
-                executed_nb['metadata']['download_nb_path'] = builderSelf.config['tojupyter_download_nb_urlpath']
             if (futures_name.startswith('delayed') != -1):
                 # adding in executed notebooks list
                 params['executed_notebooks'].append(filename)
@@ -186,18 +182,13 @@ class ExecuteNotebookWriter():
             #Write Executed Notebook as File
             with open(executed_notebook_path, "wt", encoding="UTF-8") as f:
                 nbformat.write(executed_nb, f)
-            
-            ## generate html if needed
-            if (builderSelf.config['tojupyter_generate_html'] and params['target'] == 'website'):
-                builderSelf._convert_class.convert(executed_nb, filename, language_info, params['destination'], passed_metadata['path'])
-            
+
             ## generate pdfs if set to true
             if (builderSelf.config['tojupyter_target_pdf']):
                 builderSelf._pdf_class.convert_to_latex(builderSelf, filename_with_path, executed_nb['metadata']['latex_metadata'])
                 builderSelf._pdf_class.move_pdf(builderSelf)
-            
+
         print('({}/{})  {} -- {} -- {:.2f}s'.format(count, total_count, filename, status, computing_time))
-            
 
 
         # storing error info if any execution throws an error
@@ -214,10 +205,6 @@ class ExecuteNotebookWriter():
 
         builderSelf.dask_log['scheduler_info'] = builderSelf.client.scheduler_info()
         builderSelf.dask_log['futures'] = []
-
-        ## create an instance of the class id config set
-        if (builderSelf.config['tojupyter_generate_html'] and params['target'] == 'website'):
-            builderSelf._convert_class = convertToHtmlWriter(builderSelf)
 
         # this for loop gathers results in the background
         total_count = len(params['futures'])

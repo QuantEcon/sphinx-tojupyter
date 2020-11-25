@@ -37,7 +37,6 @@ class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
         # Variables defined in conf.py
         self.tojupyter_static_file_path = builder.config["tojupyter_static_file_path"]
         self.tojupyter_kernels = builder.config["tojupyter_kernels"]
-        self.tojupyter_write_metadata = builder.config["tojupyter_write_metadata"]
         self.tojupyter_drop_solutions = builder.config["tojupyter_drop_solutions"]
         self.tojupyter_drop_tests = builder.config["tojupyter_drop_tests"]
         self.tojupyter_lang_synonyms = builder.config["tojupyter_lang_synonyms"]
@@ -54,43 +53,6 @@ class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
         # set the value of the cell metadata["slideshow"] to slide as the default option
         self.slide = "slide" 
         self.metadata_slide = False  #value by default for all the notebooks, we change it for those we want
-
-
-        # Header Block
-        template_paths = builder.config["templates_path"]
-        header_block_filename = builder.config["tojupyter_header_block"]
-
-        full_path_to_header_block = None
-        for template_path in template_paths:
-            if header_block_filename:
-                if os.path.isfile(template_path + "/" + header_block_filename):
-                   full_path_to_header_block = os.path.normpath( template_path + "/" + header_block_filename)
-
-        if full_path_to_header_block:
-            with open(full_path_to_header_block) as input_file:
-                lines = input_file.readlines()
-
-            line_text = "".join(lines)
-            formatted_line_text = self.strip_blank_lines_in_end_of_block(
-                line_text)
-            nb_header_block = nbformat.v4.new_markdown_cell(
-                formatted_line_text)
-
-            # Add the header block to the output stream straight away
-            self.output["cells"].append(nb_header_block)
-
-        # Write metadata
-        if self.tojupyter_write_metadata:
-            meta_text = \
-                "Notebook created: {:%Y-%m-%d %H:%M:%S}  \n"\
-                "Generated from: {}  "
-
-            metadata = meta_text.format(
-                datetime.datetime.now(),
-                self.source_file_name)
-
-            self.output["cells"].append(
-                nbformat.v4.new_markdown_cell(metadata))
 
         # Variables used in visit/depart
         self.in_code_block = False  # if False, it means in markdown_cell

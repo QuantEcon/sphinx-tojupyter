@@ -571,10 +571,10 @@ class JupyterTranslator(JupyterCodeTranslator, object):
                 refuri = node["refuri"]
                 # add default extension(.ipynb)
                 if "internal" in node.attributes and node.attributes["internal"] == True:
-                    if self.tojupyter_use_html:
+                    if self.urlpath or self.tojupyter_use_html:
                         refuri = self.add_extension_to_inline_link(refuri, self.html_ext)
                         ## add url path if it is set
-                        if self.urlpath is not None:
+                        if self.urlpath:
                             refuri = self.urlpath + refuri
                     elif self.tojupyter_target_pdf and 'references#' in refuri:
                         label = refuri.split("#")[-1]

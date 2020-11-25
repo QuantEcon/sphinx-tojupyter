@@ -23,7 +23,7 @@ class ExecuteNotebookWriter():
     def __init__(self, builderSelf):
         pass
     def execute_notebook(self, builderSelf, nb, filename, params, futures):
-        execute_nb_config = builderSelf.config["tojupyter_execute_nb"]
+        execute_nb_config = builderSelf.config["tojupyter_execute_notebooks_config"]
         timeout = execute_nb_config["timeout"]
         filename = filename
         subdirectory = ''

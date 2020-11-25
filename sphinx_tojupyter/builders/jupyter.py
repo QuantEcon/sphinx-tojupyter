@@ -299,17 +299,17 @@ class JupyterBuilder(Builder):
         self.finish_tasks.add_task(self.copy_static_files)
 
         if self.config["tojupyter_execute_notebooks"]:
-            self.save_executed_and_generate_coverage(self.execution_vars,'website', self.config['tojupyter_make_coverage'])
+            self.save_executed(self.execution_vars,'website')
 
         if self.config["tojupyter_download_nb_execute"]:
-            self.save_executed_and_generate_coverage(self.download_execution_vars, 'downloads')
+            self.save_executed(self.download_execution_vars, 'downloads')
 
         if "tojupyter_make_site" in self.config and self.config['tojupyter_make_site']:
             self._make_site_class.build_website(self)
 
         exit(self.execution_status_code)
 
-    def save_executed_and_generate_coverage(self, params, target, coverage = False):
+    def save_executed(self, params, target):
 
             # watch progress of the execution of futures
             self.logger.info(bold("Starting notebook execution for %s and html conversion(if set in config)..."), target)
@@ -317,13 +317,3 @@ class JupyterBuilder(Builder):
 
             # save executed notebook
             error_results = self._execute_notebook_class.save_executed_notebook(self, params)
-
-            ##generate coverage if config value set
-            if coverage:
-                ## produces a JSON file of dask execution
-                self._execute_notebook_class.produce_dask_processing_report(self, params)
-
-                ## generate the JSON code execution reports file
-                error_results  = self._execute_notebook_class.produce_code_execution_report(self, error_results, params)
-
-                self._execute_notebook_class.create_coverage_report(self, error_results, params)

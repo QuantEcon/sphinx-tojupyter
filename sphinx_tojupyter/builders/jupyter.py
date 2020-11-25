@@ -39,7 +39,6 @@ class JupyterBuilder(Builder):
         self.executedir = self.outdir + '/executed'
         self.reportdir = self.outdir + '/reports/'
         self.errordir = self.outdir + "/reports/{}"
-        self.downloadsExecutedir = self.downloadsdir + "/executed"
         self.client = None
         self.execution_status_code = 0
 

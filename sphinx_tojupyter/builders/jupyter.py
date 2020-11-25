@@ -10,7 +10,6 @@ from sphinx.builders import Builder
 from sphinx.util.console import bold, darkgreen, brown
 from sphinx.util.fileutil import copy_asset
 from ..writers.execute_nb import ExecuteNotebookWriter
-from ..writers.convert import convertToHtmlWriter
 from dask.distributed import Client, progress
 from sphinx.util import logging
 import pdb

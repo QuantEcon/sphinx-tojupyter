@@ -95,6 +95,7 @@ def setup(app):
     app.add_config_value("tojupyter_images_markdown", True, "jupyter")
     app.add_config_value("tojupyter_urlpath", None, "jupyter")
     app.add_config_value("tojupyter_image_urlpath", None, "jupyter")
+    app.add_config_value("tojuyter_drop_html_raw", True, "jupyter")
 
     # Jupyter pdf options
     app.add_config_value("tojupyter_latex_template", None, "jupyter")

@@ -379,7 +379,9 @@ class JupyterTranslator(JupyterCodeTranslator, object):
         self.table_builder['line_pending'] += "|"
 
     def visit_raw(self, node):
-        pass
+        if self.tojuyter_drop_html_raw:
+            if node.attributes['format'] == 'html':
+                raise nodes.SkipNode
 
 
     def visit_rubric(self, node):

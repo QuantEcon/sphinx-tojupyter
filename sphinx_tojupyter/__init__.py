@@ -10,7 +10,6 @@ from .builders.jupyterpdf import JupyterPDFBuilder
 from .directive.jupyter import jupyter_node
 from .directive.jupyter import Jupyter as JupyterDirective
 from .directive.jupyter import JupyterDependency
-from .transform import JupyterOnlyTransform
 
 import pkg_resources
 VERSION = pkg_resources.get_distribution('pip').version
@@ -115,10 +114,6 @@ def setup(app):
     app.add_node(jupyter_node, html=(_noop, _noop), latex=(_noop, _noop))
     app.add_directive("jupyter", JupyterDirective)
     app.add_directive("jupyter-dependency", JupyterDependency)
-
-    # jupyter HTML only passthrough
-    app.add_transform(JupyterOnlyTransform)
-    app.add_config_value("tojupyter_allow_html_only", False, "jupyter")
 
     #Add config to support myst_nb
     if "nb_render_priority" in app.config:

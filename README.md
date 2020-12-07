@@ -24,7 +24,7 @@ extensions = ["sphinx_tojupyter"]
 then run
 
 ```bash
-make notebooks
+make jupyter
 ```
 
 Credits

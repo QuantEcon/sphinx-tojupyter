@@ -4,6 +4,3 @@ channels:
 dependencies:
   - python=3.8
   - sphinx
-  - pip
-  - pip:
-    - git+https://github.com/executablebooks/jupyter-book

@@ -4,4 +4,6 @@ channels:
 dependencies:
   - python=3.8
   - sphinx
-  - jupyter-book
+  - pip
+  pip:
+    - jupyter-book

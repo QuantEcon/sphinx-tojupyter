@@ -8,11 +8,8 @@ dask-worker-space/
 __pycache__
 *.egg-info/
 tests/base/_build/
-tests/pdf/_build/
-tests/pdf/_static/
-tests/pdf/theme/
-tests/no_inline_exercises/_build
-tests/ipynb/*checkpoints
+tests/project/lecture-python-programming.myst/.git*
+tests/project/_build
 *.pyc
 .DS_Store
 .vscode/

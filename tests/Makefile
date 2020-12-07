@@ -21,6 +21,7 @@ test: clean jupyter jupyter-project
 	python check_diffs.py
 
 jupyter-project:
+	cd project/lecture-python-programming.myst && jb clean ../
 	cd project/lecture-python-programming.myst && jb build lectures --path-output ../ --builder=custom --custom-builder=jupyter
 
 # Catch-all target: route all unknown targets to Sphinx using the new

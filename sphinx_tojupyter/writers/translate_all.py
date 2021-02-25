@@ -360,7 +360,7 @@ class JupyterTranslator(JupyterCodeTranslator, object):
     def generate_alignment_line(self, line_length, alignment):
         left = ":" if alignment != "right" else "-"
         right = ":" if alignment != "left" else "-"
-        return left + "-" * (line_length - 2) + right
+        return left + "-" * (int(line_length) - 2) + right
 
     def visit_colspec(self, node):
         self.table_builder['column_widths'].append(node['colwidth'])

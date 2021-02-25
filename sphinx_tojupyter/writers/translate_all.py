@@ -569,6 +569,10 @@ class JupyterTranslator(JupyterCodeTranslator, object):
                     uri_text = uri_text.replace(".-",".")
                 formatted_text = " \\ref{" + uri_text + "}" #Use Ref and Plain Text titles
             else:
+                # Sanitise special characters from links
+                special_chars = ["`"]
+                for char in special_chars:
+                    uri_text = uri_text.replace(char, "")
                 formatted_text = "](#{})".format(uri_text)
             self.markdown_lines.append(formatted_text)
         else:

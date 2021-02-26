@@ -312,12 +312,18 @@ class JupyterTranslator(JupyterCodeTranslator, object):
         #check for labelled math
         if "label" in node and node["label"]:
             #Use \tags in the LaTeX environment
+            try:
+                docname = node['docname']
+                chapter = self.builder.env.toc_secnumbers[docname][''][0]
+                tag = str(chapter) + "." + str(node["number"])
+            except KeyError:
+                tag = str(node["number"])
             if self.tojupyter_target_pdf:
                 if "ids" in node and len(node["ids"]):
                     #pdf should have label following tag and removed html id tags in visit_target
-                    referenceBuilder = " \\tag{" + str(node["number"]) + "}" + "\\label{" + node["ids"][0] + "}\n"
+                    referenceBuilder = " \\tag{" + tag + "}" + "\\label{" + node["ids"][0] + "}\n"
             else:
-                referenceBuilder = " \\tag{" + str(node["number"]) + "}\n"
+                referenceBuilder = " \\tag{" + tag + "}\n"
             #node["ids"] should always exist for labelled displaymath
             self.math_block_label = referenceBuilder
 

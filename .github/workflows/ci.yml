@@ -22,7 +22,7 @@ jobs:
       - name: Install sphinx-tojupyter
         shell: bash -l {0}
         run: |
-          python uninstall sphinx-tojupyter
+          pip uninstall sphinx-tojupyter
           python setup.py install
       - name: Run Tests
         shell: bash -l {0}

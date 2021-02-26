@@ -15,14 +15,14 @@ jobs:
           python-version: 3.8
           environment-file: environment.yml
           activate-environment: sphinx-tojupyter
-      - name: Add tests/project/lecture-python-programming.myst/environment.yml
-        shell: bash -l {0}
-        run: |
-          conda env update --name sphinx-tojupyter --file tests/project/lecture-python-programming.myst/environment.yml
       - name: Install sphinx-tojupyter
         shell: bash -l {0}
         run: |
           python setup.py install
+      - name: Add tests/project/lecture-python-programming.myst/environment.yml
+        shell: bash -l {0}
+        run: |
+          conda env update --name sphinx-tojupyter --file tests/project/lecture-python-programming.myst/environment.yml
       - name: Run Tests
         shell: bash -l {0}
         run: |

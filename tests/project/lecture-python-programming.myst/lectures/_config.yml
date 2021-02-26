@@ -4,7 +4,7 @@ logo: _static/qe-logo.png
 description: This website presents a set of lectures on python programming for economics, designed and written by Thomas J. Sargent and John Stachurski.
 
 execute:
-  execute_notebooks: "cache"
+  execute_notebooks: "off"
   timeout: 60
 #   run_in_temp: true
 

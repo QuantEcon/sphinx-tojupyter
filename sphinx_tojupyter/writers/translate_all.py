@@ -405,7 +405,7 @@ class JupyterTranslator(JupyterCodeTranslator, object):
         self.in_footnote_reference = True
         refid = node.attributes['refid']
         ids = node.astext()
-        if self.tojupyter_target_html:
+        if self.tojupyter_use_html:
             link = "<sup><a href=#{} id={}-link>[{}]</a></sup>".format(refid, refid, ids)
         else:
             link = "<sup>[{}](#{})</sup>".format(ids, refid)
@@ -560,10 +560,6 @@ class JupyterTranslator(JupyterCodeTranslator, object):
                 self.markdown_lines[self.reference_text_start:]).strip()
             uri_text = re.sub(
                 self.URI_SPACE_REPLACE_FROM, self.URI_SPACE_REPLACE_TO, uri_text)
-            if self.tojupyter_target_html:
-                #Adjust contents (toc) text when targetting html to prevent nbconvert from breaking html on )
-                uri_text = uri_text.replace("(", "%28")
-                uri_text = uri_text.replace(")", "%29")
             #Format end of reference in topic
             if self.tojupyter_target_pdf:
                 uri_text = uri_text.lower()
@@ -587,10 +583,10 @@ class JupyterTranslator(JupyterCodeTranslator, object):
                 refuri = node["refuri"]
                 # add default extension(.ipynb)
                 if "internal" in node.attributes and node.attributes["internal"] == True:
-                    if self.tojupyter_target_html:
+                    if self.urlpath or self.tojupyter_use_html:
                         refuri = self.add_extension_to_inline_link(refuri, self.html_ext)
                         ## add url path if it is set
-                        if self.urlpath is not None:
+                        if self.urlpath:
                             refuri = self.urlpath + refuri
                     elif self.tojupyter_target_pdf and 'references#' in refuri:
                         label = refuri.split("#")[-1]
@@ -860,7 +856,7 @@ class JupyterTranslator(JupyterCodeTranslator, object):
                 id_text += "{} ".format(id_)
             else:
                 id_text = id_text[:-1]
-            if self.tojupyter_target_html:
+            if self.tojupyter_use_html:
                 self.markdown_lines.append("<p><a id={} href=#{}-link><strong>[{}]</strong></a> ".format(id_text, id_text, node.astext()))
             else:
                 self.markdown_lines.append("<a id='{}'></a>\n**[{}]** ".format(id_text, node.astext()))

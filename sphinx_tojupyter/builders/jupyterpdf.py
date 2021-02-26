@@ -90,7 +90,6 @@ class JupyterPDFBuilder(Builder):
         #### forced execution of notebook
         self.client = Client(processes=False, threads_per_worker = self.threads_per_worker, n_workers = self.n_workers)
         self.execution_vars = {
-            'target': 'website',
             'dependency_lists': self.config["tojupyter_dependency_lists"],
             'executed_notebooks': [],
             'delayed_notebooks': dict(),

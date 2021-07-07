@@ -6,4 +6,6 @@ dependencies:
   - pip
   - pip:
     - jupyter-book
-    - sphinx-exercise
+    - sphinx_multitoc_numbering
+    - sphinx_exercise
+    - sphinxext-rediraffe

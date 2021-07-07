@@ -3,7 +3,7 @@ channels:
   - default
 dependencies:
   - python=3.8
-  - sphinx
   - pip
   - pip:
     - jupyter-book
+    - sphinx-exercise

@@ -1,17 +1,20 @@
-name: lecture-python-programming
+name: quantecon
 channels:
   - default
 dependencies:
   - python=3.8
-  - anaconda=2020.07
+  - anaconda=2020.11
   - pip
   - pip:
-    - git+https://github.com/executablebooks/jupyter-book.git
-    - sphinxext-rediraffe
-    - git+https://github.com/executablebooks/sphinx-multitoc-numbering
-    - git+https://github.com/executablebooks/sphinx-exercise.git
-    - joblib
-    - interpolation
-    - git+https://github.com/QuantEcon/sphinx-tojupyter.git
-    - git+https://github.com/QuantEcon/quantecon-book-theme.git
+    - jupyter-book==0.11.1
+    - sphinx-multitoc-numbering==0.1.3
+    - quantecon-book-theme==0.2.3
+    - sphinx-tojupyter==0.1.1
+    - sphinxext-rediraffe==0.2.7
+    - sphinx-exercise==0.1.1
+    - jupytext==1.11.2
+    - ghp-import==1.1.0
+    - jupinx==0.2.3
+    # Temporary Fixes
+    - tornado>=6.1
 

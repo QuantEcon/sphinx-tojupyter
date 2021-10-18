@@ -14,7 +14,7 @@ with an emphasis on supporting basic markdown into the notebooks.
 This project is maintained and supported by [QuantEcon](http://quantecon.org/)
 """
 
-requires = ['Sphinx>=3.0']
+requires = ['Sphinx>=4.0']
 
 setup(
     name='sphinx-tojupyter',

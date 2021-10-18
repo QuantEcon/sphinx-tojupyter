@@ -2,7 +2,7 @@
 
 from setuptools import setup, find_packages
 
-VERSION = 'v0.1.2'
+VERSION = 'v0.2.0'
 
 LONG_DESCRIPTION = """
 This package contains a [Sphinx](http://www.sphinx-doc.org/en/master/) extension 
@@ -13,8 +13,6 @@ with an emphasis on supporting basic markdown into the notebooks.
 
 This project is maintained and supported by [QuantEcon](http://quantecon.org/)
 """
-
-requires = ['Sphinx>=4.0']
 
 setup(
     name='sphinx-tojupyter',
@@ -43,5 +41,5 @@ setup(
     platforms='any',
     packages=find_packages(),
     include_package_data=True,
-    install_requires=['sphinx', 'pyyaml', 'nbformat', 'nbconvert', 'dask[distributed]', 'nbdime'],
+    install_requires=['sphinx>=4', 'pyyaml', 'nbformat', 'nbconvert', 'dask[distributed]', 'nbdime'],
 )

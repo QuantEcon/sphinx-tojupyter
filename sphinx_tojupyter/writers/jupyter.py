@@ -7,7 +7,7 @@ from .translate_all import JupyterTranslator
 
 class JupyterWriter(docutils.writers.Writer):
     def __init__(self, builder):
-        docutils.writers.Writer.__init__(self)
+        super().__init__()
 
         self.output = None
         self.builder = builder
@@ -18,7 +18,7 @@ class JupyterWriter(docutils.writers.Writer):
             self.document.settings.indents = \
             self.builder.env.config.xml_pretty
 
-        visitor = self.translator_class(self.builder, self.document)
+        visitor = self.translator_class(self.document, self.builder)
 
         self.document.walkabout(visitor)
         self.output = nbformat.writes(visitor.output)

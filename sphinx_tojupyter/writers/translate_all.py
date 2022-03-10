@@ -4,12 +4,14 @@ import nbformat.v4
 from docutils import nodes, writers
 from .translate_code import JupyterCodeTranslator
 from .utils import JupyterOutputCellGenerators
+from sphinx.util import logging
 from shutil import copyfile
 import copy
 import os
 
+logger = logging.getLogger(__name__)
 
-class JupyterTranslator(JupyterCodeTranslator, object):
+class JupyterTranslator(JupyterCodeTranslator):
     """ Jupyter Translator for Text and Code
     """
 
@@ -25,7 +27,7 @@ class JupyterTranslator(JupyterCodeTranslator, object):
         self.indent = self.indent_char * 4
         self.default_ext = ".ipynb"
         self.html_ext = ".html"
-        self.urlpath = builder.urlpath
+        self.urlpath = document.urlpath
         # Variables used in visit/depart
         self.in_code_block = False  # if False, it means in markdown_cell
         self.in_block_quote = False
@@ -710,6 +712,9 @@ class JupyterTranslator(JupyterCodeTranslator, object):
             else:
                 self.markdown_lines.append("\n<a id='{}'></a>\n".format(refid))
 
+    def depart_target(self, node):
+        pass
+
     # list items
     def visit_bullet_list(self, node):
         ## trying to return if it is in the topmost depth and it is more than 1
@@ -968,6 +973,48 @@ class JupyterTranslator(JupyterCodeTranslator, object):
         self.in_caption = False
         if self.in_toctree:
             self.markdown_lines.append("\n")
+
+    #
+    # TODO: Needs implementing
+    # 
+
+    def visit_index(self, node):
+        pass
+
+    def depart_index(self, node):
+        pass
+
+    def visit_inline(self, node):
+        pass
+
+    def depart_inline(self, node):
+        pass
+
+    # Jupyter Cell Types
+
+    def visit_CellNode(self, node):
+        pass
+
+    def depart_CellNode(self, node):
+        pass
+
+    def visit_CellInputNode(self, node):
+        pass
+
+    def depart_CellInputNode(self, node):
+        pass
+
+    def visit_CellOutputNode(self, node):
+        pass
+
+    def depart_CellOutputNode(self, node):
+        pass
+
+    def visit_HiddenCellNode(self, node):
+        pass
+
+    def depart_HiddenCellNode(self, node):
+        pass
 
     # ================
     # general methods

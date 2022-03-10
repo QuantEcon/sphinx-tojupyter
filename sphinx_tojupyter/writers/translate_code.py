@@ -3,15 +3,19 @@ import re
 import nbformat.v4
 import os.path
 import datetime
+from sphinx.util.docutils import SphinxTranslator
+from sphinx.util import logging
 from .utils import LanguageTranslator, JupyterOutputCellGenerators, get_source_file_name
 
-class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
+logger = logging.getLogger(__name__)
+
+class JupyterCodeTranslator(SphinxTranslator):
 
     URI_SPACE_REPLACE_FROM = re.compile(r"\s")
     URI_SPACE_REPLACE_TO = "-"
 
-    def __init__(self, builder, document):
-        docutils.nodes.NodeVisitor.__init__(self, document)
+    def __init__(self, document, builder):
+        super().__init__(document, builder)
 
         self.lang = None
         self.nodelang = None
@@ -25,7 +29,6 @@ class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
 
         # Settings
         self.settings = document.settings
-        self.builder = builder
         self.source_file_name = get_source_file_name(
             self.settings._source,
             self.settings.env.srcdir)
@@ -224,6 +227,13 @@ class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
         raise docutils.nodes.SkipChildren
 
     def depart_CellOutputNode(self, node):
+        pass
+
+    def unknown_visit(self, node):
+        import pdb; pdb.set_trace()
+        logger.warning(('unknown node type: %r'), node, location=node)
+
+    def unknown_departure(self, node):
         pass
 
     # ===================

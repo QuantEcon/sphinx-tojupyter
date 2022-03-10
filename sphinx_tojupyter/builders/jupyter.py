@@ -36,7 +36,12 @@ class JupyterBuilder(Builder):
     n_workers = 1
     logger = logging.getLogger(__name__)
 
+    def __init__(self, app):
+        super().__init__(app)
+        self.config = app.config
+
     def init(self):
+        super().init()
         ### initializing required classes
         self._execute_notebook_class = ExecuteNotebookWriter(self)
         self._make_site_class = MakeSiteWriter(self)

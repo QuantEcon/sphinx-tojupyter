@@ -131,6 +131,7 @@ class JupyterBuilder(Builder):
     def write_doc(self, docname, doctree):
         # work around multiple string % tuple issues in docutils;
         # replace tuples in attribute values with lists
+        self.docname = docname
         doctree = doctree.deepcopy()
         destination = docutils.io.StringOutput(encoding="utf-8")
         ### print an output for downloading notebooks as well with proper links if variable is set

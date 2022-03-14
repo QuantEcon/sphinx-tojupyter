@@ -1016,6 +1016,23 @@ class JupyterTranslator(JupyterCodeTranslator):
     def depart_HiddenCellNode(self, node):
         pass
 
+    def visit_exercise_enumerable_node(self, node):
+        """
+        TODO: This should be moved to spinx-exercise visit_ and depart_ methods
+        """
+        title = node.children[0].get("title", "")
+        label = node.get("label", "")
+        docname = self.builder.docname
+        fig_num = self.builder.env.toc_fignumbers.get(docname, {})
+        try:
+            number = fig_num["exercise"][label]
+            number = ".".join(map(str, number))
+            title_text = self.builder.config.numfig_format["exercise"] % number
+        except:
+            logger.warn("[sphinx-tojupyter] Unable to parse enumerable exercise node with numfig format")
+        title = node.children[0]
+        title += nodes.Text(title_text)
+
     # ================
     # general methods
     # ================

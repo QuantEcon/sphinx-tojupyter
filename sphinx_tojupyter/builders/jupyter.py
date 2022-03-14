@@ -117,6 +117,10 @@ class JupyterBuilder(Builder):
             except EnvironmentError:
                 pass
 
+    def update_context(self):
+        # Apply extension settings to context
+        registry = self.app.registry
+
     def get_target_uri(self, docname, typ=None):
         return docname
 
@@ -136,8 +140,10 @@ class JupyterBuilder(Builder):
     def write_doc(self, docname, doctree):
         # work around multiple string % tuple issues in docutils;
         # replace tuples in attribute values with lists
+        self.docname = docname
         doctree = doctree.deepcopy()
         destination = docutils.io.StringOutput(encoding="utf-8")
+        self.update_context()
         ### print an output for downloading notebooks as well with proper links if variable is set
         if "tojupyter_urlpath" in self.config:
             self.writer._set_ref_urlpath(self.config["tojupyter_urlpath"])

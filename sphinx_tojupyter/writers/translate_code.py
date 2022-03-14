@@ -230,7 +230,6 @@ class JupyterCodeTranslator(SphinxTranslator):
         pass
 
     def unknown_visit(self, node):
-        import pdb; pdb.set_trace()
         logger.warning(('unknown node type: %r'), node, location=node)
 
     def unknown_departure(self, node):

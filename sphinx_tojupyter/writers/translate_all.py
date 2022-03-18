@@ -969,6 +969,30 @@ class JupyterTranslator(JupyterCodeTranslator, object):
         if self.in_toctree:
             self.markdown_lines.append("\n")
 
+    # 
+    # Support for sphinx-exercise (enumberable nodes)
+    # This work in sphinx-exercise is done in a post_transform
+    # and relies on html translator to populate the numref
+    # targets
+    #
+
+    def visit_exercise_enumerable_node(self, node):
+        """
+        TODO: This should be moved to spinx-exercise visit_ and depart_ methods
+        """
+        title = node.children[0].get("title", "")
+        label = node.get("label", "")
+        docname = self.builder.docname
+        fig_num = self.builder.env.toc_fignumbers.get(docname, {})
+        try:
+            number = fig_num["exercise"][label]
+            number = ".".join(map(str, number))
+            title_text = self.builder.config.numfig_format["exercise"] % number
+        except:
+            logger.warn("[sphinx-tojupyter] Unable to parse enumerable exercise node with numfig format")
+        title = node.children[0]
+        title += nodes.Text(title_text)
+
     # ================
     # general methods
     # ================

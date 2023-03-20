@@ -28,27 +28,23 @@ JUPYTER_KERNELS = {
     },
 }
 
-NB_RENDER_PRIORITY = {
-  "jupyter": (
-            "application/vnd.jupyter.widget-view+json",
-            "application/javascript",
-            "text/html",
-            "image/svg+xml",
-            "image/png",
-            "image/jpeg",
-            "text/markdown",
-            "text/latex",
-            "text/plain",
-        ),
-  "jupyterpdf": (
-        "application/pdf",
-        "image/png",
-        "image/jpeg",
-        "text/latex",
-        "text/markdown",
-        "text/plain",
-    )
-}
+NB_RENDER_PRIORITY = [
+  ["jupyter", "application/vnd.jupyter.widget-view+json", 10],
+  ["jupyter", "application/javascript", 20],
+  ["jupyter", "text/html", 30],
+  ["jupyter", "image/svg+xml", 40],
+  ["jupyter", "image/png", 50],
+  ["jupyter", "image/jpeg", 60],
+  ["jupyter", "text/markdown", 70],
+  ["jupyter", "text/latex", 80],
+  ["jupyter", "text/plain", 90],
+  ["jupyterpdf", "application/pdf", 10],
+  ["jupyterpdf", "image/png", 20],  
+  ["jupyterpdf", "image/jpeg", 30],  
+  ["jupyterpdf", "text/latex", 40],  
+  ["jupyterpdf", "text/markdown", 50],  
+  ["jupyterpdf", "text/plain", 60],  
+]
 
 def _noop(*args, **kwargs):
     pass
@@ -117,11 +113,10 @@ def setup(app):
     app.add_directive("jupyter-dependency", JupyterDependency)
 
     #Add config to support myst_nb
-    if "nb_render_priority" in app.config:
-        app.config["nb_render_priority"]["jupyter"] = NB_RENDER_PRIORITY["jupyter"]
-        app.config["nb_render_priority"]["jupyterpdf"] = NB_RENDER_PRIORITY["jupyterpdf"]
+    if "nb_mime_priority_overrides" in app.config:
+        app.config["nb_mime_priority_overrides"] = NB_RENDER_PRIORITY
     else:
-        app.add_config_value("nb_render_priority", NB_RENDER_PRIORITY, "env")
+        app.add_config_value("nb_mime_priority_overrides", NB_RENDER_PRIORITY, "env")
 
     return {
         "version": VERSION,

@@ -41,5 +41,13 @@ setup(
     platforms='any',
     packages=find_packages(),
     include_package_data=True,
-    install_requires=['sphinx>=4', 'pyyaml', 'nbformat', 'nbconvert', 'dask[distributed]', 'nbdime'],
+    install_requires=[
+        'sphinx>=4', 
+        'myst-nb>=0.14',  #nb_mime_priority_overrides 
+        'pyyaml', 
+        'nbformat', 
+        'nbconvert', 
+        'dask[distributed]', 
+        'nbdime'
+    ],
 )

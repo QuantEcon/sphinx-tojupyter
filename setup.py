@@ -48,6 +48,6 @@ setup(
         'nbformat', 
         'nbconvert', 
         'dask[distributed]', 
-        'nbdime'
+        'nbdime',
     ],
 )

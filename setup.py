@@ -46,8 +46,8 @@ setup(
         'myst-nb>=0.14',  #nb_mime_priority_overrides 
         'pyyaml', 
         'nbformat', 
-        'nbconvert', 
-        'dask[distributed]', 
+        'nbconvert',
+        'dask[distributed]',
         'nbdime',
     ],
 )

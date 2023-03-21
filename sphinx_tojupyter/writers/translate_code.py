@@ -143,18 +143,12 @@ class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
         if self.visit_first_title:
             self.title = node.astext()
         self.visit_first_title = False
-        
+
     # ================
     #  code blocks
     # ================
 
     def visit_literal_block(self, node):
-        # TODO: Support output nodes for pre-executed notebooks
-        # Currently this will skip any cell_output containers
-        if type(node.parent) is docutils.nodes.container:
-            if 'cell_output' in node.parent.attributes['classes']:
-                raise docutils.nodes.SkipNode
-        
         _parse_class = JupyterOutputCellGenerators.GetGeneratorFromClasses(self, node)
         self.output_cell_type = _parse_class["type"]
         self.solution = _parse_class["solution"]
@@ -232,6 +226,15 @@ class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
 
     def depart_CellOutputNode(self, node):
         pass
+
+    # Handle Containers
+
+    def visit_container(self, node):
+        # TODO: Support output nodes for pre-executed notebooks
+        # Currently this will skip any cell_output containers
+        if 'cell_output' in node.attributes['classes']:
+            raise docutils.nodes.SkipNode
+        
 
     # ===================
     #  general methods

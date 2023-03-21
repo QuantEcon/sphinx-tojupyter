@@ -14,3 +14,12 @@ tests/project/_build
 .DS_Store
 .vscode/
 doctrees/
+
+tests/project/lecture-python-programming.myst/lectures/foo.py
+tests/project/lecture-python-programming.myst/lectures/math2.py
+tests/project/lecture-python-programming.myst/lectures/mod.py
+tests/project/lecture-python-programming.myst/lectures/newfile.txt
+tests/project/lecture-python-programming.myst/lectures/numbers.txt
+tests/project/lecture-python-programming.myst/lectures/test.py
+tests/project/lecture-python-programming.myst/lectures/test_table.csv
+tests/project/lecture-python-programming.myst/lectures/us_cities.txt

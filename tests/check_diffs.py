@@ -29,7 +29,7 @@ CONFIGSETS = {
 #-Diff Configuration-#
 NB_VERSION = 4
 set_notebook_diff_ignores({"/nbformat_minor" : True})
-set_notebook_diff_targets(metadata=False, identifier=False)
+set_notebook_diff_targets(metadata=False, outputs=False, identifier=False)
 
 # Specify which version of sphinx that should exclude comparison files
 SPHINX_VERSION_EXCLUDE = {

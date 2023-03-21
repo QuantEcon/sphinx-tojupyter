@@ -1,9 +1,0 @@
-name: sphinx-tojupyter
-channels:
-  - default
-dependencies:
-  - python=3.8
-  - pip
-  - pip:
-    - sphinx
-    - jupyter-book

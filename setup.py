@@ -2,7 +2,7 @@
 
 from setuptools import setup, find_packages
 
-VERSION = 'v0.2.1'
+VERSION = 'v0.3.0'
 
 LONG_DESCRIPTION = """
 This package contains a [Sphinx](http://www.sphinx-doc.org/en/master/) extension 
@@ -41,5 +41,13 @@ setup(
     platforms='any',
     packages=find_packages(),
     include_package_data=True,
-    install_requires=['sphinx>=4', 'pyyaml', 'nbformat', 'nbconvert', 'dask[distributed]', 'nbdime'],
+    install_requires=[
+        'sphinx>=5', 
+        'myst-nb>=0.14',  #nb_mime_priority_overrides 
+        'pyyaml', 
+        'nbformat', 
+        'nbconvert',
+        'dask[distributed]',
+        'nbdime',
+    ],
 )

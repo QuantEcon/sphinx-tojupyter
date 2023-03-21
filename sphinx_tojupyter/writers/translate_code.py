@@ -147,7 +147,14 @@ class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
     # ================
     #  code blocks
     # ================
+
     def visit_literal_block(self, node):
+        # TODO: Support output nodes for pre-executed notebooks
+        # Currently this will skip any cell_output containers
+        if type(node.parent) is docutils.nodes.container:
+            if 'cell_output' in node.parent.attributes['classes']:
+                raise docutils.nodes.SkipNode
+        
         _parse_class = JupyterOutputCellGenerators.GetGeneratorFromClasses(self, node)
         self.output_cell_type = _parse_class["type"]
         self.solution = _parse_class["solution"]
@@ -175,7 +182,7 @@ class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
             else:
                 self.output_cell_type = JupyterOutputCellGenerators.MARKDOWN
 
-    def depart_literal_block(self, node):
+    def depart_literal_block(self, node):            
         if self.solution and self.tojupyter_drop_solutions:    
             pass # Skip solutions if we say to. 
         elif self.test and self.tojupyter_drop_tests:
@@ -184,7 +191,7 @@ class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
             line_text = "".join(self.code_lines)
             formatted_line_text = self.strip_blank_lines_in_end_of_block(line_text)
             new_code_cell = self.output_cell_type.Generate(formatted_line_text, self)
-
+        
             # add slide metadata on each cell, value by default: slide
             if self.metadata_slide:   #value by default for all the notebooks, we change it for those we want
                 new_code_cell.metadata["slideshow"] = { 'slide_type': self.slide}

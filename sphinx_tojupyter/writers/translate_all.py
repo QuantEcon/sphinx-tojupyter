@@ -898,6 +898,7 @@ class JupyterTranslator(JupyterCodeTranslator, object):
 
     def depart_literal_block(self, node):
         JupyterCodeTranslator.depart_literal_block(self, node)
+
     def visit_note(self, node):
         self.in_note = True
         self.markdown_lines.append(">**Note**\n>\n>")
@@ -1016,6 +1017,7 @@ class JupyterTranslator(JupyterCodeTranslator, object):
                 new_md_cell.metadata["hide-input"] = True
             self.output["cells"].append(new_md_cell)
             self.markdown_lines = []
+
 
     @classmethod
     def split_uri_id(cls, uri):

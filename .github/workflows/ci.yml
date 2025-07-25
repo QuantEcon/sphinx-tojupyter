@@ -15,14 +15,9 @@ jobs:
           python-version: 3.13
           environment-file: tests/project/lecture-python-programming.myst/environment.yml
           activate-environment: quantecon
-      # - name: Add tests/project/lecture-python-programming.myst/environment.yml
-      #   shell: bash -l {0}
-      #   run: |
-      #     conda env update --name sphinx-tojupyter --file tests/project/lecture-python-programming.myst/environment.yml
       - name: Install sphinx-tojupyter
         shell: bash -l {0}
         run: |
-          pip uninstall -y sphinx-tojupyter
           python setup.py install
       - name: Run Tests
         shell: bash -l {0}

@@ -15,7 +15,7 @@ latex:
      targetname: quantecon-python-programming.tex
 
 sphinx:
-  extra_extensions: [sphinx_multitoc_numbering, sphinxext.rediraffe, sphinx_exercise, sphinx_togglebutton]
+  extra_extensions: [sphinx_multitoc_numbering, sphinxext.rediraffe, sphinx_exercise, sphinx_togglebutton, sphinx_tojupyter]
   config:
     # bibtex_reference_style: author_year #TODO: enable if bibtex bibliography is used in series
     # false-positive links

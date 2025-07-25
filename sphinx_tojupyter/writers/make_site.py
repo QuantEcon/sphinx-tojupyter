@@ -10,7 +10,7 @@ class MakeSiteWriter():
     """
     logger = logging.getLogger(__name__)
     def __init__(self, builderSelf):
-        builddir = builderSelf.outdir
+        builddir = str(builderSelf.outdir)
 
         ## removing the /jupyter from path to get the top directory
         index = builddir.rfind('/jupyter')
@@ -19,7 +19,7 @@ class MakeSiteWriter():
         
         ## defining directories
         self.websitedir = builddir + "/tojupyter_html/"
-        self.downloadipynbdir = self.websitedir + "/_downloads/ipynb/"
+        self.downloadipynbdir = self.websitedir + "_downloads/ipynb/"
 
     def build_website(self, builderSelf):
         if os.path.exists(self.websitedir):

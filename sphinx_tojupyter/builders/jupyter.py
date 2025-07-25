@@ -14,7 +14,6 @@ from ..writers.make_site import MakeSiteWriter
 from ..writers.convert import convertToHtmlWriter
 from dask.distributed import Client, progress
 from sphinx.util import logging
-import pdb
 import time
 from ..writers.utils import copy_dependencies
 
@@ -40,10 +39,10 @@ class JupyterBuilder(Builder):
         ### initializing required classes
         self._execute_notebook_class = ExecuteNotebookWriter(self)
         self._make_site_class = MakeSiteWriter(self)
-        self.executedir = self.outdir + '/executed'
-        self.reportdir = self.outdir + '/reports/'
-        self.errordir = self.outdir + "/reports/{}"
-        self.downloadsdir = self.outdir + "/_downloads"
+        self.executedir = str(self.outdir) + '/executed'
+        self.reportdir = str(self.outdir) + '/reports/'
+        self.errordir = str(self.outdir) + "/reports/{}"
+        self.downloadsdir = str(self.outdir) + "/_downloads"
         self.downloadsExecutedir = self.downloadsdir + "/executed"
         self.client = None
         self.execution_status_code = 0

@@ -12,7 +12,7 @@ jobs:
           auto-update-conda: true
           auto-activate-base: true
           miniconda-version: 'latest'
-          python-version: 3.9
+          python-version: 3.13
           environment-file: tests/project/lecture-python-programming.myst/environment.yml
           activate-environment: quantecon
       # - name: Add tests/project/lecture-python-programming.myst/environment.yml
@@ -39,7 +39,7 @@ jobs:
       - name: Set up Python 3.7
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.13
       - name: Build package
         run: |
           pip install wheel

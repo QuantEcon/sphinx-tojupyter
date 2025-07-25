@@ -127,7 +127,7 @@ class JupyterOutputCellGenerators(Enum):
 def get_source_file_name(filepath, srcdir):
     delimiter = os.sep
     file_path_list = filepath.split(delimiter)
-    srcdir_path_list = srcdir.split(delimiter)
+    srcdir_path_list = str(srcdir).split(delimiter)
 
     for i in range(len(srcdir_path_list)):
         if srcdir_path_list[i] != file_path_list[i]:

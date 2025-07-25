@@ -20,10 +20,6 @@ kernelspec:
 
 # Python for Scientific Computing
 
-```{contents} Contents
-:depth: 2
-```
-
 ```{epigraph}
 "We should forget about small efficiencies, say about 97% of the time:
 premature optimization is the root of all evil." -- Donald Knuth
@@ -54,7 +50,7 @@ In addition to what's in Anaconda, this lecture will need
 ---
 tags: [hide-output]
 ---
-!conda install -y quantecon
+!pip install quantecon
 ```
 
 ## Scientific Libraries
@@ -379,7 +375,6 @@ Here's a plot of $f$
 
 ```{code-cell} ipython
 import matplotlib.pyplot as plt
-%matplotlib inline
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 from matplotlib import cm
 

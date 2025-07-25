@@ -23,10 +23,6 @@ kernelspec:
 ```{index} single: Python; Object-Oriented Programming
 ```
 
-```{contents} Contents
-:depth: 2
-```
-
 ## Overview
 
 In an {doc}`earlier lecture <oop_intro>`, we learned some foundations of object-oriented programming.
@@ -61,10 +57,8 @@ It takes a little while to get used to the syntax so we'll provide plenty of exa
 We'll use the following imports:
 
 ```{code-cell} ipython
-%matplotlib inline
 import numpy as np
 import matplotlib.pyplot as plt
-plt.rcParams['figure.figsize'] = (10,6)
 ```
 
 ## OOP Review
@@ -254,7 +248,7 @@ We'll also discuss the role of the peculiar  `self` bookkeeping device in detail
 
 #### Usage
 
-Here's an example in which we use the class `Consumer` to crdate an instance of a consumer whom we affectionately name $c1$.
+Here's an example in which we use the class `Consumer` to create an instance of a consumer whom we affectionately name $c1$.
 
 After we create consumer $c1$ and endow it with initial wealth $10$, we'll apply the `spend` method.
 
@@ -752,8 +746,9 @@ Exercise 1 provides a more useful example.
 
 ## Exercises
 
-(oop_ex1)=
-### Exercise 1
+```{exercise-start}
+:label: oop_ex1
+```
 
 The [empirical cumulative distribution function (ecdf)](https://en.wikipedia.org/wiki/Empirical_distribution_function) corresponding to a sample $\{X_i\}_{i=1}^n$ is defined as
 
@@ -795,32 +790,12 @@ F(0.5)
 
 Aim for clarity, not efficiency.
 
-(oop_ex2)=
-### Exercise 2
-
-In an {ref}`earlier exercise <pyess_ex2>`, you wrote a function for evaluating polynomials.
-
-This exercise is an extension, where the task is to build a simple class called `Polynomial` for representing and manipulating polynomial functions such as
-
-```{math}
-:label: polynom
-
-p(x) = a_0 + a_1 x + a_2 x^2 + \cdots a_N x^N = \sum_{n=0}^N a_n x^n
-    \qquad (x \in \mathbb{R})
+```{exercise-end}
 ```
 
-The instance data for the class `Polynomial` will be the coefficients (in the case of {eq}`polynom`, the numbers $a_0, \ldots, a_N$).
-
-Provide methods that
-
-1. Evaluate the polynomial {eq}`polynom`, returning $p(x)$ for any $x$.
-1. Differentiate the polynomial, replacing the original coefficients with those of its derivative $p'$.
-
-Avoid using any `import` statements.
-
-## Solutions
-
-### Exercise 1
+```{solution-start} oop_ex1
+:class: dropdown
+```
 
 ```{code-cell} python3
 class ECDF:
@@ -851,7 +826,40 @@ F.observations = [uniform(0, 1) for i in range(1000)]
 print(F(0.5))
 ```
 
-### Exercise 2
+```{solution-end}
+```
+
+
+```{exercise-start}
+:label: oop_ex2
+```
+
+In an {ref}`earlier exercise <pyess_ex2>`, you wrote a function for evaluating polynomials.
+
+This exercise is an extension, where the task is to build a simple class called `Polynomial` for representing and manipulating polynomial functions such as
+
+```{math}
+:label: polynom
+
+p(x) = a_0 + a_1 x + a_2 x^2 + \cdots a_N x^N = \sum_{n=0}^N a_n x^n
+    \qquad (x \in \mathbb{R})
+```
+
+The instance data for the class `Polynomial` will be the coefficients (in the case of {eq}`polynom`, the numbers $a_0, \ldots, a_N$).
+
+Provide methods that
+
+1. Evaluate the polynomial {eq}`polynom`, returning $p(x)$ for any $x$.
+1. Differentiate the polynomial, replacing the original coefficients with those of its derivative $p'$.
+
+Avoid using any `import` statements.
+
+```{exercise-end}
+```
+
+```{solution-start} oop_ex2
+:class: dropdown
+```
 
 ```{code-cell} python3
 class Polynomial:
@@ -885,3 +893,5 @@ class Polynomial:
         return new_coefficients
 ```
 
+```{solution-end}
+```

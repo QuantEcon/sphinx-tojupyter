@@ -23,9 +23,10 @@ kernelspec:
 ```{index} single: Models; Code style
 ```
 
-```{contents} Contents
-:depth: 2
+```{epigraph}
+"Any fool can write code that a computer can understand. Good programmers write code that humans can understand." -- Martin Fowler
 ```
+
 
 ## Overview
 
@@ -70,10 +71,8 @@ The plots will be grouped into three subfigures.
 In each subfigure, two parameters are held fixed while another varies
 
 ```{code-cell} ipython
-%matplotlib inline
 import numpy as np
 import matplotlib.pyplot as plt
-plt.rcParams['figure.figsize'] = (10,6)
 
 # Allocate memory for time series
 k = np.empty(50)
@@ -291,7 +290,9 @@ If you inspect this code, you will see that
 
 ## Exercises
 
-### Exercise 1
+```{exercise-start}
+:label: wgc-exercise-1
+```
 
 Here is some code that needs improving.
 
@@ -324,7 +325,7 @@ h(p) := q_d(p) - q_s(p)
 $$
 
 This yields the equilibrium price $p^*$. From this we get the
-equilibrium price by $q^* = q_s(p^*)$
+equilibrium quantity by $q^* = q_s(p^*)$
 
 The parameter values will be
 
@@ -409,9 +410,12 @@ a lot of repeated code here.
 Refactor and improve clarity in the code above using the principles discussed
 in this lecture.
 
-## Solutions
+```{exercise-end}
+```
 
-### Exercise 1
+```{solution-start} wgc-exercise-1
+:class: dropdown
+```
 
 Here's one solution, that uses a class:
 
@@ -482,3 +486,5 @@ eq.compute_equilibrium()
 eq.plot_equilibrium()
 ```
 
+```{solution-end}
+```

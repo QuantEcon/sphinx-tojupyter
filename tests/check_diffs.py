@@ -56,6 +56,9 @@ def check_set(PATH, BUILDER):
     failed = 0
     for fl in GENERATED_IPYNB_FILES:
         flname = fl.split(BUILDER + "/")[-1]
+        # Skip the status.md file in project
+        if "status.ipynb" in flname:
+            continue
         #Check for Sphinx Version Specific Excludes
         SKIP = False
         if SPHINX_VERSION[0] in SPHINX_VERSION_EXCLUDE.keys():

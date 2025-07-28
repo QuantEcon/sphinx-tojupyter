@@ -23,45 +23,38 @@ kernelspec:
 ```{index} single: Python; User-defined functions
 ```
 
-```{contents} Contents
-:depth: 2
-```
-
 ## Overview
 
-One construct that's extremely useful and provided by almost all programming
-languages is **functions**.
+Functions are an extremely useful construct provided by almost all programming.
 
 We have already met several functions, such as
 
 * the `sqrt()` function from NumPy and
 * the built-in `print()` function
 
-In this lecture we'll treat functions systematically and begin to learn just how
-useful and important they are.
+In this lecture we'll 
 
-One of the things we will learn to do is build our own user-defined functions
+1. treat functions systematically and cover syntax and use-cases, and
+2. learn to do is build our own user-defined functions.
 
 We will use the following imports.
 
 ```{code-cell} ipython
-%matplotlib inline
 import numpy as np
 import matplotlib.pyplot as plt
-plt.rcParams['figure.figsize'] = (10,6)
 ```
 
 ## Function Basics
 
 A function is a named section of a program that implements a specific task.
 
-Many functions exist already and we can use them off the shelf.
+Many functions exist already and we can use them as is.
 
 First we review these functions and then discuss how we can build our own.
 
 ### Built-In Functions
 
-Python has a number of *built-in* functions that are available without `import`.
+Python has a number of **built-in** functions that are available without `import`.
 
 We have already met some
 
@@ -81,58 +74,42 @@ str(22)
 type(22)
 ```
 
-Two more useful built-in functions are `any()` and `all()`
-
-```{code-cell} python3
-bools = False, True, True
-all(bools)  # True if all are True and False otherwise
-```
-
-```{code-cell} python3
-any(bools)  # False if all are False and True otherwise
-```
-
 The full list of Python built-ins is [here](https://docs.python.org/library/functions.html).
+
 
 ### Third Party Functions
 
 If the built-in functions don't cover what we need, we either need to import
 functions or create our own.
 
-Examples of importing and using functions
-were given in the {doc}`previous lecture <python_by_example>`
+Examples of importing and using functions were given in the {doc}`previous lecture <python_by_example>`
 
 Here's another one, which tests whether a given year is a leap year:
 
 ```{code-cell} python3
 import calendar
-
-calendar.isleap(2020)
+calendar.isleap(2024)
 ```
 
 ## Defining Functions
 
-In many instances, it is useful to be able to define our own functions.
-
-This will become clearer as you see more examples.
+In many instances it's useful to be able to define our own functions.
 
 Let's start by discussing how it's done.
 
-### Syntax
+### Basic Syntax
 
-Here's a very simple Python function, that implements the mathematical function
-$f(x) = 2 x + 1$
+Here's a very simple Python function, that implements the mathematical function $f(x) = 2 x + 1$
 
 ```{code-cell} python3
 def f(x):
     return 2 * x + 1
 ```
 
-Now that we've *defined* this function, let's *call* it and check whether it
-does what we expect:
+Now that we've defined this function, let's *call* it and check whether it does what we expect:
 
 ```{code-cell} python3
-f(1)
+f(1)   
 ```
 
 ```{code-cell} python3
@@ -146,12 +123,10 @@ exercise.)
 
 ```{code-cell} python3
 def new_abs_function(x):
-
     if x < 0:
         abs_value = -x
     else:
         abs_value = x
-
     return abs_value
 ```
 
@@ -170,6 +145,123 @@ Let's call it to check that it works:
 print(new_abs_function(3))
 print(new_abs_function(-3))
 ```
+
+
+Note that a function can have arbitrarily many `return` statements (including zero).
+
+Execution of the function terminates when the first return is hit, allowing
+code like the following example
+
+```{code-cell} python3
+def f(x):
+    if x < 0:
+        return 'negative'
+    return 'nonnegative'
+```
+
+(Writing functions with multiple return statements is typically discouraged, as
+it can make logic hard to follow.)
+
+Functions without a return statement automatically return the special Python object `None`.
+
+(pos_args)=
+### Keyword Arguments
+
+```{index} single: Python; keyword arguments
+```
+
+In a {ref}`previous lecture <python_by_example>`, you came across the statement
+
+```{code-block} python3
+:class: no-execute
+
+plt.plot(x, 'b-', label="white noise")
+```
+
+In this call to Matplotlib's `plot` function, notice that the last argument is passed in `name=argument` syntax.
+
+This is called a *keyword argument*, with `label` being the keyword.
+
+Non-keyword arguments are called *positional arguments*, since their meaning
+is determined by order
+
+* `plot(x, 'b-')` differs from `plot('b-', x)`
+
+Keyword arguments are particularly useful when a function has a lot of arguments, in which case it's hard to remember the right order.
+
+You can adopt keyword arguments in user-defined functions with no difficulty.
+
+The next example illustrates the syntax
+
+```{code-cell} python3
+def f(x, a=1, b=1):
+    return a + b * x
+```
+
+The keyword argument values we supplied in the definition of `f` become the default values
+
+```{code-cell} python3
+f(2)
+```
+
+They can be modified as follows
+
+```{code-cell} python3
+f(2, a=4, b=5)
+```
+
+### The Flexibility of Python Functions
+
+As we discussed in the {ref}`previous lecture <python_by_example>`, Python functions are very flexible.
+
+In particular
+
+* Any number of functions can be defined in a given file.
+* Functions can be (and often are) defined inside other functions.
+* Any object can be passed to a function as an argument, including other functions.
+* A function can return any kind of object, including functions.
+
+We will give examples of how straightforward it is to pass a function to
+a function in the following sections.
+
+### One-Line Functions: `lambda`
+
+```{index} single: Python; lambda functions
+```
+
+The `lambda` keyword is used to create simple functions on one line.
+
+For example, the definitions
+
+```{code-cell} python3
+def f(x):
+    return x**3
+```
+
+and
+
+```{code-cell} python3
+f = lambda x: x**3
+```
+
+are entirely equivalent.
+
+To see why `lambda` is useful, suppose that we want to calculate $\int_0^2 x^3 dx$ (and have forgotten our high-school calculus).
+
+The SciPy library has a function called `quad` that will do this calculation for us.
+
+The syntax of the `quad` function is `quad(f, a, b)` where `f` is a function and `a` and `b` are numbers.
+
+To create the function $f(x) = x^3$ we can use `lambda` as follows
+
+```{code-cell} python3
+from scipy.integrate import quad
+
+quad(lambda x: x**3, 0, 2)
+```
+
+Here the function created by `lambda` is said to be *anonymous* because it was never given a name.
+
 
 ### Why Write Functions?
 
@@ -311,12 +403,72 @@ In the context of our program, the ability to bind new names to functions
 means that there is no problem *passing a function as an argument to another
 function*---as we did above.
 
+
+(recursive_functions)=
+## Recursive Function Calls (Advanced)
+
+```{index} single: Python; Recursion
+```
+
+This is an advanced topic that you should feel free to skip.
+
+At the same time, it's a neat idea that you should learn it at some stage of
+your programming career.
+
+Basically, a recursive function is a function that calls itself.
+
+For example, consider the problem of computing $x_t$ for some t when
+
+```{math}
+:label: xseqdoub
+
+x_{t+1} = 2 x_t, \quad x_0 = 1
+```
+
+Obviously the answer is $2^t$.
+
+We can compute this easily enough with a loop
+
+```{code-cell} python3
+def x_loop(t):
+    x = 1
+    for i in range(t):
+        x = 2 * x
+    return x
+```
+
+We can also use a recursive solution, as follows
+
+```{code-cell} python3
+def x(t):
+    if t == 0:
+        return 1
+    else:
+        return 2 * x(t-1)
+```
+
+What happens here is that each successive call uses it's own *frame* in the *stack*
+
+* a frame is where the local variables of a given function call are held
+* stack is memory used to process function calls
+  * a First In Last Out (FILO) queue
+
+This example is somewhat contrived, since the first (iterative) solution would usually be preferred to the recursive solution.
+
+We'll meet less contrived applications of recursion later on.
+
+
+(factorial_exercise)=
 ## Exercises
 
-### Exercise 1
+```{exercise-start}
+:label: func_ex1
+```
 
 Recall that $n!$ is read as "$n$ factorial" and defined as
 $n! = n \times (n - 1) \times \cdots \times 2 \times 1$.
+
+We will only consider $n$ as a positive integer here.
 
 There are functions to compute this in various modules, but let's
 write our own version as an exercise.
@@ -324,34 +476,15 @@ write our own version as an exercise.
 In particular, write a function `factorial` such that `factorial(n)` returns $n!$
 for any positive integer $n$.
 
-### Exercise 2
+```{exercise-end}
+```
 
-The [binomial random variable](https://en.wikipedia.org/wiki/Binomial_distribution) $Y \sim Bin(n, p)$ represents the number of successes in $n$ binary trials, where each trial succeeds with probability $p$.
 
-Without any import besides `from numpy.random import uniform`, write a function
-`binomial_rv` such that `binomial_rv(n, p)` generates one draw of $Y$.
+```{solution-start} func_ex1
+:class: dropdown
+```
 
-Hint: If $U$ is uniform on $(0, 1)$ and $p \in (0,1)$, then the expression `U < p` evaluates to `True` with probability $p$.
-
-### Exercise 3
-
-First, write a function that returns one realization of the following random device
-
-1. Flip an unbiased coin 10 times.
-1. If a head occurs `k` or more times consecutively within this sequence at least once, pay one dollar.
-1. If not, pay nothing.
-
-Second, write another function that does the same task except that the second rule of the above random device becomes
-
-- If a head occurs `k` or more times within this sequence, pay one dollar.
-
-Use no import besides `from numpy.random import uniform`.
-
-## Solutions
-
-### Exercise 1
-
-Here's one solution.
+Here's one solution:
 
 ```{code-cell} python3
 def factorial(n):
@@ -363,7 +496,35 @@ def factorial(n):
 factorial(4)
 ```
 
-### Exercise 2
+
+```{solution-end}
+```
+
+
+```{exercise-start}
+:label: func_ex2
+```
+
+The [binomial random variable](https://en.wikipedia.org/wiki/Binomial_distribution) $Y \sim Bin(n, p)$ represents the number of successes in $n$ binary trials, where each trial succeeds with probability $p$.
+
+Without any import besides `from numpy.random import uniform`, write a function
+`binomial_rv` such that `binomial_rv(n, p)` generates one draw of $Y$.
+
+```{hint}
+:class: dropdown
+
+If $U$ is uniform on $(0, 1)$ and $p \in (0,1)$, then the expression `U < p` evaluates to `True` with probability $p$.
+```
+
+```{exercise-end}
+```
+
+
+```{solution-start} func_ex2
+:class: dropdown
+```
+
+Here is one solution:
 
 ```{code-cell} python3
 from numpy.random import uniform
@@ -379,9 +540,37 @@ def binomial_rv(n, p):
 binomial_rv(10, 0.5)
 ```
 
-### Exercise 3
+```{solution-end}
+```
+
+
+```{exercise-start}
+:label: func_ex3
+```
+
+First, write a function that returns one realization of the following random device
+
+1. Flip an unbiased coin 10 times.
+1. If a head occurs `k` or more times consecutively within this sequence at least once, pay one dollar.
+1. If not, pay nothing.
+
+Second, write another function that does the same task except that the second rule of the above random device becomes
+
+- If a head occurs `k` or more times within this sequence, pay one dollar.
+
+Use no import besides `from numpy.random import uniform`.
+
+```{exercise-end}
+```
+
+```{solution-start} func_ex3
+:class: dropdown
+```
 
 Here's a function for the first random device.
+
+
+
 
 ```{code-cell} python3
 from numpy.random import uniform
@@ -423,3 +612,87 @@ def draw_new(k):  # pays if k successes in a sequence
 draw_new(3)
 ```
 
+```{solution-end}
+```
+
+
+## Advanced Exercises
+
+In the following exercises, we will write recursive functions together.
+
+
+```{exercise-start}
+:label: func_ex4
+```
+
+The Fibonacci numbers are defined by
+
+```{math}
+:label: fib
+
+x_{t+1} = x_t + x_{t-1}, \quad x_0 = 0, \; x_1 = 1
+```
+
+The first few numbers in the sequence are $0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55$.
+
+Write a function to recursively compute the $t$-th Fibonacci number for any $t$.
+
+```{exercise-end}
+```
+
+```{solution-start} func_ex4
+:class: dropdown
+```
+
+Here's the standard solution
+
+```{code-cell} python3
+def x(t):
+    if t == 0:
+        return 0
+    if t == 1:
+        return 1
+    else:
+        return x(t-1) + x(t-2)
+```
+
+Let's test it
+
+```{code-cell} python3
+print([x(i) for i in range(10)])
+```
+
+```{solution-end}
+```
+
+```{exercise-start}
+:label: func_ex5
+```
+
+Rewrite the function `factorial()` in from [Exercise 1](factorial_exercise) using recursion.
+
+```{exercise-end}
+```
+
+```{solution-start} func_ex5
+:class: dropdown
+```
+
+Here's the standard solution
+
+```{code-cell} python3
+def recursion_factorial(n):
+   if n == 1:
+       return n
+   else:
+       return n * recursion_factorial(n-1)
+```
+
+Let's test it
+
+```{code-cell} python3
+print([recursion_factorial(i) for i in range(1, 10)])
+```
+
+```{solution-end}
+```

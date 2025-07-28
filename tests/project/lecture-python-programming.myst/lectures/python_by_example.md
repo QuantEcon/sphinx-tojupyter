@@ -23,10 +23,6 @@ kernelspec:
 ```{index} single: Python; Introductory Example
 ```
 
-```{contents} Contents
-:depth: 2
-```
-
 ## Overview
 
 We're now ready to start learning the Python language itself.
@@ -38,6 +34,7 @@ The objective is to introduce you to basic Python syntax and data structures.
 Deeper concepts will be covered in later lectures.
 
 You should have read the {doc}`lecture <getting_started>` on getting started with Python before beginning this one.
+
 
 ## The Task: Plotting a White Noise Process
 
@@ -56,13 +53,6 @@ vertical axis.)
 We'll do this in several different ways, each time learning something more
 about Python.
 
-We run the following command first, which helps ensure that plots appear in the
-notebook if you run it on your own machine.
-
-```{code-cell} ipython
-%matplotlib inline
-```
-
 ## Version 1
 
 (ourfirstprog)=
@@ -71,7 +61,6 @@ Here are a few lines of code that perform the task we set
 ```{code-cell} ipython
 import numpy as np
 import matplotlib.pyplot as plt
-plt.rcParams['figure.figsize'] = (10,6)
 
 ϵ_values = np.random.randn(100)
 plt.plot(ϵ_values)
@@ -105,49 +94,40 @@ np.sqrt(4)
 np.log(4)
 ```
 
-We could also use the following syntax:
-
-```{code-cell} python3
-import numpy
-
-numpy.sqrt(4)
-```
-
-But the former method (using the short name `np`) is convenient and more standard.
 
 #### Why So Many Imports?
 
-Python programs typically require several import statements.
+Python programs typically require multiple import statements.
 
-The reason is that the core language is deliberately kept small, so that it's easy to learn and maintain.
+The reason is that the core language is deliberately kept small, so that it's easy to learn, maintain and improve.
 
 When you want to do something interesting with Python, you almost always need
 to import additional functionality.
+
 
 #### Packages
 
 ```{index} single: Python; Packages
 ```
 
-As stated above, NumPy is a Python *package*.
+As stated above, NumPy is a Python package.
 
 Packages are used by developers to organize code they wish to share.
 
-In fact, a package is just a directory containing
+In fact, a **package** is just a directory containing
 
 1. files with Python code --- called **modules** in Python speak
 1. possibly some compiled code that can be accessed by Python (e.g., functions compiled from C or FORTRAN code)
 1. a file called `__init__.py` that specifies what will be executed when we type `import package_name`
 
-In fact, you can find and explore the directory for NumPy on your computer
-easily enough if you look around.
-
-On this machine, it's located in
+You can check the location of your  `__init__.py` for NumPy in python by running the code:
 
 ```{code-block} ipython
 :class: no-execute
 
-anaconda3/lib/python3.7/site-packages/numpy
+import numpy as np
+
+print(np.__file__)
 ```
 
 #### Subpackages
@@ -159,7 +139,9 @@ Consider the line `ϵ_values = np.random.randn(100)`.
 
 Here `np` refers to the package NumPy, while `random` is a **subpackage** of NumPy.
 
-Subpackages are just packages that are subdirectories of another package.
+Subpackages are just packages that are subdirectories of another package. 
+
+For instance, you can find folder `random` under the directory of NumPy.
 
 ### Importing Names Directly
 
@@ -208,7 +190,7 @@ We can and will look at various ways to configure and improve this plot below.
 
 ## Alternative Implementations
 
-Let's try writing some alternative versions of {ref}`our first program <ourfirstprog>`, which plotted IID draws from the normal distribution.
+Let's try writing some alternative versions of {ref}`our first program <ourfirstprog>`, which plotted IID draws from the standard normal distribution.
 
 The programs below are less efficient than the original one, and hence
 somewhat artificial.
@@ -250,7 +232,9 @@ Let's study some parts of this program in more detail.
 
 Consider the statement `ϵ_values = []`, which creates an empty list.
 
-Lists are a *native Python data structure* used to group a collection of objects.
+Lists are a native Python data structure used to group a collection of objects. 
+
+Items in lists are ordered, and duplicates are allowed in lists.
 
 For example, try
 
@@ -259,7 +243,7 @@ x = [10, 'foo', False]
 type(x)
 ```
 
-The first element of `x` is an [integer](https://en.wikipedia.org/wiki/Integer_%28computer_science%29), the next is a [string](https://en.wikipedia.org/wiki/String_%28computer_science%29), and the third is a [Boolean value](https://en.wikipedia.org/wiki/Boolean_data_type).
+The first element of `x` is an [integer](https://en.wikipedia.org/wiki/Integer_(computer_science)), the next is a [string](https://en.wikipedia.org/wiki/String_(computer_science)), and the third is a [Boolean value](https://en.wikipedia.org/wiki/Boolean_data_type).
 
 When adding a value to a list, we can use the syntax `list_name.append(some_value)`
 
@@ -272,11 +256,11 @@ x.append(2.5)
 x
 ```
 
-Here `append()` is what's called a *method*, which is a function "attached to" an object---in this case, the list `x`.
+Here `append()` is what's called a **method**, which is a function "attached to" an object---in this case, the list `x`.
 
-We'll learn all about methods later on, but just to give you some idea,
+We'll learn all about methods {doc}`later on <oop_intro>`, but just to give you some idea, 
 
-* Python objects such as lists, strings, etc. all have methods that are used to manipulate the data contained in the object.
+* Python objects such as lists, strings, etc. all have methods that are used to manipulate data contained in the object.
 * String objects have [string methods](https://docs.python.org/3/library/stdtypes.html#string-methods), list objects have [list methods](https://docs.python.org/3/tutorial/datastructures.html#more-on-lists), etc.
 
 Another useful list method is `pop()`
@@ -318,7 +302,7 @@ for i in range(ts_length):
 
 Python executes the two indented lines `ts_length` times before moving on.
 
-These two lines are called a `code block`, since they comprise the "block" of code that we are looping over.
+These two lines are called a **code block**, since they comprise the "block" of code that we are looping over.
 
 Unlike most other languages, Python knows the extent of the code block *only from indentation*.
 
@@ -332,7 +316,7 @@ for animal in animals:
     print("The plural of " + animal + " is " + animal + "s")
 ```
 
-This example helps to clarify how the `for` loop works:  When we execute a
+This example helps to clarify how the `for` loop works: When we execute a
 loop of the form
 
 ```{code-block} python3
@@ -346,8 +330,6 @@ The Python interpreter performs the following:
 
 * For each element of the `sequence`, it "binds" the name `variable_name` to that element and then executes the code block.
 
-The `sequence` object can in fact be a very general object, as we'll see
-soon enough.
 
 ### A Comment on Indentation
 
@@ -356,7 +338,7 @@ soon enough.
 
 In discussing the `for` loop, we explained that the code blocks being looped over are delimited by indentation.
 
-In fact, in Python, **all** code blocks (i.e., those occurring inside loops, if clauses, function definitions, etc.) are delimited by indentation.
+In fact, in Python, *all* code blocks (i.e., those occurring inside loops, if clauses, function definitions, etc.) are delimited by indentation.
 
 Thus, unlike most other languages, whitespace in Python code affects the output of the program.
 
@@ -371,8 +353,8 @@ On the other hand, it takes a bit of care to get right, so please remember:
     * `for i in range(10):`
     * `if x > y:`
     * `while x < 100:`
-    * etc., etc.
-* All lines in a code block **must have the same amount of indentation**.
+    * etc. 
+* All lines in a code block must have the same amount of indentation.
 * The Python standard is 4 spaces, and that's what you should use.
 
 ### While Loops
@@ -397,10 +379,18 @@ plt.plot(ϵ_values)
 plt.show()
 ```
 
+A while loop will keep executing the code block delimited by indentation until the condition (```i < ts_length```) is satisfied.
+
+In this case, the program will keep adding values to the list ```ϵ_values``` until ```i``` equals ```ts_length```:
+
+```{code-cell} python3
+i == ts_length #the ending condition for the while loop
+```
+
 Note that
 
-* the code block for the `while` loop is again delimited only by indentation
-* the statement  `i = i + 1` can be replaced by `i += 1`
+* the code block for the `while` loop is again delimited only by indentation.
+* the statement  `i = i + 1` can be replaced by `i += 1`.
 
 ## Another Application
 
@@ -451,7 +441,9 @@ use in the exercises.
 Now we turn to exercises.  It is important that you complete them before
 continuing, since they present new concepts we will need.
 
-### Exercise 1
+```{exercise-start}
+:label: pbe_ex1
+```
 
 Your first task is to simulate and plot the correlated time series
 
@@ -473,21 +465,83 @@ import matplotlib.pyplot as plt
 
 Set $T=200$ and $\alpha = 0.9$.
 
-### Exercise 2
+```{exercise-end}
+```
 
-Starting with your solution to exercise 2, plot three simulated time series,
+```{solution-start} pbe_ex1
+:class: dropdown
+```
+
+Here's one solution.
+
+```{code-cell} python3
+α = 0.9
+T = 200
+x = np.empty(T+1)
+x[0] = 0
+
+for t in range(T):
+    x[t+1] = α * x[t] + np.random.randn()
+
+plt.plot(x)
+plt.show()
+```
+
+```{solution-end}
+```
+
+
+```{exercise-start}
+:label: pbe_ex2
+
+Starting with your solution to exercise 1, plot three simulated time series,
 one for each of the cases $\alpha=0$, $\alpha=0.8$ and $\alpha=0.98$.
 
 Use a `for` loop to step through the $\alpha$ values.
 
 If you can, add a legend, to help distinguish between the three time series.
 
-Hints:
+```{hint}
+:class: dropdown
 
 * If you call the `plot()` function multiple times before calling `show()`, all of the lines you produce will end up on the same figure.
-* For the legend, noted that the expression `'foo' + str(42)` evaluates to `'foo42'`.
+* For the legend, noted that suppose `var = 42`, the expression `f'foo{var}'` evaluates to `'foo42'`.
+```
 
-### Exercise 3
+```{exercise-end}
+```
+
+
+```{solution-start} pbe_ex2
+:class: dropdown
+```
+
+```{code-cell} python3
+α_values = [0.0, 0.8, 0.98]
+T = 200
+x = np.empty(T+1)
+
+for α in α_values:
+    x[0] = 0
+    for t in range(T):
+        x[t+1] = α * x[t] + np.random.randn()
+    plt.plot(x, label=f'$\\alpha = {α}$')
+
+plt.legend()
+plt.show()
+```
+
+```{note}
+`f'$\\alpha = {α}$'` in the solution is an application of [f-String](https://docs.python.org/3/tutorial/inputoutput.html#tut-f-strings), which allows you to use `{}` to contain an expression. 
+
+The contained expression will be evaluated, and the result will be placed into the string.
+```
+
+```{solution-end}
+```
+
+```{exercise-start}
+:label: pbe_ex3
 
 Similar to the previous exercises, plot the time series
 
@@ -501,8 +555,38 @@ $$
 Use $T=200$, $\alpha = 0.9$ and $\{\epsilon_t\}$ as before.
 
 Search online for a function that can be used to compute the absolute value $|x_t|$.
+```
 
-### Exercise 4
+```{exercise-end}
+```
+
+
+```{solution-start} pbe_ex3
+:class: dropdown
+```
+
+Here's one solution:
+
+```{code-cell} python3
+α = 0.9
+T = 200
+x = np.empty(T+1)
+x[0] = 0
+
+for t in range(T):
+    x[t+1] = α * np.abs(x[t]) + np.random.randn()
+
+plt.plot(x)
+plt.show()
+```
+
+```{solution-end}
+```
+
+
+```{exercise-start}
+:label: pbe_ex4
+```
 
 One important aspect of essentially all programming languages is branching and
 conditions.
@@ -529,79 +613,12 @@ to compute the absolute value.
 
 Replace this existing function with an if--else condition.
 
-(pbe_ex3)=
-### Exercise 5
-
-Here's a harder exercise, that takes some thought and planning.
-
-The task is to compute an approximation to $\pi$ using [Monte Carlo](https://en.wikipedia.org/wiki/Monte_Carlo_method).
-
-Use no imports besides
-
-```{code-cell} python3
-import numpy as np
+```{exercise-end}
 ```
 
-Your hints are as follows:
-
-* If $U$ is a bivariate uniform random variable on the unit square $(0, 1)^2$, then the probability that $U$ lies in a subset $B$ of $(0,1)^2$ is equal to the area of $B$.
-* If $U_1,\ldots,U_n$ are IID copies of $U$, then, as $n$ gets large, the fraction that falls in $B$, converges to the probability of landing in $B$.
-* For a circle, $area = \pi * radius^2$.
-
-## Solutions
-
-### Exercise 1
-
-Here's one solution.
-
-```{code-cell} python3
-α = 0.9
-T = 200
-x = np.empty(T+1)
-x[0] = 0
-
-for t in range(T):
-    x[t+1] = α * x[t] + np.random.randn()
-
-plt.plot(x)
-plt.show()
+```{solution-start} pbe_ex4
+:class: dropdown
 ```
-
-### Exercise 2
-
-```{code-cell} python3
-α_values = [0.0, 0.8, 0.98]
-T = 200
-x = np.empty(T+1)
-
-for α in α_values:
-    x[0] = 0
-    for t in range(T):
-        x[t+1] = α * x[t] + np.random.randn()
-    plt.plot(x, label=f'$\\alpha = {α}$')
-
-plt.legend()
-plt.show()
-```
-
-### Exercise 3
-
-Here's one solution:
-
-```{code-cell} python3
-α = 0.9
-T = 200
-x = np.empty(T+1)
-x[0] = 0
-
-for t in range(T):
-    x[t+1] = α * np.abs(x[t]) + np.random.randn()
-
-plt.plot(x)
-plt.show()
-```
-
-### Exercise 4
 
 Here's one way:
 
@@ -638,7 +655,42 @@ plt.plot(x)
 plt.show()
 ```
 
-### Exercise 5
+```{solution-end}
+```
+
+
+
+```{exercise-start}
+:label: pbe_ex5
+```
+
+Here's a harder exercise, that takes some thought and planning.
+
+The task is to compute an approximation to $\pi$ using [Monte Carlo](https://en.wikipedia.org/wiki/Monte_Carlo_method).
+
+Use no imports besides
+
+```{code-cell} python3
+import numpy as np
+```
+
+```{hint}
+:class: dropdown
+
+Your hints are as follows:
+
+* If $U$ is a bivariate uniform random variable on the unit square $(0, 1)^2$, then the probability that $U$ lies in a subset $B$ of $(0,1)^2$ is equal to the area of $B$.
+* If $U_1,\ldots,U_n$ are IID copies of $U$, then, as $n$ gets large, the fraction that falls in $B$, converges to the probability of landing in $B$.
+* For a circle, $area = \pi * radius^2$.
+```
+
+```{exercise-end}
+```
+
+
+```{solution-start} pbe_ex5
+:class: dropdown
+```
 
 Consider the circle of diameter 1 embedded in the unit square.
 
@@ -657,17 +709,28 @@ We estimate the area by sampling bivariate uniforms and looking at the
 fraction that falls into the circle.
 
 ```{code-cell} python3
-n = 100000
+n = 1000000 # sample size for Monte Carlo simulation
 
 count = 0
 for i in range(n):
+
+    # drawing random positions on the square
     u, v = np.random.uniform(), np.random.uniform()
+
+    # check whether the point falls within the boundary
+    # of the unit circle centred at (0.5,0.5)
     d = np.sqrt((u - 0.5)**2 + (v - 0.5)**2)
+
+    # if it falls within the inscribed circle, 
+    # add it to the count
     if d < 0.5:
         count += 1
 
 area_estimate = count / n
 
 print(area_estimate * 4)  # dividing by radius**2
+```
+
+```{solution-end}
 ```
 

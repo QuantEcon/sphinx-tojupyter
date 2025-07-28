@@ -10,7 +10,9 @@ parts:
   - file: functions
   - file: python_essentials
   - file: oop_intro
+  - file: names
   - file: python_oop
+  - file: workspace 
 - caption: The Scientific Libraries
   numbered: true
   chapters:
@@ -18,8 +20,15 @@ parts:
   - file: numpy
   - file: matplotlib
   - file: scipy
+  - file: pandas
+  - file: pandas_panel
+  - file: sympy
+- caption: High Performance Computing
+  numbered: true
+  chapters:
   - file: numba
   - file: parallelization
+  - file: jax_intro
 - caption: Advanced Python Programming
   numbered: true
   chapters:
@@ -30,3 +39,4 @@ parts:
   numbered: true
   chapters:
   - file: troubleshooting
+  - file: status

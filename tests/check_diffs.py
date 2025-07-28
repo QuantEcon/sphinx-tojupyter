@@ -28,8 +28,7 @@ CONFIGSETS = {
 
 #-Diff Configuration-#
 NB_VERSION = 4
-set_notebook_diff_ignores({"/nbformat_minor" : True})
-set_notebook_diff_targets(metadata=False, outputs=False, identifier=False)
+set_notebook_diff_targets(metadata=False, identifier=False, outputs=False)
 
 # Specify which version of sphinx that should exclude comparison files
 SPHINX_VERSION_EXCLUDE = {
@@ -57,6 +56,9 @@ def check_set(PATH, BUILDER):
     failed = 0
     for fl in GENERATED_IPYNB_FILES:
         flname = fl.split(BUILDER + "/")[-1]
+        # Skip the status.md file in project
+        if "status.ipynb" in flname:
+            continue
         #Check for Sphinx Version Specific Excludes
         SKIP = False
         if SPHINX_VERSION[0] in SPHINX_VERSION_EXCLUDE.keys():
@@ -75,7 +77,13 @@ def check_set(PATH, BUILDER):
                 failed += 1
                 continue
             nb1 = nbformat.read(fl, NB_VERSION)
+            # ignore on 'id' is not working so will set it to ''
+            for cell in nb1['cells']:
+                cell['id'] = ''
             nb2 = nbformat.read(os.path.join(PATH+"/ipynb", flname), NB_VERSION)
+            # ignore on 'id' is not working so will set it to '
+            for cell in nb2['cells']:
+                cell['id'] = ''
             diff = diff_notebooks(nb1, nb2)
             if len(diff) != 0:
                 print("[FAIL] {} and {} are different:".format(

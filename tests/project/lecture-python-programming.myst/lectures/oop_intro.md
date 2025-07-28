@@ -18,39 +18,52 @@ kernelspec:
 </div>
 ```
 
-# OOP I: Introduction to Object Oriented Programming
-
-```{contents} Contents
-:depth: 2
-```
+# OOP I: Objects and Methods
 
 ## Overview
 
-[OOP](https://en.wikipedia.org/wiki/Object-oriented_programming) is one of the major paradigms in programming.
-
-The traditional programming paradigm (think Fortran, C, MATLAB, etc.) is called *procedural*.
+The traditional programming paradigm (think Fortran, C, MATLAB, etc.) is called [procedural](https://en.wikipedia.org/wiki/Procedural_programming).
 
 It works as follows
 
 * The program has a state corresponding to the values of its variables.
-* Functions are called to act on these data.
-* Data are passed back and forth via function calls.
+* Functions are called to act on and transform the state.
+* Final outputs are produced via a sequence of function calls.
 
-In contrast, in the OOP paradigm
+Two other important paradigms are [object-oriented programming](https://en.wikipedia.org/wiki/Object-oriented_programming) (OOP) and [functional programming](https://en.wikipedia.org/wiki/Functional_programming).
 
-* data and functions are "bundled together" into "objects"
 
-(Functions in this context are referred to as **methods**)
+In the OOP paradigm, data and functions are bundled together into "objects" --- and functions in this context are referred to as **methods**.
 
-### Python and OOP
+Methods are called on to transform the data contained in the object.
 
-Python is a pragmatic language that blends object-oriented and procedural styles, rather than taking a purist approach.
+* Think of a Python list that contains data and has methods such as `append()` and `pop()` that transform the data.
 
-However, at a foundational level, Python *is* object-oriented.
+Functional programming languages are built on the idea of composing functions.
 
-In particular, in Python, *everything is an object*.
+* Influential examples include [Lisp](https://en.wikipedia.org/wiki/Common_Lisp), [Haskell](https://en.wikipedia.org/wiki/Haskell) and [Elixir](https://en.wikipedia.org/wiki/Elixir_(programming_language)).
+
+So which of these categories does Python fit into?
+
+Actually Python is a pragmatic language that blends object-oriented, functional and procedural styles, rather than taking a purist approach.
+
+On one hand, this allows Python and its users to cherry pick nice aspects of different paradigms.
+
+On the other hand, the lack of purity might at times lead to some confusion.
+
+Fortunately this confusion is minimized if you understand that, at a foundational level, Python *is* object-oriented.
+
+By this we mean that, in Python, *everything is an object*.
 
 In this lecture, we explain what that statement means and why it matters.
+
+We'll make use of the following third party library
+
+
+```{code-cell} python3
+!pip install rich
+```
+
 
 ## Objects
 
@@ -194,7 +207,7 @@ These attributes are important, so let's discuss them in-depth.
 
 Methods are *functions that are bundled with objects*.
 
-Formally, methods are attributes of objects that are callable (i.e., can be called as functions)
+Formally, methods are attributes of objects that are **callable** -- i.e., attributes that can be called as functions
 
 ```{code-cell} python3
 x = ['foo', 'bar']
@@ -244,9 +257,83 @@ x
 
 (If you wanted to you could modify the `__setitem__` method, so that square bracket assignment does something totally different)
 
+## Inspection Using Rich
+
+There's a nice package called [rich](https://github.com/Textualize/rich) that
+helps us view the contents of an object.
+
+For example,
+
+```{code-cell} python3
+from rich import inspect
+x = 10
+inspect(10)
+```
+If we want to see the methods as well, we can use
+
+```{code-cell} python3
+inspect(10, methods=True)
+```
+
+In fact there are still more methods, as you can see if you execute `inspect(10, all=True)`.
+
+
+
+## A Little Mystery
+
+In this lecture we claimed that Python is, at heart, an object oriented language.
+
+But here's an example that looks more procedural.
+
+```{code-cell} python3
+x = ['a', 'b']
+m = len(x)
+m
+```
+
+If Python is object oriented, why don't we use `x.len()`?    
+
+The answer is related to the fact that Python aims for readability and consistent style.
+
+In Python, it is common for users to build custom objects --- we discuss how to
+do this {doc}`later <python_oop>`.
+
+It's quite common for users to add methods to their that measure the length of
+the object, suitably defined.
+
+When naming such a method, natural choices are `len()` and `length()`.
+
+If some users choose `len()` and others choose `length()`, then the style will
+be inconsistent and harder to remember.
+
+To avoid this, the creator of Python chose to add 
+`len()` as a built-in function, to help emphasize that `len()` is the convention.
+
+Now, having said all of this, Python *is* still object oriented under the hood.
+
+In fact, the list `x` discussed above has a method called `__len__()`.
+
+All that the function `len()` does is call this method.  
+
+In other words, the following code is equivalent:
+
+```{code-cell} python3
+x = ['a', 'b']
+len(x)
+```
+and
+
+```{code-cell} python3
+x = ['a', 'b']
+x.__len__()
+```
+
+
 ## Summary
 
-In Python, *everything in memory is treated as an object*.
+The message in this lecture is clear:
+
+* In Python, *everything in memory is treated as an object*.
 
 This includes not just lists, strings, etc., but also less obvious things, such as
 
@@ -255,48 +342,64 @@ This includes not just lists, strings, etc., but also less obvious things, such 
 * files opened for reading or writing
 * integers, etc.
 
-Consider, for example, functions.
+Remember that everything is an object will help you interact with your programs
+and write clear Pythonic code.
 
-When Python reads a function definition, it creates a **function object** and stores it in memory.
+## Exercises
 
-The following code illustrates
-
-```{code-cell} python3
-def f(x): return x**2
-f
+```{exercise-start}
+:label: oop_intro_ex1
 ```
 
-```{code-cell} python3
-type(f)
+We have met the {any}`boolean data type <boolean>` previously. 
+
+Using what we have learnt in this lecture, print a list of methods of the
+boolean object `True`.
+
+```{hint}
+:class: dropdown
+
+You can use `callable()` to test whether an attribute of an object can be called as a function
 ```
 
-```{code-cell} python3
-id(f)
+```{exercise-end}
 ```
 
-```{code-cell} python3
-f.__name__
+```{solution-start} oop_intro_ex1
+:class: dropdown
 ```
 
-We can see that `f` has type, identity, attributes and so on---just like any other object.
-
-It also has methods.
-
-One example is the `__call__` method, which just evaluates the function
+Firstly, we need to find all attributes of `True`, which can be done via
 
 ```{code-cell} python3
-f.__call__(3)
+print(sorted(True.__dir__()))
 ```
 
-Another is the `__dir__` method, which returns a list of attributes.
-
-Modules loaded into memory are also treated as objects
+or
 
 ```{code-cell} python3
-import math
-
-id(math)
+print(sorted(dir(True)))
 ```
 
-This uniform treatment of data in Python (everything is an object) helps keep the language simple and consistent.
+Since the boolean data type is a primitive type, you can also find it in the built-in namespace
 
+```{code-cell} python3
+print(dir(__builtins__.bool))
+```
+
+Here we use a `for` loop to filter out attributes that are callable
+
+```{code-cell} python3
+attributes = dir(__builtins__.bool)
+callablels = []
+
+for attribute in attributes:
+  # Use eval() to evaluate a string as an expression
+  if callable(eval(f'True.{attribute}')):
+    callablels.append(attribute)
+print(callablels)
+```
+
+
+```{solution-end}
+```

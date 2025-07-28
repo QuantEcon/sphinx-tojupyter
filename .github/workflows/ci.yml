@@ -31,13 +31,13 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
-      - name: Set up Python 3.7
+      - name: Set up Python 3.13
         uses: actions/setup-python@v2
         with:
           python-version: 3.13
       - name: Build package
         run: |
-          pip install wheel
+          pip install wheel setuptools
           python setup.py bdist_wheel sdist
       - name: Publish
         uses: pypa/gh-action-pypi-publish@v1.3.1

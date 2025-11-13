@@ -33,6 +33,7 @@ the task of version control for large projects.
 installation
 config-sphinx
 config-extension
+myst-nb
 examples
 config-example
 config-project

@@ -514,6 +514,22 @@ class JupyterTranslator(JupyterCodeTranslator, object):
             return
         self.markdown_lines.append("`")
 
+    # inline nodes (including glued text from myst-nb)
+    def visit_inline(self, node):
+        """
+        Handle inline nodes, including glued text from MyST-NB.
+        
+        MyST-NB's {glue:text} creates nodes.inline with class 'pasted-text'.
+        These nodes contain the glued variable value as text children.
+        We just let the text flow through normally.
+        """
+        # Glued text will have 'pasted-text' class
+        # No special formatting needed - text children are handled by visit_Text
+        pass
+
+    def depart_inline(self, node):
+        pass
+
     # figures
     def visit_figure(self, node):
         pass
@@ -944,6 +960,46 @@ class JupyterTranslator(JupyterCodeTranslator, object):
             pass
         if 'slide-type' in node.attributes:
             pass
+
+    # ==================
+    # MyST-NB Glue Nodes
+    # ==================
+
+    def visit_PendingGlueReference(self, node):
+        """
+        Handle unresolved glue references from MyST-NB.
+        
+        PendingGlueReference nodes should be resolved by Sphinx's 
+        ReplacePendingGlueReferences post-transform before reaching the writer.
+        If we encounter one, it means the post-transform didn't run or failed.
+        
+        This can happen if:
+        - MyST-NB is not properly configured
+        - The referenced document doesn't exist
+        - The glue key doesn't exist in the referenced document
+        """
+        # Try to get useful info for warning
+        key = getattr(node, 'key', 'unknown')
+        refdoc = getattr(node, 'refdoc', 'unknown')
+        
+        # Warn the user
+        if hasattr(self, 'builder'):
+            self.builder.warn(
+                f"Unresolved glue reference to key '{key}' in document '{refdoc}'. "
+                "This may indicate that MyST-NB's post-transform didn't run, or the "
+                "referenced glue key doesn't exist. Check that myst-nb is properly "
+                "configured and the glue key exists in the source document."
+            )
+        
+        # Output placeholder text so the issue is visible
+        self.markdown_lines.append(f"[Unresolved glue: {refdoc}::{key}]")
+        
+        # Skip children (if any)
+        raise nodes.SkipNode
+
+    def depart_PendingGlueReference(self, node):
+        # Should never be called due to SkipNode, but include for completeness
+        pass
 
     def visit_comment(self, node):
         raise nodes.SkipNode

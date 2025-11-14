@@ -7,6 +7,8 @@ from .utils import JupyterOutputCellGenerators
 from shutil import copyfile
 import copy
 import os
+import base64
+import mimetypes
 
 
 class JupyterTranslator(JupyterCodeTranslator, object):
@@ -74,6 +76,99 @@ class JupyterTranslator(JupyterCodeTranslator, object):
         self.book_index_previous_links = []
         self.markdown_lines_trimmed = []
 
+    def _image_to_base64(self, image_path):
+        """
+        Convert an image file to a base64-encoded data URI.
+        
+        Parameters
+        ----------
+        image_path : str
+            Path to the image file (can be relative to source or build directory)
+        
+        Returns
+        -------
+        str
+            Base64-encoded data URI (e.g., 'data:image/png;base64,...') or None if file not found
+        """
+        # Try to find the image file
+        # First try relative to the build directory
+        full_path = os.path.join(self.builder.outdir, image_path)
+        if not os.path.exists(full_path):
+            # Try relative to source directory
+            full_path = os.path.join(self.builder.srcdir, image_path)
+        if not os.path.exists(full_path):
+            # Try as absolute path
+            full_path = image_path
+        
+        if not os.path.exists(full_path):
+            return None
+        
+        try:
+            # Read the image file as binary
+            with open(full_path, 'rb') as f:
+                image_data = f.read()
+            
+            # Encode as base64
+            encoded = base64.b64encode(image_data).decode('ascii')
+            
+            # Determine MIME type
+            mime_type, _ = mimetypes.guess_type(full_path)
+            if mime_type is None:
+                # Default to PNG if we can't determine
+                mime_type = 'image/png'
+            
+            # Create data URI
+            data_uri = f"data:{mime_type};base64,{encoded}"
+            return data_uri
+        except Exception as e:
+            # If anything goes wrong, return None to fall back to file path
+            print(f"Warning: Could not embed image {image_path}: {e}")
+            return None
+
+    def _copy_glued_image(self, image_path, filename):
+        """
+        Copy a glued image to the _build/jupyter/glue/ directory for URL-based references.
+        
+        Parameters
+        ----------
+        image_path : str
+            Original path to the image file
+        filename : str
+            Filename to use in the destination directory
+        
+        Returns
+        -------
+        bool
+            True if copy was successful, False otherwise
+        """
+        # Try to find the source image file
+        full_path = os.path.join(self.builder.outdir, image_path)
+        if not os.path.exists(full_path):
+            full_path = os.path.join(self.builder.srcdir, image_path)
+        if not os.path.exists(full_path):
+            full_path = image_path
+        
+        if not os.path.exists(full_path):
+            print(f"Warning: Could not find glued image to copy: {image_path}")
+            return False
+        
+        try:
+            # Create the glue directory
+            glue_dir = os.path.join(self.builder.outdir, 'glue')
+            os.makedirs(glue_dir, exist_ok=True)
+            
+            # Copy the file
+            dest_path = os.path.join(glue_dir, filename)
+            copyfile(full_path, dest_path)
+            
+            # Log for user
+            rel_dest = os.path.relpath(dest_path, self.builder.outdir)
+            print(f"Copied glued image: {rel_dest}")
+            
+            return True
+        except Exception as e:
+            print(f"Warning: Failed to copy glued image {image_path}: {e}")
+            return False
 
     # specific visit and depart methods
     # ---------------------------------
@@ -201,7 +296,32 @@ class JupyterTranslator(JupyterCodeTranslator, object):
             return
         uri = node.attributes["uri"]
         self.images.append(uri)             #TODO: list of image files
-        if self.tojupyter_image_urlpath:
+        
+        # Check if this is a glued image (from jupyter_execute or _build/jupyter_execute)
+        original_uri = uri
+        is_glued_image = "jupyter_execute" in uri or "_build/jupyter_execute" in uri
+        
+        if is_glued_image:
+            # Check if user wants to use a URL path for glued images
+            if hasattr(self.builder.config, 'tojupyter_glue_urlpath') and self.builder.config.tojupyter_glue_urlpath:
+                # Copy image to glue directory and reference with base URL + /glue/filename
+                filename = os.path.basename(uri)
+                self._copy_glued_image(original_uri, filename)
+                base_url = self.builder.config.tojupyter_glue_urlpath.rstrip('/')
+                uri = f"{base_url}/glue/{filename}"
+            elif hasattr(self.builder.config, 'tojupyter_glue_images_urlpath') and self.builder.config.tojupyter_glue_images_urlpath:
+                # Alternative config name for clarity
+                filename = os.path.basename(uri)
+                self._copy_glued_image(original_uri, filename)
+                base_url = self.builder.config.tojupyter_glue_images_urlpath.rstrip('/')
+                uri = f"{base_url}/glue/{filename}"
+            else:
+                # Default: embed as base64 for standalone notebooks
+                data_uri = self._image_to_base64(uri)
+                if data_uri:
+                    uri = data_uri
+        
+        if self.tojupyter_image_urlpath and uri == original_uri:
             for file_path in self.tojupyter_static_file_path:
                 if file_path in uri:
                     uri = uri.replace(file_path +"/", self.tojupyter_image_urlpath)
@@ -513,6 +633,22 @@ class JupyterTranslator(JupyterCodeTranslator, object):
         if self.in_download_reference:
             return
         self.markdown_lines.append("`")
+
+    # inline nodes (including glued text from myst-nb)
+    def visit_inline(self, node):
+        """
+        Handle inline nodes, including glued text from MyST-NB.
+        
+        MyST-NB's {glue:text} creates nodes.inline with class 'pasted-text'.
+        These nodes contain the glued variable value as text children.
+        We just let the text flow through normally.
+        """
+        # Glued text will have 'pasted-text' class
+        # No special formatting needed - text children are handled by visit_Text
+        pass
+
+    def depart_inline(self, node):
+        pass
 
     # figures
     def visit_figure(self, node):
@@ -944,6 +1080,46 @@ class JupyterTranslator(JupyterCodeTranslator, object):
             pass
         if 'slide-type' in node.attributes:
             pass
+
+    # ==================
+    # MyST-NB Glue Nodes
+    # ==================
+
+    def visit_PendingGlueReference(self, node):
+        """
+        Handle unresolved glue references from MyST-NB.
+        
+        PendingGlueReference nodes should be resolved by Sphinx's 
+        ReplacePendingGlueReferences post-transform before reaching the writer.
+        If we encounter one, it means the post-transform didn't run or failed.
+        
+        This can happen if:
+        - MyST-NB is not properly configured
+        - The referenced document doesn't exist
+        - The glue key doesn't exist in the referenced document
+        """
+        # Try to get useful info for warning
+        key = getattr(node, 'key', 'unknown')
+        refdoc = getattr(node, 'refdoc', 'unknown')
+        
+        # Warn the user
+        if hasattr(self, 'builder'):
+            self.builder.warn(
+                f"Unresolved glue reference to key '{key}' in document '{refdoc}'. "
+                "This may indicate that MyST-NB's post-transform didn't run, or the "
+                "referenced glue key doesn't exist. Check that myst-nb is properly "
+                "configured and the glue key exists in the source document."
+            )
+        
+        # Output placeholder text so the issue is visible
+        self.markdown_lines.append(f"[Unresolved glue: {refdoc}::{key}]")
+        
+        # Skip children (if any)
+        raise nodes.SkipNode
+
+    def depart_PendingGlueReference(self, node):
+        # Should never be called due to SkipNode, but include for completeness
+        pass
 
     def visit_comment(self, node):
         raise nodes.SkipNode

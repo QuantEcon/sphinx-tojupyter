@@ -27,6 +27,49 @@ then run
 make jupyter
 ```
 
+## Features
+
+### MyST-NB Glue Support
+
+This extension supports [MyST-NB](https://myst-nb.readthedocs.io/) glue functionality, allowing you to store and reference notebook variables in your documentation:
+
+**Basic Usage:**
+
+```markdown
+\```python
+from myst_nb import glue
+glue("my_variable", "Hello World")
+glue("my_number", 3.14159)
+\```
+
+The value is {glue:text}`my_variable` and pi is approximately {glue:text}`my_number:.2f`.
+```
+
+**Figure Glue:**
+
+```markdown
+\```python
+import matplotlib.pyplot as plt
+from myst_nb import glue
+
+fig, ax = plt.subplots()
+ax.plot([1, 2, 3], [1, 4, 9])
+glue("my_plot", fig, display=False)
+\```
+
+\```{glue:figure} my_plot
+:name: fig-example
+
+Caption for the figure.
+\```
+```
+
+**Requirements:**
+- Add `myst_nb` to your extensions in `conf.py`
+- Set `nb_execution_mode = "cache"` (or "auto"/"force")
+
+See the [test suite](tests/glue/) for more examples.
+
 Credits
 -------
 

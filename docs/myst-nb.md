@@ -181,11 +181,13 @@ By default, glued figures are embedded as base64 data URIs directly in the noteb
 # No configuration needed, this is the default behavior
 
 # Option 2: Reference images from a web URL
-tojupyter_glue_urlpath = "https://example.com/images/"
-# Images will be referenced as: https://example.com/images/filename.png
+tojupyter_glue_urlpath = "https://example.com"
+# Images will be:
+#   - Copied to: _build/jupyter/glue/filename.png
+#   - Referenced as: https://example.com/glue/filename.png
 
 # Alternative name for the same option:
-tojupyter_glue_images_urlpath = "https://example.com/images/"
+tojupyter_glue_images_urlpath = "https://example.com"
 ```
 
 **Benefits of base64 embedding (default):**
@@ -196,8 +198,24 @@ tojupyter_glue_images_urlpath = "https://example.com/images/"
 
 **When to use URL paths:**
 - When notebook file size is a concern
-- When images are already hosted on a CDN
-- When you want to update images without regenerating notebooks
+- When deploying notebooks to a web server
+- When you want smaller notebook files
+
+**Using URL paths workflow:**
+1. Set `tojupyter_glue_urlpath` to your deployment base URL
+2. Run `make jupyter` (or `sphinx-build -b jupyter`)
+3. Glued images are automatically copied to `_build/jupyter/glue/`
+4. Deploy the entire `_build/jupyter/` directory to your server
+5. Notebooks reference images using the base URL + `/glue/filename.png`
+
+Example:
+```bash
+# After build, deploy the entire jupyter output directory
+rsync -av _build/jupyter/ user@example.com:/var/www/notebooks/
+
+# Notebooks at: https://example.com/notebook.ipynb
+# Reference images at: https://example.com/glue/image.png
+```
 
 ## Troubleshooting
 

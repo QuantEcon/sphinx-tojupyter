@@ -125,6 +125,51 @@ class JupyterTranslator(JupyterCodeTranslator, object):
             print(f"Warning: Could not embed image {image_path}: {e}")
             return None
 
+    def _copy_glued_image(self, image_path, filename):
+        """
+        Copy a glued image to the _build/jupyter/glue/ directory for URL-based references.
+        
+        Parameters
+        ----------
+        image_path : str
+            Original path to the image file
+        filename : str
+            Filename to use in the destination directory
+        
+        Returns
+        -------
+        bool
+            True if copy was successful, False otherwise
+        """
+        # Try to find the source image file
+        full_path = os.path.join(self.builder.outdir, image_path)
+        if not os.path.exists(full_path):
+            full_path = os.path.join(self.builder.srcdir, image_path)
+        if not os.path.exists(full_path):
+            full_path = image_path
+        
+        if not os.path.exists(full_path):
+            print(f"Warning: Could not find glued image to copy: {image_path}")
+            return False
+        
+        try:
+            # Create the glue directory
+            glue_dir = os.path.join(self.builder.outdir, 'glue')
+            os.makedirs(glue_dir, exist_ok=True)
+            
+            # Copy the file
+            dest_path = os.path.join(glue_dir, filename)
+            copyfile(full_path, dest_path)
+            
+            # Log for user
+            rel_dest = os.path.relpath(dest_path, self.builder.outdir)
+            print(f"Copied glued image: {rel_dest}")
+            
+            return True
+        except Exception as e:
+            print(f"Warning: Failed to copy glued image {image_path}: {e}")
+            return False
+
     # specific visit and depart methods
     # ---------------------------------
 
@@ -259,14 +304,17 @@ class JupyterTranslator(JupyterCodeTranslator, object):
         if is_glued_image:
             # Check if user wants to use a URL path for glued images
             if hasattr(self.builder.config, 'tojupyter_glue_urlpath') and self.builder.config.tojupyter_glue_urlpath:
-                # Replace jupyter_execute path with the configured URL path
-                # Extract just the filename from the path
+                # Copy image to glue directory and reference with base URL + /glue/filename
                 filename = os.path.basename(uri)
-                uri = self.builder.config.tojupyter_glue_urlpath.rstrip('/') + '/' + filename
+                self._copy_glued_image(original_uri, filename)
+                base_url = self.builder.config.tojupyter_glue_urlpath.rstrip('/')
+                uri = f"{base_url}/glue/{filename}"
             elif hasattr(self.builder.config, 'tojupyter_glue_images_urlpath') and self.builder.config.tojupyter_glue_images_urlpath:
                 # Alternative config name for clarity
                 filename = os.path.basename(uri)
-                uri = self.builder.config.tojupyter_glue_images_urlpath.rstrip('/') + '/' + filename
+                self._copy_glued_image(original_uri, filename)
+                base_url = self.builder.config.tojupyter_glue_images_urlpath.rstrip('/')
+                uri = f"{base_url}/glue/{filename}"
             else:
                 # Default: embed as base64 for standalone notebooks
                 data_uri = self._image_to_base64(uri)

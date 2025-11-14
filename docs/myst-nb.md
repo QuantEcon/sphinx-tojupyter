@@ -168,6 +168,37 @@ cd tests/glue
 make jupyter
 ```
 
+## Configuration
+
+### Image Embedding for Glued Figures
+
+By default, glued figures are embedded as base64 data URIs directly in the notebook markdown cells, making notebooks truly standalone and easy to distribute. You can configure this behavior:
+
+```python
+# conf.py
+
+# Option 1: Use base64 embedding (default - standalone notebooks)
+# No configuration needed, this is the default behavior
+
+# Option 2: Reference images from a web URL
+tojupyter_glue_urlpath = "https://example.com/images/"
+# Images will be referenced as: https://example.com/images/filename.png
+
+# Alternative name for the same option:
+tojupyter_glue_images_urlpath = "https://example.com/images/"
+```
+
+**Benefits of base64 embedding (default):**
+- Notebooks are completely standalone
+- No external file dependencies
+- Easy to share and distribute
+- Works immediately when opened
+
+**When to use URL paths:**
+- When notebook file size is a concern
+- When images are already hosted on a CDN
+- When you want to update images without regenerating notebooks
+
 ## Troubleshooting
 
 ### Glue values not appearing

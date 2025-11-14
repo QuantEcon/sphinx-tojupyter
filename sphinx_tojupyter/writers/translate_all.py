@@ -7,6 +7,8 @@ from .utils import JupyterOutputCellGenerators
 from shutil import copyfile
 import copy
 import os
+import base64
+import mimetypes
 
 
 class JupyterTranslator(JupyterCodeTranslator, object):
@@ -74,6 +76,54 @@ class JupyterTranslator(JupyterCodeTranslator, object):
         self.book_index_previous_links = []
         self.markdown_lines_trimmed = []
 
+    def _image_to_base64(self, image_path):
+        """
+        Convert an image file to a base64-encoded data URI.
+        
+        Parameters
+        ----------
+        image_path : str
+            Path to the image file (can be relative to source or build directory)
+        
+        Returns
+        -------
+        str
+            Base64-encoded data URI (e.g., 'data:image/png;base64,...') or None if file not found
+        """
+        # Try to find the image file
+        # First try relative to the build directory
+        full_path = os.path.join(self.builder.outdir, image_path)
+        if not os.path.exists(full_path):
+            # Try relative to source directory
+            full_path = os.path.join(self.builder.srcdir, image_path)
+        if not os.path.exists(full_path):
+            # Try as absolute path
+            full_path = image_path
+        
+        if not os.path.exists(full_path):
+            return None
+        
+        try:
+            # Read the image file as binary
+            with open(full_path, 'rb') as f:
+                image_data = f.read()
+            
+            # Encode as base64
+            encoded = base64.b64encode(image_data).decode('ascii')
+            
+            # Determine MIME type
+            mime_type, _ = mimetypes.guess_type(full_path)
+            if mime_type is None:
+                # Default to PNG if we can't determine
+                mime_type = 'image/png'
+            
+            # Create data URI
+            data_uri = f"data:{mime_type};base64,{encoded}"
+            return data_uri
+        except Exception as e:
+            # If anything goes wrong, return None to fall back to file path
+            print(f"Warning: Could not embed image {image_path}: {e}")
+            return None
 
     # specific visit and depart methods
     # ---------------------------------
@@ -201,7 +251,29 @@ class JupyterTranslator(JupyterCodeTranslator, object):
             return
         uri = node.attributes["uri"]
         self.images.append(uri)             #TODO: list of image files
-        if self.tojupyter_image_urlpath:
+        
+        # Check if this is a glued image (from jupyter_execute or _build/jupyter_execute)
+        original_uri = uri
+        is_glued_image = "jupyter_execute" in uri or "_build/jupyter_execute" in uri
+        
+        if is_glued_image:
+            # Check if user wants to use a URL path for glued images
+            if hasattr(self.builder.config, 'tojupyter_glue_urlpath') and self.builder.config.tojupyter_glue_urlpath:
+                # Replace jupyter_execute path with the configured URL path
+                # Extract just the filename from the path
+                filename = os.path.basename(uri)
+                uri = self.builder.config.tojupyter_glue_urlpath.rstrip('/') + '/' + filename
+            elif hasattr(self.builder.config, 'tojupyter_glue_images_urlpath') and self.builder.config.tojupyter_glue_images_urlpath:
+                # Alternative config name for clarity
+                filename = os.path.basename(uri)
+                uri = self.builder.config.tojupyter_glue_images_urlpath.rstrip('/') + '/' + filename
+            else:
+                # Default: embed as base64 for standalone notebooks
+                data_uri = self._image_to_base64(uri)
+                if data_uri:
+                    uri = data_uri
+        
+        if self.tojupyter_image_urlpath and uri == original_uri:
             for file_path in self.tojupyter_static_file_path:
                 if file_path in uri:
                     uri = uri.replace(file_path +"/", self.tojupyter_image_urlpath)

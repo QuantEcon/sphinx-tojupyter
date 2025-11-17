@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Added
+- **LaTeX Macros Support**: Custom LaTeX commands now work in Jupyter notebooks
+  - New `tojupyter_latex_macros` configuration option
+  - Automatically adds macro definitions to generated notebooks
+  - Enables custom commands like `\ZZ`, `\RR`, `\NN` to render correctly
+  - Macros added as markdown cell at beginning of each notebook
+  - Compatible with existing Sphinx `latex_elements['preamble']`
+  - Documentation in `docs/latex-macros.md`
+  - Test suite in `tests/latex_macros/`
+  - Fixes [Issue #58](https://github.com/QuantEcon/sphinx-tojupyter/issues/58)
+
 ## [0.4.0] - 2025-11-14
 
 ### Added

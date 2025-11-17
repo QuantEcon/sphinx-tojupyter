@@ -1,0 +1,16 @@
+# Build artifacts
+ipynb/
+_build/
+jupyter_execute/
+.jupyter_cache/
+
+# Build logs
+build*.log
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# OS files
+.DS_Store

@@ -114,6 +114,19 @@ class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
                     "Invalid jupyter kernels. "
                     "tojupyter_kernels: {}, lang: {}"
                     .format(self.tojupyter_kernels, self.lang))
+        
+        # Add LaTeX macros as a hidden markdown cell at the beginning
+        # This is the standard way to define LaTeX macros in Jupyter notebooks
+        latex_macros = getattr(self.builder.config, 'tojupyter_latex_macros', None)
+        if latex_macros:
+            # Create markdown content with LaTeX macros
+            # Wrap in $$...$$ so MathJax processes them as macro definitions
+            macro_content = "$$\n" + latex_macros + "\n$$"
+            
+            # Insert at the beginning of the notebook
+            from nbformat.v4 import new_markdown_cell
+            macro_cell = new_markdown_cell(macro_content)
+            self.output.cells.insert(0, macro_cell)
 
     def visit_highlightlang(self, node):
         lang = node.attributes["lang"].strip()

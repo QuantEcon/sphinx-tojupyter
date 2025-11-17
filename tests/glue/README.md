@@ -8,8 +8,11 @@ Tests for MyST-NB glue functionality support in sphinx-tojupyter.
 # Install dependencies
 pip install myst-nb matplotlib
 
-# Run tests
+# Run tests (base64 image embedding - default)
 make jupyter
+
+# Run tests (URL path with image copying)
+make jupyter-urlpath
 
 # Clean
 make clean
@@ -36,10 +39,18 @@ make clean
 
 ## Verification
 
+### Base64 Embedding (Default)
 ```bash
 make jupyter
 grep "Hello World" ipynb/test_glue_basic.ipynb  # Should find glued text
-ls ipynb/jupyter_execute/*.png                   # Should see figure images
+grep "data:image/png;base64" ipynb/test_glue_figures.ipynb  # Should find base64 images
+```
+
+### URL Path with Image Copying
+```bash
+make jupyter-urlpath
+ls ipynb_urltest/glue/*.png  # Should see copied images
+grep "https://example.com/glue/" ipynb_urltest/test_glue_figures.ipynb  # Should find URLs
 ```
 
 ## Implementation

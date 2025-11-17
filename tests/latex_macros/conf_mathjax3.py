@@ -1,4 +1,4 @@
-# Configuration file for testing LaTeX macros support
+# Configuration file for testing LaTeX macros with mathjax3_config
 
 import sys
 import os
@@ -7,7 +7,7 @@ import os
 sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
-project = 'LaTeX Macros Test'
+project = 'LaTeX Macros Test (mathjax3_config)'
 author = 'Test Author'
 
 # -- General configuration ---------------------------------------------------
@@ -34,8 +34,8 @@ jupyter_kernels = {
     },
 }
 
-# LaTeX macros using standard Sphinx mathjax3_config (RECOMMENDED)
-# This works for both HTML and Jupyter notebook outputs
+# LaTeX macros using standard Sphinx mathjax3_config
+# This is the RECOMMENDED approach - works for both HTML and notebooks
 mathjax3_config = {
     'tex': {
         'macros': {
@@ -44,19 +44,14 @@ mathjax3_config = {
             'NN': r'\mathbb{N}',
             'QQ': r'\mathbb{Q}',
             'CC': r'\mathbb{C}',
+            'EE': r'\mathbb{E}',
+            'PP': r'\mathbb{P}',
+            # Macros with arguments
+            'vec': [r'\mathbf{#1}', 1],
+            'norm': [r'\left\|#1\right\|', 1],
         }
     }
 }
-
-# Alternative: Raw LaTeX format (LEGACY)
-# Uncomment to test fallback behavior
-# tojupyter_latex_macros = r"""
-# \newcommand{\ZZ}{\mathbb{Z}}
-# \newcommand{\RR}{\mathbb{R}}
-# \newcommand{\NN}{\mathbb{N}}
-# \newcommand{\QQ}{\mathbb{Q}}
-# \newcommand{\CC}{\mathbb{C}}
-# """
 
 # Build settings
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '**.ipynb_checkpoints']

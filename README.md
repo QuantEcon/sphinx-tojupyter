@@ -72,15 +72,19 @@ See the [test suite](tests/glue/) for more examples.
 
 ### LaTeX Macros Support
 
-Define custom LaTeX commands that work in Jupyter notebooks:
+Define custom LaTeX commands once, use everywhere (HTML and notebooks):
 
 ```python
 # conf.py
-tojupyter_latex_macros = r"""
-\newcommand{\ZZ}{\mathbb{Z}}
-\newcommand{\RR}{\mathbb{R}}
-\newcommand{\NN}{\mathbb{N}}
-"""
+mathjax3_config = {
+    'tex': {
+        'macros': {
+            'ZZ': r'\mathbb{Z}',
+            'RR': r'\mathbb{R}',
+            'NN': r'\mathbb{N}',
+        }
+    }
+}
 ```
 
 Then use them in your documentation:
@@ -89,7 +93,11 @@ Then use them in your documentation:
 The set of integers is $\ZZ$ and the reals are $\RR$.
 ```
 
-The macros will be automatically added to generated notebooks for proper rendering.
+**Benefits:**
+- ✅ Single configuration for HTML and notebooks
+- ✅ Standard Sphinx/Jupyter Book approach  
+- ✅ Macros automatically added to generated notebooks
+- ✅ Works with existing `mathjax3_config` setups
 
 See the [LaTeX macros documentation](docs/latex-macros.md) and [test suite](tests/latex_macros/) for more details.
 

@@ -1,6 +1,6 @@
 # LaTeX Macros Support
 
-sphinx-tojupyter now supports adding custom LaTeX macros to generated Jupyter notebooks, enabling custom mathematical commands to render correctly.
+sphinx-tojupyter automatically adds custom LaTeX macros to generated Jupyter notebooks, enabling custom mathematical commands to render correctly.
 
 ## Problem
 
@@ -8,11 +8,41 @@ When using custom LaTeX commands in Sphinx documentation (like `\ZZ` for integer
 
 ## Solution
 
-Configure `tojupyter_latex_macros` in your `conf.py` to automatically add macro definitions to all generated notebooks.
+Define your macros once using Sphinx's standard `mathjax3_config`, and they'll automatically work in both HTML and Jupyter notebook outputs.
 
 ## Configuration
 
-Add your LaTeX macros to `conf.py`:
+### Option 1: Using `mathjax3_config` (Recommended)
+
+This is the **standard Sphinx/Jupyter Book approach** and the recommended method:
+
+```python
+# conf.py
+
+mathjax3_config = {
+    'tex': {
+        'macros': {
+            'ZZ': r'\mathbb{Z}',
+            'RR': r'\mathbb{R}',
+            'NN': r'\mathbb{N}',
+            'QQ': r'\mathbb{Q}',
+            'CC': r'\mathbb{C}',
+            'EE': r'\mathbb{E}',
+            'PP': r'\mathbb{P}',
+        }
+    }
+}
+```
+
+**Benefits:**
+- ✅ Single source of truth for both HTML and notebooks
+- ✅ Standard Sphinx configuration
+- ✅ Works with existing Jupyter Book projects
+- ✅ No duplicate configuration needed
+
+### Option 2: Using `tojupyter_latex_macros` (Alternative)
+
+For raw LaTeX format or when you need more control:
 
 ```python
 # conf.py
@@ -24,10 +54,10 @@ tojupyter_latex_macros = r"""
 \newcommand{\NN}{\mathbb{N}}
 \newcommand{\QQ}{\mathbb{Q}}
 \newcommand{\CC}{\mathbb{C}}
-\newcommand{\EE}{\mathbb{E}}
-\newcommand{\PP}{\mathbb{P}}
 """
 ```
+
+**Note:** If both are configured, `mathjax3_config` takes priority.
 
 ## How It Works
 
@@ -67,26 +97,46 @@ $$
 
 These will render correctly in both HTML and Jupyter notebook outputs.
 
-## Integration with Sphinx LaTeX
+## Advanced: Macros with Arguments
 
-You can reuse your existing Sphinx LaTeX preamble:
+You can define macros that take arguments:
 
 ```python
 # conf.py
 
-# For LaTeX/PDF output
-latex_elements = {
-    'preamble': r'''
-\newcommand{\ZZ}{\mathbb{Z}}
-\newcommand{\RR}{\mathbb{R}}
-\newcommand{\NN}{\mathbb{N}}
-    ''',
+mathjax3_config = {
+    'tex': {
+        'macros': {
+            'vec': [r'\mathbf{#1}', 1],      # \vec{x} -> \mathbf{x}
+            'norm': [r'\left\|#1\right\|', 1],  # \norm{x} -> \left\|x\right\|
+            'abs': [r'\left|#1\right|', 1],     # \abs{x} -> \left|x\right|
+        }
+    }
 }
-
-# For Jupyter notebooks
-# Reuse the same definitions
-tojupyter_latex_macros = latex_elements['preamble']
 ```
+
+The array format is `[definition, num_args]`.
+
+## Integration with Jupyter Book
+
+If you're using Jupyter Book with `_config.yml`, the configuration works the same way:
+
+```yaml
+# _config.yml
+
+sphinx:
+  config:
+    mathjax3_config:
+      tex:
+        macros:
+          "ZZ": "\\mathbb{Z}"
+          "RR": "\\mathbb{R}"
+          "NN": "\\mathbb{N}"
+          "argmax": "arg\\,max"
+          "argmin": "arg\\,min"
+```
+
+**No additional configuration needed!** Your macros will automatically work in generated notebooks.
 
 ## Benefits
 

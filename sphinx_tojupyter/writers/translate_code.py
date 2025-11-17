@@ -114,6 +114,48 @@ class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
                     "Invalid jupyter kernels. "
                     "tojupyter_kernels: {}, lang: {}"
                     .format(self.tojupyter_kernels, self.lang))
+        
+        # Add LaTeX macros as a markdown cell at the beginning
+        # This is the standard way to define LaTeX macros in Jupyter notebooks
+        
+        # Priority 1: Use mathjax3_config (standard Sphinx/Jupyter Book config)
+        mathjax3_config = getattr(self.builder.config, 'mathjax3_config', None)
+        macro_content = None
+        
+        if mathjax3_config and isinstance(mathjax3_config, dict):
+            # Extract macros from mathjax3_config.tex.macros
+            tex_config = mathjax3_config.get('tex', {})
+            macros_dict = tex_config.get('macros', {})
+            
+            if macros_dict:
+                # Convert dict format to LaTeX \newcommand format
+                macro_lines = []
+                for name, definition in macros_dict.items():
+                    # Handle both simple strings and array format [definition, n_args]
+                    if isinstance(definition, list):
+                        defn = definition[0]
+                        n_args = definition[1] if len(definition) > 1 else 0
+                        if n_args > 0:
+                            macro_lines.append(f"\\newcommand{{\\{name}}}[{n_args}]{{{defn}}}")
+                        else:
+                            macro_lines.append(f"\\newcommand{{\\{name}}}{{{defn}}}")
+                    else:
+                        macro_lines.append(f"\\newcommand{{\\{name}}}{{{definition}}}")
+                
+                if macro_lines:
+                    macro_content = "$$\n" + "\n".join(macro_lines) + "\n$$"
+        
+        # Priority 2: Fallback to tojupyter_latex_macros (raw LaTeX format)
+        if not macro_content:
+            latex_macros = getattr(self.builder.config, 'tojupyter_latex_macros', None)
+            if latex_macros:
+                macro_content = "$$\n" + latex_macros + "\n$$"
+        
+        # Insert macro cell if we have content
+        if macro_content:
+            from nbformat.v4 import new_markdown_cell
+            macro_cell = new_markdown_cell(macro_content)
+            self.output.cells.insert(0, macro_cell)
 
     def visit_highlightlang(self, node):
         lang = node.attributes["lang"].strip()

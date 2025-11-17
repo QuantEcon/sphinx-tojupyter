@@ -93,6 +93,7 @@ def setup(app):
     app.add_config_value("tojupyter_image_urlpath", None, "jupyter")
     app.add_config_value("tojupyter_glue_urlpath", None, "jupyter")
     app.add_config_value("tojupyter_glue_images_urlpath", None, "jupyter")  # Alternative name for clarity
+    app.add_config_value("tojupyter_latex_macros", None, "jupyter")  # LaTeX macros for MathJax
     app.add_config_value("tojuyter_drop_html_raw", True, "jupyter")
 
     # Jupyter pdf options

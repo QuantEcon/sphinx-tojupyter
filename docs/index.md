@@ -34,6 +34,7 @@ installation
 config-sphinx
 config-extension
 myst-nb
+latex-macros
 examples
 config-example
 config-project

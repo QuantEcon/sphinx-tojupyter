@@ -50,4 +50,23 @@ setup(
         'dask[distributed]',
         'nbdime',
     ],
+    extras_require={
+        'test': [
+            'nox>=2024.3.2',
+            'pytest>=7.0',
+            'myst-parser>=4.0',
+            'sphinx-exercise>=1.0',
+            'sphinx-proof>=0.3',
+        ],
+        'dev': [
+            'nox>=2024.3.2',
+            'pytest>=7.0',
+            'myst-parser>=4.0',
+            'sphinx-exercise>=1.0',
+            'sphinx-proof>=0.3',
+            'flake8',
+            'jupyterlab',
+            'ipykernel',
+        ],
+    },
 )

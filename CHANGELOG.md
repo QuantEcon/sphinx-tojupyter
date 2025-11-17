@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.5.0] - 2025-11-18
+
 ### Added
 - **LaTeX Macros Support**: Custom LaTeX commands now work in Jupyter notebooks
   - **Primary**: Uses standard `mathjax3_config` (single source of truth for HTML and notebooks)

@@ -2,14 +2,26 @@
 
 from setuptools import setup, find_packages
 
-VERSION = 'v0.6.0'
+VERSION = 'v2.0.0'
 
 LONG_DESCRIPTION = """
-This package contains a [Sphinx](http://www.sphinx-doc.org/en/master/) extension 
-for building Jupyter notebooks.
+sphinx-tojupyter v2.0 - Generate High-Quality Jupyter Notebooks from Sphinx Projects
 
-The default behavior of the `jupyter` builder is to provide notebooks that are readable
-with an emphasis on supporting basic markdown into the notebooks.
+A focused Sphinx extension for converting RST and MyST source files into executable 
+Jupyter notebooks (.ipynb). 
+
+v2.0 is a major refactoring that specializes in notebook generation, removing execution, 
+HTML, and PDF features in favor of seamless Jupyter Book integration.
+
+Features:
+- Convert RST/MyST to Jupyter notebooks
+- MyST-NB glue support
+- sphinx-proof directive support
+- sphinx-exercise directive support
+- Multi-language kernel support
+- LaTeX macro support
+
+For execution, HTML generation, and PDF export, use Jupyter Book.
 
 This project is maintained and supported by [QuantEcon](http://quantecon.org/)
 """
@@ -22,45 +34,46 @@ setup(
     license='BSD',
     author='QuantEcon',
     author_email='contact@quantecon.org',
-    description='Sphinx "Jupyter" extension to build Jupyter notebooks.',
+    description='Sphinx extension to generate Jupyter notebooks from RST/MyST source files',
     long_description=LONG_DESCRIPTION,
     zip_safe=False,
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
-        'Environment :: Web Environment',
         'Framework :: Sphinx',
+        'Framework :: Sphinx :: Extension',
+        'Framework :: Jupyter',
         'Intended Audience :: Developers',
+        'Intended Audience :: Education',
+        'Intended Audience :: Science/Research',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 3',
-        'Framework :: Sphinx :: Extension',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
         'Topic :: Documentation',
-        'Topic :: Utilities',
+        'Topic :: Documentation :: Sphinx',
+        'Topic :: Software Development :: Documentation',
     ],
     platforms='any',
     packages=find_packages(),
     include_package_data=True,
     python_requires='>=3.11',
     install_requires=[
-        'sphinx>=7.0', 
-        'myst-nb>=0.14',  #nb_mime_priority_overrides 
-        'pyyaml', 
-        'nbformat', 
+        'sphinx>=7.0',
+        'myst-nb>=0.14',
+        'pyyaml',
+        'nbformat',
         'nbconvert',
-        'dask[distributed]',
-        'nbdime',
     ],
     extras_require={
         'test': [
-            'nox>=2024.3.2',
             'pytest>=7.0',
             'myst-parser>=4.0',
             'sphinx-exercise>=1.0',
             'sphinx-proof>=0.3',
         ],
         'dev': [
-            'nox>=2024.3.2',
             'pytest>=7.0',
             'myst-parser>=4.0',
             'sphinx-exercise>=1.0',

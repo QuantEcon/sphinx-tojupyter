@@ -189,19 +189,21 @@ File: `sphinx_tojupyter/__init__.py`
 
 **Result**: Removed 33 config options, kept 14 essential ones (70% reduction)
 
-### 1.4: Update Dependencies
+### 1.4: Update Dependencies ✅
 
 File: `setup.py`
 
-- [ ] Update `VERSION` to `'v2.0.0'`
-- [ ] Update `LONG_DESCRIPTION` with v2.0 information
-- [ ] Remove `dask[distributed]` from `install_requires`
-- [ ] Remove `nbdime` from `install_requires` (if not needed)
-- [ ] Remove `nox` from `install_requires` (move to test extras if needed)
-- [ ] Review `nbconvert` - keep only if still needed for core functionality
-- [ ] Keep: `sphinx>=7.0`, `myst-nb>=0.14`, `pyyaml`, `nbformat`
-- [ ] Update classifiers if needed
-- [ ] Update description to reflect v2.0 focus
+- [x] Update `VERSION` to `'v2.0.0'`
+- [x] Update `LONG_DESCRIPTION` with v2.0 information
+- [x] Remove `dask[distributed]` from `install_requires`
+- [x] Remove `nbdime` from `install_requires`
+- [x] Remove `nox` from install_requires (moved to test/dev extras only)
+- [x] Keep `nbconvert` - still needed for core conversion
+- [x] Keep: `sphinx>=7.0`, `myst-nb>=0.14`, `pyyaml`, `nbformat`
+- [x] Update classifiers to reflect Production/Stable and Jupyter focus
+- [x] Update description to reflect v2.0 focus
+
+**Result**: Dependencies reduced from 7 to 5 (29% reduction)
 
 ### 1.5: Clean Up Utilities
 

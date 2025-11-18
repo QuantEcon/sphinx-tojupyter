@@ -30,6 +30,10 @@ nox -s tests-3.11                              # Run Python 3.11 only
 nox -s "tests-3.11(sphinx='8.2')"             # Specific Python + Sphinx version
 ```
 
+**Supported Versions:**
+- Python: 3.11, 3.12, 3.13
+- Sphinx: 7.4, 8.2
+
 **`tests-full`** - Run complete test suite with all optional dependencies:
 ```bash
 nox -s tests-full                              # Tests all features

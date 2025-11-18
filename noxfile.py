@@ -62,10 +62,13 @@ def tests(session, sphinx):
     session.log("✅ Basic tests passed")
 
 
-@nox.session(python=DEFAULT_PYTHON, name="tests-full")
+@nox.session(name="tests-full")
 def tests_full(session):
     """
     Run full test suite with all optional dependencies.
+    
+    Uses the current Python interpreter to create a virtualenv.
+    In CI, this will be the Python version set up by the workflow matrix.
     
     This includes:
     - myst-parser

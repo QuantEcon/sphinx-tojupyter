@@ -199,7 +199,7 @@ def docs(session):
     session.install(
         "sphinx>=8.0",
         "myst-parser>=4.0",
-        "sphinx-book-theme",
+        "sphinx-rtd-theme",
     )
     session.install("-e", ".")
     

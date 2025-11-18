@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.6.0] - 2024-11-18
+
 ### Added
 - **sphinx-proof Support**: Full support for sphinx-proof directives in generated notebooks
   - All 15 directive types: theorem, axiom, lemma, definition, remark, conjecture, corollary, algorithm, criterion, example, property, observation, proposition, assumption, notation, proof

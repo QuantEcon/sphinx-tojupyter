@@ -115,59 +115,62 @@ File: `sphinx_tojupyter/builders/jupyter.py`
 
 **Result**: Reduced from 307 lines to 126 lines (59% reduction)
 
-### 1.3: Clean Up Configuration
+### 1.3: Clean Up Configuration ✅
 
 File: `sphinx_tojupyter/__init__.py`
 
-**Remove these config options (30+ options to delete):**
+**Removed these config options (33 options deleted):**
 
 #### Execution Related
-- [ ] Remove `tojupyter_execute_nb`
-- [ ] Remove `tojupyter_execute_notebooks`
-- [ ] Remove `tojupyter_threads_per_worker`
-- [ ] Remove `tojupyter_number_workers`
+- [x] Remove `tojupyter_execute_nb`
+- [x] Remove `tojupyter_execute_notebooks`
+- [x] Remove `tojupyter_threads_per_worker`
+- [x] Remove `tojupyter_number_workers`
 
 #### HTML/Website Generation
-- [ ] Remove `tojupyter_generate_html`
-- [ ] Remove `tojupyter_html_template`
-- [ ] Remove `tojupyter_make_site`
-- [ ] Remove `tojupyter_target_html`
+- [x] Remove `tojupyter_generate_html`
+- [x] Remove `tojupyter_html_template`
+- [x] Remove `tojupyter_make_site`
+- [x] Remove `tojupyter_target_html`
 
 #### Download Management
-- [ ] Remove `tojupyter_download_nb`
-- [ ] Remove `tojupyter_download_nb_execute`
-- [ ] Remove `tojupyter_download_nb_urlpath`
-- [ ] Remove `tojupyter_download_nb_image_urlpath`
+- [x] Remove `tojupyter_download_nb`
+- [x] Remove `tojupyter_download_nb_execute`
+- [x] Remove `tojupyter_download_nb_urlpath`
+- [x] Remove `tojupyter_download_nb_image_urlpath`
 
 #### PDF Related
-- [ ] Remove `tojupyter_target_pdf`
-- [ ] Remove `tojupyter_latex_template`
-- [ ] Remove `tojupyter_latex_template_book`
-- [ ] Remove `tojupyter_pdf_logo`
-- [ ] Remove `tojupyter_bib_file`
-- [ ] Remove `tojupyter_pdf_author`
-- [ ] Remove `tojupyter_pdf_showcontentdepth`
-- [ ] Remove `tojupyter_pdf_urlpath`
-- [ ] Remove `tojupyter_pdf_excludepatterns`
-- [ ] Remove `tojupyter_pdf_book`
-- [ ] Remove `tojupyter_pdf_book_index`
-- [ ] Remove `tojupyter_pdf_book_title`
-- [ ] Remove `tojupyter_pdf_book_name`
+- [x] Remove `tojupyter_target_pdf`
+- [x] Remove `tojupyter_latex_template`
+- [x] Remove `tojupyter_latex_template_book`
+- [x] Remove `tojupyter_pdf_logo`
+- [x] Remove `tojupyter_bib_file`
+- [x] Remove `tojupyter_pdf_author`
+- [x] Remove `tojupyter_pdf_showcontentdepth`
+- [x] Remove `tojupyter_pdf_urlpath`
+- [x] Remove `tojupyter_pdf_excludepatterns`
+- [x] Remove `tojupyter_pdf_book`
+- [x] Remove `tojupyter_pdf_book_index`
+- [x] Remove `tojupyter_pdf_book_title`
+- [x] Remove `tojupyter_pdf_book_name`
 
 #### Theme/Template
-- [ ] Remove `tojupyter_theme`
-- [ ] Remove `tojupyter_theme_path`
-- [ ] Remove `tojupyter_template_path`
+- [x] Remove `tojupyter_theme`
+- [x] Remove `tojupyter_theme_path`
+- [x] Remove `tojupyter_template_path`
 
 #### Miscellaneous
-- [ ] Remove `tojupyter_dependencies` (if unused)
-- [ ] Remove `tojuyter_drop_html_raw` (note: has typo)
+- [x] Remove `tojupyter_dependencies`
+- [x] Remove `tojuyter_drop_html_raw` (typo fixed)
+- [x] Remove `tojupyter_glue_images_urlpath` (duplicate, kept tojupyter_glue_urlpath)
 
 #### Builder Registration
-- [ ] Remove `app.add_builder(JupyterPDFBuilder)` line
-- [ ] Remove import of `JupyterPDFBuilder`
+- [x] Remove `app.add_builder(JupyterPDFBuilder)` line
+- [x] Remove import of `JupyterPDFBuilder`
 
-**Keep these essential configs (~12 options):**
+**Result**: Config options reduced from 47 to 14 (70% reduction)
+
+**Kept these essential configs (14 options):**
 
 - [x] `tojupyter_kernels` - Kernel specifications
 - [x] `tojupyter_default_lang` - Default programming language
@@ -183,6 +186,8 @@ File: `sphinx_tojupyter/__init__.py`
 - [x] `tojupyter_latex_macros` - LaTeX macros for MathJax
 - [x] `tojupyter_dependency_lists` - Notebook dependencies
 - [x] `tojupyter_nextprev_ignore` - Navigation items to ignore
+
+**Result**: Removed 33 config options, kept 14 essential ones (70% reduction)
 
 ### 1.4: Update Dependencies
 

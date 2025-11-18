@@ -2,8 +2,8 @@ from __future__ import unicode_literals
 import re
 import nbformat.v4
 from docutils import nodes, writers
-from .translate_code import JupyterCodeTranslator
-from .utils import JupyterOutputCellGenerators
+from .code import JupyterCodeTranslator
+from ..writers.utils import JupyterOutputCellGenerators
 from shutil import copyfile
 import copy
 import os

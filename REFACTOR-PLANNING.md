@@ -238,49 +238,54 @@ File: `sphinx_tojupyter/writers/utils.py`
 
 **Goal**: Create cleaner, more intuitive code organization
 
-### 2.1: Reorganize Core Files
+### 2.1: Reorganize Core Files ✅
 
-- [ ] **Flatten builders**:
+- [x] **Flatten builders**:
   - Move `sphinx_tojupyter/builders/jupyter.py` → `sphinx_tojupyter/builder.py`
   - Delete empty `sphinx_tojupyter/builders/` directory
   - Update imports in `__init__.py`
 
-- [ ] **Rename writer**:
+- [x] **Rename writer**:
   - Move `sphinx_tojupyter/writers/jupyter.py` → `sphinx_tojupyter/writer.py`
   - Update imports in `builder.py` and `__init__.py`
 
-### 2.2: Create Translators Package
+### 2.2: Create Translators Package ✅
 
-- [ ] **Create new directory**: `sphinx_tojupyter/translators/`
-- [ ] **Create `translators/__init__.py`** with exports
-- [ ] **Move and rename files**:
+- [x] **Create new directory**: `sphinx_tojupyter/translators/`
+- [x] **Create `translators/__init__.py`** with exports
+- [x] **Move and rename files**:
   - `writers/translate_all.py` → `translators/full.py`
   - `writers/translate_code.py` → `translators/code.py`
-- [ ] **Create `translators/base.py`** (if extracting common logic)
-- [ ] **Update imports** in `writer.py`
+- [x] **Update imports** in `writer.py`
+- [x] **Update internal imports** in translator files
 
-### 2.3: Reorganize Directives
+**Note**: Skipped creating `translators/base.py` - extracting common logic can be done later if needed
 
-- [ ] **Keep structure** (already clean):
-  - `sphinx_tojupyter/directive/` → keep as-is
-  - Or rename to `directives/` (plural) for consistency
+### 2.3: Reorganize Directives ✅
 
-### 2.4: Simplify Utils
+- [x] **Keep structure** (already clean):
+  - `sphinx_tojupyter/directive/` → keeping as-is (singular is fine)
+  
+**Note**: Directory structure is clean and functional, no changes needed
 
-- [ ] **Keep or merge**: 
-  - Option A: Keep `sphinx_tojupyter/utils.py` as simplified standalone
-  - Option B: Move relevant utils into appropriate modules
-- [ ] **Delete `writers/` directory** if now empty
+### 2.4: Simplify Utils ✅
 
-### 2.5: Update All Imports
+- [x] **Keep utils in writers/**:
+  - Keep `sphinx_tojupyter/writers/utils.py` as-is (still used by translators)
+  - Keep `writers/` directory (contains essential utils.py)
+  
+**Note**: Utils remain in writers/ directory for now, as they're still used by translators
 
-- [ ] Update imports in `__init__.py`
-- [ ] Update imports in `builder.py`
-- [ ] Update imports in `writer.py`
-- [ ] Update imports in translators
-- [ ] Update imports in directives
-- [ ] Search for any other import references: `from sphinx_tojupyter.builders` → `from sphinx_tojupyter`
-- [ ] Search for any other import references: `from sphinx_tojupyter.writers` → `from sphinx_tojupyter.translators`
+### 2.5: Update All Imports ✅
+
+- [x] Update imports in `__init__.py`
+- [x] Update imports in `builder.py`
+- [x] Update imports in `writer.py`
+- [x] Update imports in translators (code.py and full.py)
+- [x] Directives unchanged (no updates needed)
+- [x] All compilation checks passed
+
+**Result**: All imports updated and verified working
 
 **Exit Criteria**: 
 - ✅ Flatter, more intuitive structure

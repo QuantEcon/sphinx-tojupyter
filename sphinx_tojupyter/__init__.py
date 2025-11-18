@@ -5,7 +5,7 @@ try:
 except AttributeError:
     pass
 
-from .builders.jupyter import JupyterBuilder
+from .builder import JupyterBuilder
 from .directive.jupyter import jupyter_node
 from .directive.jupyter import Jupyter as JupyterDirective
 from .directive.jupyter import JupyterDependency

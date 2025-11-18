@@ -3,7 +3,7 @@ import re
 import nbformat.v4
 import os.path
 import datetime
-from .utils import LanguageTranslator, JupyterOutputCellGenerators, get_source_file_name
+from ..writers.utils import LanguageTranslator, JupyterOutputCellGenerators, get_source_file_name
 
 class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
 

@@ -5,13 +5,13 @@ import docutils
 
 import nbformat
 from sphinx.util.osutil import ensuredir, os_path
-from ..writers.jupyter import JupyterWriter
+from .writer import JupyterWriter
 from sphinx.builders import Builder
 from sphinx.util.console import bold
 from sphinx.util.fileutil import copy_asset
 from sphinx.util import logging
 import time
-from ..writers.utils import copy_dependencies
+from .writers.utils import copy_dependencies
 
 class JupyterBuilder(Builder):
     """

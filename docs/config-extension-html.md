@@ -35,7 +35,7 @@ Enable sphinx to generate HTML versions of notebooks
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_generate_html = True
 ```
 
@@ -50,7 +50,7 @@ Documentation on nbconvert templates can be found
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_html_template = "theme/template/<file>.tpl"
 ```
 
@@ -71,7 +71,7 @@ This option:
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_make_site = True
 ```
 
@@ -81,7 +81,7 @@ Request Sphinx to generate a collection of download notebooks to support a websi
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_download_nb = True
 ```
 
@@ -91,7 +91,7 @@ Apply a url prefix when writing images in Jupyter notebooks for download noteboo
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_images_urlpath = "s3://<path>/_static/img/"
 ```
 
@@ -101,7 +101,7 @@ Specify theme name
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_theme = <theme-name>
 ```
 
@@ -122,7 +122,7 @@ Specify location for theme files
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_theme_path = "theme"
 ```
 
@@ -140,7 +140,7 @@ Specify path for templates
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_template_path = "templates"
 ```
 
@@ -150,7 +150,7 @@ Specify `html` template to be used by `nbconvert`
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_template_html = <path to tpl file>
 ```
 

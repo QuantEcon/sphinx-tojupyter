@@ -455,7 +455,7 @@ Basic table support is provided by this extension.
 
 ```{note}
 Complex tables are **not** currently supported.
-See Issue [#54]([https://github.com/QuantEcon/sphinx-tojupyter/issues/54](https://github.com/QuantEcon/sphinx-tojupyter/issues/54))
+See Issue [#54](https://github.com/QuantEcon/sphinx-tojupyter/issues/54)
 ```
 
 The following code in the .rst file

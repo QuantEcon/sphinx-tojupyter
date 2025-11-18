@@ -35,7 +35,7 @@ If you would like to `exclude` them from your documents you
 can set:
 
 ```{code-cell} python
-exercise_include_exercises = False``
+exercise_include_exercises = False
 ```
 
 in your `conf.py` file.

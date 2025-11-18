@@ -59,8 +59,15 @@ author = 'QuantEcon Development Team'
 # built documents.
 #
 # The short X.Y version.
-import pkg_resources
-version = pkg_resources.get_distribution('pip').version
+try:
+    from importlib.metadata import version as get_version
+except ImportError:
+    from importlib_metadata import version as get_version
+
+try:
+    version = get_version('sphinx-tojupyter')
+except Exception:
+    version = 'unknown'
 # The full version, including alpha/beta/rc tags.
 release = version
 
@@ -69,7 +76,7 @@ release = version
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = 'en'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.

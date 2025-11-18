@@ -7,7 +7,7 @@ dist/
 dask-worker-space/
 __pycache__
 *.egg-info/
-tests/base/_build/
+tests/**/_build/
 tests/project/lecture-python-programming.myst/.git*
 tests/project/_build
 *.pyc

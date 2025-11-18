@@ -70,6 +70,46 @@ Caption for the figure.
 
 See the [test suite](tests/glue/) for more examples.
 
+### sphinx-proof Support
+
+Full support for [sphinx-proof](https://sphinx-proof.readthedocs.io/) directives, allowing you to include mathematical theorems, proofs, and related content in your notebooks:
+
+**Supported Directives (15 types):**
+- `theorem`, `axiom`, `lemma`, `definition`, `remark`
+- `conjecture`, `corollary`, `algorithm`, `criterion`
+- `example`, `property`, `observation`, `proposition`
+- `assumption`, `notation`, `proof`
+
+**Example:**
+
+```markdown
+\```{prf:theorem} Pythagorean Theorem
+:label: pythagoras
+
+In a right triangle, the square of the hypotenuse equals the sum of squares of the other two sides:
+
+$$
+a^2 + b^2 = c^2
+$$
+\```
+
+\```{prf:proof}
+The proof follows from...
+\```
+```
+
+**Features:**
+- ✅ Automatic numbering from Sphinx's numfig system
+- ✅ Support for titled and untitled directives
+- ✅ Cross-reference handling
+- ✅ Clean markdown formatting for notebooks
+
+**Requirements:**
+- Add `sphinx_proof` to your extensions in `conf.py`
+- Enable `numfig = True` for numbered directives
+
+See the [test suite](tests/sphinx_proof/) for comprehensive examples.
+
 ### LaTeX Macros Support
 
 Define custom LaTeX commands once, use everywhere (HTML and notebooks):

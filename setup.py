@@ -41,8 +41,9 @@ setup(
     platforms='any',
     packages=find_packages(),
     include_package_data=True,
+    python_requires='>=3.11',
     install_requires=[
-        'sphinx>=5', 
+        'sphinx>=7.0', 
         'myst-nb>=0.14',  #nb_mime_priority_overrides 
         'pyyaml', 
         'nbformat', 
@@ -50,4 +51,23 @@ setup(
         'dask[distributed]',
         'nbdime',
     ],
+    extras_require={
+        'test': [
+            'nox>=2024.3.2',
+            'pytest>=7.0',
+            'myst-parser>=4.0',
+            'sphinx-exercise>=1.0',
+            'sphinx-proof>=0.3',
+        ],
+        'dev': [
+            'nox>=2024.3.2',
+            'pytest>=7.0',
+            'myst-parser>=4.0',
+            'sphinx-exercise>=1.0',
+            'sphinx-proof>=0.3',
+            'flake8',
+            'jupyterlab',
+            'ipykernel',
+        ],
+    },
 )

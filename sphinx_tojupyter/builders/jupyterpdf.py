@@ -15,7 +15,7 @@ from ..writers.make_pdf import MakePDFWriter
 from sphinx.util import logging
 import pdb
 import shutil
-from distutils.spawn import find_executable
+import shutil
 import time
 
 class JupyterPDFBuilder(Builder):
@@ -36,7 +36,7 @@ class JupyterPDFBuilder(Builder):
     logger = logging.getLogger(__name__)
 
     def init(self):
-        if not find_executable('xelatex'):
+        if not shutil.which('xelatex'):
             self.logger.warning(
                 "Cannot find xelatex executable for pdf compilation"
             )

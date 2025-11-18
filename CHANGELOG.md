@@ -4,6 +4,58 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+- **sphinx-proof Support**: Full support for sphinx-proof directives in generated notebooks
+  - All 15 directive types: theorem, axiom, lemma, definition, remark, conjecture, corollary, algorithm, criterion, example, property, observation, proposition, assumption, notation, proof
+  - Automatic numbering from Sphinx's numfig system
+  - Support for titled and untitled directives
+  - Support for `:nonumber:` option
+  - Clean markdown formatting with bold headers
+  - Cross-reference handling
+  - Added visitor/depart methods for all sphinx-proof node types
+  - Helper methods: `_get_proof_node_number()`, `_format_proof_title()`, `_remove_title_node()`
+  - Comprehensive test suite in `tests/sphinx_proof/`
+  - Works with existing QuantEcon lecture repositories
+
+### Changed
+- **Testing Infrastructure**: Complete overhaul to use nox for automated testing
+  - Matrix testing: Python 3.11, 3.12, 3.13 × Sphinx 7.4, 8.2
+  - Full test suite with all optional dependencies
+  - Specific test sessions for sphinx-proof and MyST-NB glue
+  - Cross-platform testing (Ubuntu, macOS, Windows)
+  - Added `noxfile.py` with 24 test sessions
+  - Updated `.github/workflows/ci.yml` (formerly tests.yml) with consolidated CI/CD pipeline
+  - Removed old conda-based workflow
+  - Added comprehensive `TESTING.md` documentation
+  
+- **Python & Sphinx Requirements**: Updated minimum versions
+  - Python: Now requires >=3.11 (dropped 3.9, 3.10)
+  - Sphinx: Now requires >=7.0 (dropped 5.x, 6.x)
+  - Updated `setup.py` with `python_requires` and `extras_require` for testing
+
+- **Code Modernization**:
+  - Replaced deprecated `distutils` with `shutil` equivalents
+  - Updated to use `importlib.metadata` instead of `pkg_resources`
+  - Removed Python 2 compatibility code
+  - Fixed raw string literals for proper escaping
+
+### Fixed
+- **Documentation Build**: Fixed Sphinx 8.x compatibility issues
+  - Set `language = 'en'` instead of None in `docs/conf.py`
+  - Created missing `docs/_static/` directory
+  - Fixed syntax errors and malformed links in documentation
+  - Converted non-executable code blocks to plain code blocks
+  - Fixed cross-reference warnings
+  
+- **Build Artifacts**: Cleaned up version control
+  - Removed `docs/_build/` from git tracking (185 files)
+  - Removed `tests/sphinx_proof/_build/` from git tracking (11 files)
+  - Updated `.gitignore` to use `tests/**/_build/` pattern
+
+- **Test Session Python Version**: Fixed `tests-full` nox session
+  - Removed hardcoded Python 3.11 requirement
+  - Now uses current Python from CI matrix
+
 ## [0.5.0] - 2025-11-18
 
 ### Added

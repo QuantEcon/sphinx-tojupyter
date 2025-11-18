@@ -9,6 +9,9 @@ import copy
 import os
 import base64
 import mimetypes
+from sphinx.util import logging
+
+logger = logging.getLogger(__name__)
 
 
 class JupyterTranslator(JupyterCodeTranslator, object):
@@ -241,7 +244,7 @@ class JupyterTranslator(JupyterCodeTranslator, object):
 
         #Escape Special markdown chars except in code block
         if self.in_code_block == False:
-            text = text.replace("$", "\$")
+            text = text.replace("$", r"\$")
 
         if self.in_math:
             if self.tojupyter_target_pdf:
@@ -670,15 +673,15 @@ class JupyterTranslator(JupyterCodeTranslator, object):
                 self.markdown_lines.append("[")
             elif "refid" in node:
                 if 'equation-' in node['refid']:
-                    self.markdown_lines.append("\eqref{")
+                    self.markdown_lines.append(r"\eqref{")
                 elif self.in_topic:
                     pass
                 else:
-                    self.markdown_lines.append("\hyperlink{")
+                    self.markdown_lines.append(r"\hyperlink{")
             elif "refuri" in node and 'references#' not in node["refuri"]:
                 self.markdown_lines.append("[")
             else:
-                self.markdown_lines.append("\hyperlink{")
+                self.markdown_lines.append(r"\hyperlink{")
         else:
             self.markdown_lines.append("[")
         self.reference_text_start = len(self.markdown_lines)
@@ -1002,11 +1005,11 @@ class JupyterTranslator(JupyterCodeTranslator, object):
                 self.markdown_lines.append("<a id='{}'></a>\n**[{}]** ".format(id_text, node.astext()))
             raise nodes.SkipNode
         if self.in_citation:
-            self.markdown_lines.append("\[")
+            self.markdown_lines.append(r"\[")
 
     def depart_label(self, node):
         if self.in_citation:
-            self.markdown_lines.append("\] ")
+            self.markdown_lines.append(r"\] ")
 
     # ===============================================
     #  code blocks are implemented in the superclass
@@ -1145,6 +1148,276 @@ class JupyterTranslator(JupyterCodeTranslator, object):
         self.in_caption = False
         if self.in_toctree:
             self.markdown_lines.append("\n")
+
+    # ==================
+    # sphinx-proof Nodes
+    # ==================
+    
+    def _get_proof_node_number(self, node, node_type):
+        """
+        Helper to get the number for a sphinx-proof enumerable node.
+        Returns formatted number string or empty string if unnumbered.
+        """
+        try:
+            # Check if node is unnumbered
+            if 'nonumber' in node.attributes or node.get('nonumber', False):
+                return ""
+            
+            label = node.get('label', '')
+            if not label:
+                return ""
+            
+            docname = self.builder.docname
+            fig_num = self.builder.env.toc_fignumbers.get(docname, {})
+            
+            if node_type in fig_num and label in fig_num[node_type]:
+                number = fig_num[node_type][label]
+                return ".".join(map(str, number))
+        except Exception:
+            pass
+        
+        return ""
+
+    def _format_proof_title(self, node, directive_name, display_name=None):
+        """
+        Helper to format the title/header for sphinx-proof directives.
+        
+        Args:
+            node: The docutils node
+            directive_name: The directive type (e.g., 'theorem', 'axiom')
+            display_name: Optional custom display name (defaults to title-cased directive_name)
+        """
+        if display_name is None:
+            display_name = directive_name.title()
+        
+        # Get number if available
+        number = self._get_proof_node_number(node, directive_name)
+        
+        # Get title from node's title child if present
+        title_text = ""
+        if node.children:
+            for child in node.children:
+                if isinstance(child, nodes.title):
+                    title_text = child.astext()
+                    break
+                elif child.tagname == 'title':
+                    title_text = child.astext()
+                    break
+        
+        # sphinx-proof may wrap titles in parentheses already - strip them
+        if title_text:
+            title_text = title_text.strip()
+            if title_text.startswith('(') and title_text.endswith(')'):
+                title_text = title_text[1:-1].strip()
+        
+        # Build the header
+        header = f"**{display_name}"
+        if number:
+            header += f" {number}"
+        header += "**"
+        
+        if title_text:
+            header += f" ({title_text})"
+        
+        return header + "\n\n"
+
+    def visit_theorem_node(self, node):
+        """Handle sphinx-proof theorem directive."""
+        self.add_markdown_cell()
+        header = self._format_proof_title(node, 'theorem', 'Theorem')
+        self.markdown_lines.append(header)
+        # Remove title node from children to avoid duplicate processing
+        self._remove_title_node(node)
+
+    def depart_theorem_node(self, node):
+        self.add_markdown_cell()
+    
+    def _remove_title_node(self, node):
+        """Helper to remove title node from children to prevent duplicate rendering."""
+        if node.children:
+            node.children = [child for child in node.children 
+                           if not (isinstance(child, nodes.title) or child.tagname == 'title')]
+
+    def visit_axiom_node(self, node):
+        """Handle sphinx-proof axiom directive."""
+        self.add_markdown_cell()
+        header = self._format_proof_title(node, 'axiom', 'Axiom')
+        self.markdown_lines.append(header)
+        self._remove_title_node(node)
+
+    def depart_axiom_node(self, node):
+        self.add_markdown_cell()
+
+    def visit_lemma_node(self, node):
+        """Handle sphinx-proof lemma directive."""
+        self.add_markdown_cell()
+        header = self._format_proof_title(node, 'lemma', 'Lemma')
+        self.markdown_lines.append(header)
+        self._remove_title_node(node)
+
+    def depart_lemma_node(self, node):
+        self.add_markdown_cell()
+
+    def visit_definition_node(self, node):
+        """Handle sphinx-proof definition directive."""
+        self.add_markdown_cell()
+        header = self._format_proof_title(node, 'definition', 'Definition')
+        self.markdown_lines.append(header)
+        self._remove_title_node(node)
+
+    def depart_definition_node(self, node):
+        self.add_markdown_cell()
+
+    def visit_remark_node(self, node):
+        """Handle sphinx-proof remark directive."""
+        self.add_markdown_cell()
+        header = self._format_proof_title(node, 'remark', 'Remark')
+        self.markdown_lines.append(header)
+        self._remove_title_node(node)
+
+    def depart_remark_node(self, node):
+        self.add_markdown_cell()
+
+    def visit_conjecture_node(self, node):
+        """Handle sphinx-proof conjecture directive."""
+        self.add_markdown_cell()
+        header = self._format_proof_title(node, 'conjecture', 'Conjecture')
+        self.markdown_lines.append(header)
+        self._remove_title_node(node)
+
+    def depart_conjecture_node(self, node):
+        self.add_markdown_cell()
+
+    def visit_corollary_node(self, node):
+        """Handle sphinx-proof corollary directive."""
+        self.add_markdown_cell()
+        header = self._format_proof_title(node, 'corollary', 'Corollary')
+        self.markdown_lines.append(header)
+        self._remove_title_node(node)
+
+    def depart_corollary_node(self, node):
+        self.add_markdown_cell()
+
+    def visit_algorithm_node(self, node):
+        """Handle sphinx-proof algorithm directive."""
+        self.add_markdown_cell()
+        header = self._format_proof_title(node, 'algorithm', 'Algorithm')
+        self.markdown_lines.append(header)
+        self._remove_title_node(node)
+
+    def depart_algorithm_node(self, node):
+        self.add_markdown_cell()
+
+    def visit_criterion_node(self, node):
+        """Handle sphinx-proof criterion directive."""
+        self.add_markdown_cell()
+        header = self._format_proof_title(node, 'criterion', 'Criterion')
+        self.markdown_lines.append(header)
+        self._remove_title_node(node)
+
+    def depart_criterion_node(self, node):
+        self.add_markdown_cell()
+
+    def visit_example_node(self, node):
+        """Handle sphinx-proof example directive."""
+        self.add_markdown_cell()
+        header = self._format_proof_title(node, 'example', 'Example')
+        self.markdown_lines.append(header)
+        self._remove_title_node(node)
+
+    def depart_example_node(self, node):
+        self.add_markdown_cell()
+
+    def visit_property_node(self, node):
+        """Handle sphinx-proof property directive."""
+        self.add_markdown_cell()
+        header = self._format_proof_title(node, 'property', 'Property')
+        self.markdown_lines.append(header)
+        self._remove_title_node(node)
+
+    def depart_property_node(self, node):
+        self.add_markdown_cell()
+
+    def visit_observation_node(self, node):
+        """Handle sphinx-proof observation directive."""
+        self.add_markdown_cell()
+        header = self._format_proof_title(node, 'observation', 'Observation')
+        self.markdown_lines.append(header)
+        self._remove_title_node(node)
+
+    def depart_observation_node(self, node):
+        self.add_markdown_cell()
+
+    def visit_proposition_node(self, node):
+        """Handle sphinx-proof proposition directive."""
+        self.add_markdown_cell()
+        header = self._format_proof_title(node, 'proposition', 'Proposition')
+        self.markdown_lines.append(header)
+        self._remove_title_node(node)
+
+    def depart_proposition_node(self, node):
+        self.add_markdown_cell()
+
+    def visit_assumption_node(self, node):
+        """Handle sphinx-proof assumption directive."""
+        self.add_markdown_cell()
+        header = self._format_proof_title(node, 'assumption', 'Assumption')
+        self.markdown_lines.append(header)
+        self._remove_title_node(node)
+
+    def depart_assumption_node(self, node):
+        self.add_markdown_cell()
+
+    def visit_notation_node(self, node):
+        """Handle sphinx-proof notation directive."""
+        self.add_markdown_cell()
+        header = self._format_proof_title(node, 'notation', 'Notation')
+        self.markdown_lines.append(header)
+        self._remove_title_node(node)
+
+    def depart_notation_node(self, node):
+        self.add_markdown_cell()
+
+    def visit_proof_node(self, node):
+        """Handle sphinx-proof proof directive (unenumerable)."""
+        self.add_markdown_cell()
+        # Proof directives are typically not numbered
+        self.markdown_lines.append("**Proof.**\n\n")
+
+    def depart_proof_node(self, node):
+        self.add_markdown_cell()
+
+    def visit_unenumerable_node(self, node):
+        """
+        Handle sphinx-proof unenumerable nodes (directives with :nonumber: option).
+        These still have a type but no numbering.
+        """
+        self.add_markdown_cell()
+        node_type = node.get('type', '')
+        
+        # Get title if present
+        title_text = ""
+        if node.children:
+            for child in node.children:
+                if isinstance(child, nodes.title):
+                    title_text = child.astext()
+                    break
+                elif child.tagname == 'title':
+                    title_text = child.astext()
+                    break
+        
+        # Format header
+        display_name = node_type.title() if node_type else "Note"
+        header = f"**{display_name}**"
+        
+        if title_text:
+            header += f" ({title_text})"
+        
+        self.markdown_lines.append(header + "\n\n")
+        self._remove_title_node(node)
+
+    def depart_unenumerable_node(self, node):
+        self.add_markdown_cell()
 
     # 
     # Support for sphinx-exercise (enumberable nodes)

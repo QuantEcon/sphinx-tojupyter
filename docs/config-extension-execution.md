@@ -51,7 +51,7 @@ Enables the execution of generated notebooks
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_execute_notebooks = True
 ```
 
@@ -63,7 +63,7 @@ The key/value pairs will contain the names of the notebook files.
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 # add your dependency lists here
 jupyter_dependency_lists = {
    'python_advanced_features' : ['python_essentials','python_oop'],
@@ -78,7 +78,7 @@ the directory level.
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_dependencies = {
     <dir> : ['file1', 'file2'],
     {<dir>}/<file.rst> : ['file1']

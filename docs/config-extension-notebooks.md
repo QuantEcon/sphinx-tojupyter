@@ -42,7 +42,7 @@ Specifies which writer to use when constructing notebooks.
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_conversion_mode = "all"
 ```
 
@@ -52,7 +52,7 @@ Specify path to _static folder.
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_static_file_path = ["source/_static"]
 ```
 
@@ -62,7 +62,7 @@ Add a header block to every generated notebook by specifying an RST file
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_header_block = ["source/welcome.rst"]
 ```
 
@@ -72,7 +72,7 @@ Specify default language for collection of RST files
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_default_lang = "python3"
 ```
 
@@ -86,7 +86,7 @@ the same kernel
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_lang_synonyms = ["pycon", "ipython"]
 ```
 
@@ -98,7 +98,7 @@ This is used by jupyter to connect the correct language kernel and is **required
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_kernels = {
     "python3": {
         "kernelspec": {
@@ -200,7 +200,7 @@ but shouldn't be included in coverage tests.
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_ignore_no_execute = True
 ```
 
@@ -222,7 +222,7 @@ for code-blocks.
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_ignore_skip_test = True
 ```
 
@@ -243,7 +243,7 @@ Enable this option to allow `.. only:: html` pass through to the notebooks.
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_allow_html_only = True
 ```
 
@@ -270,7 +270,7 @@ Supported Features:
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_target_html = True
 ```
 
@@ -296,7 +296,7 @@ in RST.
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_images_markdown = True
 ```
 
@@ -306,7 +306,7 @@ Specify file or directory level dependencies
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_dependencies = {
     <dir> : ['file1', 'file2'],
     {<dir>}/<file.rst> : ['file1']

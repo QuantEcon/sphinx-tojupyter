@@ -25,7 +25,7 @@ Provide path to latex nbconvert template file
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_latex_template = "theme/templates/latex.tpl"
 ```
 
@@ -35,7 +35,7 @@ Add project logo to pdf document
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_pdf_logo = "theme/img/logo.png"
 ```
 
@@ -45,7 +45,7 @@ Provide path to bibtex file for reference support
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_bib_file = "_static/references.bib"
 ```
 
@@ -55,7 +55,7 @@ Specify Author Field for PDF document
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_pdf_author = "QuantEcon Developers"
 ```
 
@@ -83,7 +83,7 @@ link modification.
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_pdf_urlpath  = "https://lectures.quantecon.org/"
 ```
 
@@ -93,7 +93,7 @@ Exclude certainly documents from getting compiled as pdf files.
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_pdf_excludepatterns = ["index", "404", "search"]
 ```
 

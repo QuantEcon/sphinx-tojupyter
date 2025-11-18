@@ -153,7 +153,7 @@ sphinx:
 
 ## Example
 
-See the [test suite](../../tests/latex_macros/) for a complete working example.
+See the test suite in `tests/latex_macros/` for a complete working example.
 
 ## Related
 

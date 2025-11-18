@@ -1,46 +1,137 @@
-name: Run Tests
-on: [push]
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+    tags:
+      - '*'
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
 jobs:
   tests:
+    name: Python ${{ matrix.python-version }} - Sphinx ${{ matrix.sphinx-version }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+        sphinx-version: ["7.4", "8.2"]
+    
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-      - name: Setup Anaconda
-        uses: conda-incubator/setup-miniconda@v3
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
         with:
-          auto-update-conda: true
-          auto-activate-base: true
-          miniconda-version: 'latest'
-          python-version: 3.13
-          environment-file: tests/project/lecture-python-programming.myst/environment.yml
-          activate-environment: quantecon
-      - name: Install sphinx-tojupyter
-        shell: bash -l {0}
+          python-version: ${{ matrix.python-version }}
+      
+      - name: Install nox
         run: |
-          python setup.py install
-      - name: Run Tests
-        shell: bash -l {0}
+          python -m pip install --upgrade pip
+          pip install nox
+      
+      - name: Run tests
         run: |
-          cd tests && make test
+          nox -s "tests-${{ matrix.python-version }}(sphinx='${{ matrix.sphinx-version }}')"
+  
+  full-tests:
+    name: Full test suite (Python ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ["3.11", "3.12"]
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      
+      - name: Install nox
+        run: |
+          python -m pip install --upgrade pip
+          pip install nox
+      
+      - name: Run full test suite
+        run: |
+          nox -s tests-full
+  
+  lint:
+    name: Linting
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      
+      - name: Install nox
+        run: |
+          python -m pip install --upgrade pip
+          pip install nox
+      
+      - name: Run linting
+        run: |
+          nox -s lint
+  
+  docs:
+    name: Documentation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      
+      - name: Install nox
+        run: |
+          python -m pip install --upgrade pip
+          pip install nox
+      
+      - name: Build docs
+        run: |
+          nox -s docs
+      
+      - name: Upload docs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: docs/_build/html
+  
   publish:
     name: Publish to PyPi
-    needs: [tests]
-    if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+    needs: [tests, full-tests, lint, docs]
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout source
-        uses: actions/checkout@v5
-      - name: Set up Python 3.13
-        uses: actions/setup-python@v6
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.13
+          python-version: "3.11"
+      
       - name: Build package
         run: |
           pip install wheel setuptools
           python setup.py bdist_wheel sdist
-      - name: Publish
-        uses: pypa/gh-action-pypi-publish@v1.13.0
+      
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
           password: ${{ secrets.PYPI_KEY }}

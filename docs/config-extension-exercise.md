@@ -36,7 +36,7 @@ Enable inclusion / exclusion of exercises directives contained in the rst
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 exercise_include_exercise = False
 ```
 

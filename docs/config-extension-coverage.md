@@ -48,7 +48,7 @@ Document format for template
 
 `conf.py` usage:
 
-```{code-cell} python
+```python
 jupyter_template_coverage_file_path = "theme/templates/<file>.json"
 ```
 

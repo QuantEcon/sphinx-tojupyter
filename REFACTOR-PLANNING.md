@@ -90,28 +90,30 @@ Generate high-quality Jupyter notebooks (`.ipynb`) from Sphinx documentation sou
 - [x] **Delete site builder**: `sphinx_tojupyter/writers/make_site.py`
 - [x] **Delete HTML converter**: `sphinx_tojupyter/writers/convert.py`
 
-### 1.2: Clean Up Jupyter Builder
+### 1.2: Clean Up Jupyter Builder ✅
 
 File: `sphinx_tojupyter/builders/jupyter.py`
 
-- [ ] Remove Dask client imports and initialization
-- [ ] Remove `ExecuteNotebookWriter` import and usage
-- [ ] Remove `MakeSiteWriter` import and usage
-- [ ] Remove `convertToHtmlWriter` import and usage
-- [ ] Remove execution-related instance variables:
+- [x] Remove Dask client imports and initialization
+- [x] Remove `ExecuteNotebookWriter` import and usage
+- [x] Remove `MakeSiteWriter` import and usage
+- [x] Remove `convertToHtmlWriter` import and usage
+- [x] Remove execution-related instance variables:
   - `execution_vars`
   - `download_execution_vars`
   - `client`
   - `execution_status_code`
   - `futures`, `futuresInfo`, `dask_log`
   - `threads_per_worker`, `n_workers`
-- [ ] Remove execution logic from `init()` method
-- [ ] Remove execution logic from `prepare_writing()` method
-- [ ] Remove execution logic from `write_doc()` method
-- [ ] Remove execution logic from `finish()` method
-- [ ] Remove `executedir`, `reportdir`, `errordir` directory handling
-- [ ] Remove download directory handling (`downloadsdir`, `downloadsExecutedir`)
-- [ ] Simplify builder to focus only on notebook generation
+- [x] Remove execution logic from `init()` method
+- [x] Remove execution logic from `prepare_writing()` method
+- [x] Remove execution logic from `write_doc()` method
+- [x] Remove execution logic from `finish()` method
+- [x] Remove `executedir`, `reportdir`, `errordir` directory handling
+- [x] Remove download directory handling (`downloadsdir`, `downloadsExecutedir`)
+- [x] Simplify builder to focus only on notebook generation
+
+**Result**: Reduced from 307 lines to 126 lines (59% reduction)
 
 ### 1.3: Clean Up Configuration
 

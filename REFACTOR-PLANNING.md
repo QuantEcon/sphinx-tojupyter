@@ -82,13 +82,13 @@ Generate high-quality Jupyter notebooks (`.ipynb`) from Sphinx documentation sou
 
 **Goal**: Delete all code related to execution, HTML, PDF, and website generation
 
-### 1.1: Delete Obsolete Files
+### 1.1: Delete Obsolete Files ✅
 
-- [ ] **Delete PDF builder**: `sphinx_tojupyter/builders/jupyterpdf.py`
-- [ ] **Delete execution writer**: `sphinx_tojupyter/writers/execute_nb.py`
-- [ ] **Delete PDF writer**: `sphinx_tojupyter/writers/make_pdf.py`
-- [ ] **Delete site builder**: `sphinx_tojupyter/writers/make_site.py`
-- [ ] **Delete HTML converter**: `sphinx_tojupyter/writers/convert.py`
+- [x] **Delete PDF builder**: `sphinx_tojupyter/builders/jupyterpdf.py`
+- [x] **Delete execution writer**: `sphinx_tojupyter/writers/execute_nb.py`
+- [x] **Delete PDF writer**: `sphinx_tojupyter/writers/make_pdf.py`
+- [x] **Delete site builder**: `sphinx_tojupyter/writers/make_site.py`
+- [x] **Delete HTML converter**: `sphinx_tojupyter/writers/convert.py`
 
 ### 1.2: Clean Up Jupyter Builder
 

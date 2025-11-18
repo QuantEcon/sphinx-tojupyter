@@ -59,8 +59,15 @@ author = 'QuantEcon Development Team'
 # built documents.
 #
 # The short X.Y version.
-import pkg_resources
-version = pkg_resources.get_distribution('pip').version
+try:
+    from importlib.metadata import version as get_version
+except ImportError:
+    from importlib_metadata import version as get_version
+
+try:
+    version = get_version('sphinx-tojupyter')
+except Exception:
+    version = 'unknown'
 # The full version, including alpha/beta/rc tags.
 release = version
 

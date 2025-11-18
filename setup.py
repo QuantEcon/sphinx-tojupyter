@@ -41,8 +41,9 @@ setup(
     platforms='any',
     packages=find_packages(),
     include_package_data=True,
+    python_requires='>=3.11',
     install_requires=[
-        'sphinx>=5', 
+        'sphinx>=7.0', 
         'myst-nb>=0.14',  #nb_mime_priority_overrides 
         'pyyaml', 
         'nbformat', 

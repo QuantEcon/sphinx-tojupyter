@@ -17,11 +17,11 @@ List all sessions:
 import nox
 
 # Supported Python versions
-PYTHON_VERSIONS = ["3.9", "3.10", "3.11", "3.12", "3.13"]
+PYTHON_VERSIONS = ["3.11", "3.12", "3.13"]
 DEFAULT_PYTHON = "3.11"
 
 # Sphinx versions to test against
-SPHINX_VERSIONS = ["5.3", "6.2", "7.4", "8.2"]
+SPHINX_VERSIONS = ["7.4", "8.2"]
 
 nox.options.reuse_existing_virtualenvs = True
 nox.options.sessions = ["tests", "lint"]
@@ -35,12 +35,19 @@ def tests(session, sphinx):
     
     Tests basic functionality without optional dependencies.
     """
-    # Install package first without dependencies to avoid Sphinx version conflicts
-    session.install("-e", ".", "--no-deps")
-    # Then install specific Sphinx version
-    session.install(f"sphinx=={sphinx}")
-    # Install other required dependencies
-    session.install("docutils", "myst-parser")
+    # Install with specific Sphinx version constraint to prevent upgrades
+    # Create a temporary constraints file
+    import tempfile
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
+        f.write(f"sphinx=={sphinx}\n")
+        constraints_file = f.name
+    
+    try:
+        session.install("-c", constraints_file, f"sphinx=={sphinx}")
+        session.install("-c", constraints_file, "-e", ".")
+    finally:
+        import os
+        os.unlink(constraints_file)
     
     # Run basic tests
     session.run(

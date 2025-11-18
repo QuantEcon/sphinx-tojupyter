@@ -11,8 +11,15 @@ from .directive.jupyter import jupyter_node
 from .directive.jupyter import Jupyter as JupyterDirective
 from .directive.jupyter import JupyterDependency
 
-import pkg_resources
-VERSION = pkg_resources.get_distribution('pip').version
+try:
+    from importlib.metadata import version as get_version
+except ImportError:
+    from importlib_metadata import version as get_version
+
+try:
+    VERSION = get_version('sphinx-tojupyter')
+except Exception:
+    VERSION = 'unknown'
 
 import sphinx
 SPHINX_VERSION = sphinx.version_info

@@ -35,8 +35,12 @@ def tests(session, sphinx):
     
     Tests basic functionality without optional dependencies.
     """
+    # Install package first without dependencies to avoid Sphinx version conflicts
+    session.install("-e", ".", "--no-deps")
+    # Then install specific Sphinx version
     session.install(f"sphinx=={sphinx}")
-    session.install("-e", ".")
+    # Install other required dependencies
+    session.install("docutils", "myst-parser")
     
     # Run basic tests
     session.run(

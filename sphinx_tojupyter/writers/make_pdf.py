@@ -14,7 +14,6 @@ import subprocess
 from sphinx.util.osutil import ensuredir
 from sphinx.util import logging
 from nbconvert.preprocessors import LatexPreprocessor
-from distutils.dir_util import copy_tree
 from .utils import python27_glob, get_list_of_files
 
 class MakePDFWriter():
@@ -90,7 +89,7 @@ class MakePDFWriter():
 
         ## copies all theme folder images to static folder
         if os.path.exists(builder.confdir + "/theme/static/img"):
-            copy_tree(builder.confdir + "/theme/static/img", self.texdir + "/_static/img/", preserve_symlinks=1)
+            shutil.copytree(builder.confdir + "/theme/static/img", self.texdir + "/_static/img/", symlinks=True, dirs_exist_ok=True)
         else:
             self.logger.warning("Image folder not present inside the theme folder")
 

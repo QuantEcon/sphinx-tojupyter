@@ -1,7 +1,6 @@
 import os
 import shutil
 from sphinx.util.osutil import ensuredir
-from distutils.dir_util import copy_tree
 from sphinx.util import logging
 
 class MakeSiteWriter():
@@ -48,13 +47,13 @@ class MakeSiteWriter():
 
         ## copies all theme files to _static folder 
         if os.path.exists(staticFolder):
-            copy_tree(staticFolder, self.websitedir + "_static/", preserve_symlinks=1)
+            shutil.copytree(staticFolder, self.websitedir + "_static/", symlinks=True, dirs_exist_ok=True)
         else:
             self.logger.warning("static folder not present in the themes directory")
 
         ## copies the helper html files 
         if os.path.exists(htmlFolder):
-            copy_tree(htmlFolder, self.websitedir, preserve_symlinks=1)
+            shutil.copytree(htmlFolder, self.websitedir, symlinks=True, dirs_exist_ok=True)
         else:
             self.logger.warning("html folder not present in the themes directory")
         

@@ -244,7 +244,7 @@ class JupyterTranslator(JupyterCodeTranslator, object):
 
         #Escape Special markdown chars except in code block
         if self.in_code_block == False:
-            text = text.replace("$", "\$")
+            text = text.replace("$", r"\$")
 
         if self.in_math:
             if self.tojupyter_target_pdf:
@@ -673,15 +673,15 @@ class JupyterTranslator(JupyterCodeTranslator, object):
                 self.markdown_lines.append("[")
             elif "refid" in node:
                 if 'equation-' in node['refid']:
-                    self.markdown_lines.append("\eqref{")
+                    self.markdown_lines.append(r"\eqref{")
                 elif self.in_topic:
                     pass
                 else:
-                    self.markdown_lines.append("\hyperlink{")
+                    self.markdown_lines.append(r"\hyperlink{")
             elif "refuri" in node and 'references#' not in node["refuri"]:
                 self.markdown_lines.append("[")
             else:
-                self.markdown_lines.append("\hyperlink{")
+                self.markdown_lines.append(r"\hyperlink{")
         else:
             self.markdown_lines.append("[")
         self.reference_text_start = len(self.markdown_lines)
@@ -1005,11 +1005,11 @@ class JupyterTranslator(JupyterCodeTranslator, object):
                 self.markdown_lines.append("<a id='{}'></a>\n**[{}]** ".format(id_text, node.astext()))
             raise nodes.SkipNode
         if self.in_citation:
-            self.markdown_lines.append("\[")
+            self.markdown_lines.append(r"\[")
 
     def depart_label(self, node):
         if self.in_citation:
-            self.markdown_lines.append("\] ")
+            self.markdown_lines.append(r"\] ")
 
     # ===============================================
     #  code blocks are implemented in the superclass

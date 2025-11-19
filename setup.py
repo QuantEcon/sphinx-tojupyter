@@ -2,16 +2,16 @@
 
 from setuptools import setup, find_packages
 
-VERSION = 'v2.0.0'
+VERSION = 'v1.0.0'
 
 LONG_DESCRIPTION = """
-sphinx-tojupyter v2.0 - Generate High-Quality Jupyter Notebooks from Sphinx Projects
+sphinx-tojupyter v1.0 - Generate High-Quality Jupyter Notebooks from Sphinx Projects
 
 A focused Sphinx extension for converting RST and MyST source files into executable 
 Jupyter notebooks (.ipynb). 
 
-v2.0 is a major refactoring that specializes in notebook generation, removing execution, 
-HTML, and PDF features in favor of seamless Jupyter Book integration.
+v1.0 is the first stable release, specializing in notebook generation and delegating 
+execution, HTML, and PDF features to Jupyter Book for seamless integration.
 
 Features:
 - Convert RST/MyST to Jupyter notebooks

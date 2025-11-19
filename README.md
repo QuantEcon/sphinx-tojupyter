@@ -3,7 +3,7 @@
 A [Sphinx](http://www.sphinx-doc.org/en/stable/) Extension for
 Generating [Jupyter Notebooks](https://jupyter.org/)
 
-**Version 2.0** - Focused on converting RST and MyST source files to Jupyter notebooks. For notebook execution, PDF generation, and website building, use [Jupyter Book](https://jupyterbook.org/).
+**Version 1.0** - Focused on converting RST and MyST source files to Jupyter notebooks. For notebook execution, PDF generation, and website building, use [Jupyter Book](https://jupyterbook.org/).
 
 ## Installation
 

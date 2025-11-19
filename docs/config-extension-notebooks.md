@@ -13,7 +13,7 @@ kernelspec:
 # Constructing Jupyter Notebooks
 
 ```{note}
-**Version 2.0** focuses on notebook generation only. For execution, PDF, or HTML features, 
+**Version 1.0** focuses on notebook generation only. For execution, PDF, or HTML features, 
 see the [migration guide](https://github.com/QuantEcon/sphinx-tojupyter/blob/main/MIGRATION.md).
 ```
 

@@ -1,8 +1,8 @@
-# sphinx-tojupyter v2.0 Refactoring Plan
+# sphinx-tojupyter v1.0 Refactoring Plan
 
 **Goal**: Transform sphinx-tojupyter from a multi-purpose tool into a focused, specialized extension for generating high-quality Jupyter notebooks from RST and MyST source files.
 
-**Strategy**: Clean v1.0 → v2.0 breaking change, removing all execution, HTML generation, and PDF features in favor of Jupyter Book integration.
+**Strategy**: Clean v0.6.0 → v1.0.0 release, removing all execution, HTML generation, and PDF features in favor of Jupyter Book integration.
 
 **Timeline**: Single major PR for complete refactoring
 
@@ -10,9 +10,9 @@
 
 ---
 
-## 🎯 Mission Statement (v2.0)
+## 🎯 Mission Statement (v1.0)
 
-**sphinx-tojupyter v2.0 does ONE thing exceptionally well:**
+**sphinx-tojupyter v1.0 does ONE thing exceptionally well:**
 Generate high-quality Jupyter notebooks (`.ipynb`) from Sphinx documentation source files (RST & MyST).
 
 **What we DO:**
@@ -51,22 +51,17 @@ Generate high-quality Jupyter notebooks (`.ipynb`) from Sphinx documentation sou
 
 ### Checklist
 
-- [x] **Tag current state as v1.0.0**
-  ```bash
-  git tag -a v1.0.0 -m "Release v1.0.0 - Final version before v2.0 refactoring"
-  git push origin v1.0.0
-  ```
+- [x] **v0.6.0 serves as baseline** - Users can pin to this version if needed
 
-- [x] **Create GitHub release for v1.0.0** - Complete with release notes
-
-- [x] **Create v2.0 development branch**
+- [x] **Create v1.0 development branch**
   ```bash
   git checkout -b v2-refactor
   ```
+  Note: Branch name kept as v2-refactor for historical reasons
 
-- [x] **Document current feature list** (documented in v1.0.0 release notes)
+- [x] **Document current feature list** (documented in project history)
 
-- [x] **Create backup/archive** of current state - v1.0.0 tag serves as backup
+- [x] **Create backup/archive** of current state - v0.6.0 tag serves as backup
 
 **Exit Criteria**: 
 - ✅ v1.0.0 tag exists
@@ -193,15 +188,15 @@ File: `sphinx_tojupyter/__init__.py`
 
 File: `setup.py`
 
-- [x] Update `VERSION` to `'v2.0.0'`
-- [x] Update `LONG_DESCRIPTION` with v2.0 information
+- [x] Update `VERSION` to `'v1.0.0'`
+- [x] Update `LONG_DESCRIPTION` with v1.0 information
 - [x] Remove `dask[distributed]` from `install_requires`
 - [x] Remove `nbdime` from `install_requires`
 - [x] Remove `nox` from install_requires (moved to test/dev extras only)
 - [x] Keep `nbconvert` - still needed for core conversion
 - [x] Keep: `sphinx>=7.0`, `myst-nb>=0.14`, `pyyaml`, `nbformat`
 - [x] Update classifiers to reflect Production/Stable and Jupyter focus
-- [x] Update description to reflect v2.0 focus
+- [x] Update description to reflect v1.0 focus
 
 **Result**: Dependencies reduced from 7 to 5 (29% reduction)
 
@@ -315,12 +310,12 @@ sphinx_tojupyter/
 
 ## 📝 Phase 3: Documentation Overhaul
 
-**Goal**: Create clear, focused documentation for v2.0
+**Goal**: Create clear, focused documentation for v1.0
 
 ### 3.1: Create Migration Guide
 
 - [ ] **Create `docs/migration-v2.md`** with:
-  - Overview of v2.0 changes
+  - Overview of v1.0 changes
   - Breaking changes list
   - Configuration mapping (old → new)
   - Feature alternatives (execution → Jupyter Book)
@@ -330,7 +325,7 @@ sphinx_tojupyter/
 ### 3.2: Update Main Documentation
 
 - [ ] **Update `docs/index.md`**:
-  - Clear v2.0 mission statement
+  - Clear v1.0 mission statement
   - Feature list (what we DO and DON'T do)
   - Quick start example
   - Link to migration guide
@@ -368,7 +363,7 @@ sphinx_tojupyter/
   - Execution, HTML, PDF with Jupyter Book
 
 - [ ] **Update `docs/examples.md`**:
-  - Update examples to reflect v2.0
+  - Update examples to reflect v1.0
   - Remove execution/HTML/PDF examples
   - Add Jupyter Book workflow examples
 
@@ -383,14 +378,14 @@ sphinx_tojupyter/
 
 - [ ] **Update remaining docs**:
   - `docs/config-extension.md` - remove obsolete sections
-  - `docs/config-project.md` - update for v2.0
+  - `docs/config-project.md` - update for v1.0
   - `docs/config-example.md` - simplify example configuration
 
 ### 3.4: Update README
 
 - [ ] **Update `README.md`** with:
-  - Clear v2.0 positioning
-  - "What's New in v2.0" section
+  - Clear v1.0 positioning
+  - "What's New in v1.0" section
   - Simplified feature list
   - Installation instructions
   - Quick start (3-5 lines)
@@ -402,7 +397,7 @@ sphinx_tojupyter/
 ### 3.5: Update CHANGELOG
 
 - [ ] **Update `CHANGELOG.md`** with:
-  - v2.0.0 entry with complete breaking changes list
+  - v1.0.0 entry with complete breaking changes list
   - v1.0.0 entry noting it as final v1.x release
   - Migration instructions reference
 
@@ -410,17 +405,17 @@ sphinx_tojupyter/
 
 - [ ] **Update `docs/config-example.md`**:
   - Remove all obsolete config options
-  - Show clean v2.0 configuration
+  - Show clean v1.0 configuration
   - Add comments explaining each option
 
 - [ ] **Update test configurations**:
   - `tests/base/conf.py` - simplify
-  - `tests/glue/conf.py` - ensure works with v2.0
+  - `tests/glue/conf.py` - ensure works with v1.0
   - Other test conf.py files
 
 **Exit Criteria**: 
 - ✅ Complete migration guide exists
-- ✅ All documentation reflects v2.0 reality
+- ✅ All documentation reflects v1.0 reality
 - ✅ No references to removed features (except in migration guide)
 - ✅ Clear Jupyter Book integration story
 - ✅ README is compelling and accurate
@@ -429,7 +424,7 @@ sphinx_tojupyter/
 
 ## 🧪 Phase 4: Update Tests
 
-**Goal**: Ensure tests reflect v2.0 scope and all pass
+**Goal**: Ensure tests reflect v1.0 scope and all pass
 
 ### 4.1: Remove Obsolete Tests
 
@@ -446,7 +441,7 @@ sphinx_tojupyter/
 
 - [ ] **Review `tests/base/`**:
   - Ensure all tests still relevant
-  - Update conf.py for v2.0
+  - Update conf.py for v1.0
   - Fix any broken tests from refactoring
   - Ensure RST → notebook conversion works
 
@@ -467,16 +462,16 @@ sphinx_tojupyter/
 ### 4.3: Update Test Documentation
 
 - [ ] **Update `tests/README.md`**:
-  - Reflect v2.0 test structure
+  - Reflect v1.0 test structure
   - Remove references to obsolete tests
   - Update test running instructions
 
 - [ ] **Update `TESTING.md`** (if exists):
-  - Update for v2.0 scope
+  - Update for v1.0 scope
   - Simplify test suite description
 
 - [ ] **Update `TESTING_QUANTECON.md`** (if relevant):
-  - Update for QuantEcon specific usage with v2.0
+  - Update for QuantEcon specific usage with v1.0
 
 ### 4.4: Add New Tests (if needed)
 
@@ -509,14 +504,14 @@ sphinx_tojupyter/
 
 ## 🔖 Phase 5: Version and Release Preparation
 
-**Goal**: Finalize v2.0 for release
+**Goal**: Finalize v1.0 for release
 
 ### 5.1: Update Version Information
 
 - [ ] **Update `setup.py`**:
-  - Ensure `VERSION = 'v2.0.0'`
-  - Update `LONG_DESCRIPTION` with v2.0 focus
-  - Update `download_url` for v2.0.0 tag
+  - Ensure `VERSION = 'v1.0.0'`
+  - Update `LONG_DESCRIPTION` with v1.0 focus
+  - Update `download_url` for v1.0.0 tag
   - Update classifiers if needed
 
 - [ ] **Update `sphinx_tojupyter/__init__.py`**:
@@ -525,7 +520,7 @@ sphinx_tojupyter/
 
 ### 5.2: Final CHANGELOG Update
 
-- [ ] **Complete `CHANGELOG.md`** entry for v2.0.0:
+- [ ] **Complete `CHANGELOG.md`** entry for v1.0.0:
   - Add release date
   - Ensure all breaking changes listed
   - Ensure all removals documented
@@ -552,13 +547,13 @@ sphinx_tojupyter/
 ### 5.5: Create Release Materials
 
 - [ ] **Write PR description** with:
-  - Summary of v2.0 changes
+  - Summary of v1.0 changes
   - Breaking changes highlights
   - Migration instructions
   - Testing done
   - Links to documentation
 
-- [ ] **Prepare release notes** for v2.0.0:
+- [ ] **Prepare release notes** for v1.0.0:
   - User-friendly summary
   - Feature highlights
   - Breaking changes
@@ -575,14 +570,14 @@ sphinx_tojupyter/
 
 ## 🚢 Phase 6: Release
 
-**Goal**: Ship v2.0 to users
+**Goal**: Ship v1.0 to users
 
 ### 6.1: Final Commit and PR
 
 - [ ] **Commit all changes**:
   ```bash
   git add -A
-  git commit -m "Refactor to v2.0 - Focus on notebook generation only"
+  git commit -m "Refactor to v1.0 - Focus on notebook generation only"
   ```
 
 - [ ] **Push branch**:
@@ -592,7 +587,7 @@ sphinx_tojupyter/
 
 - [ ] **Create PR** to main:
   ```bash
-  gh pr create --title "v2.0 Refactoring - Specialized Notebook Generator" \
+  gh pr create --title "v1.0 Refactoring - Specialized Notebook Generator" \
     --body "$(cat PR_TEMPLATE.md)"
   ```
 
@@ -609,13 +604,13 @@ sphinx_tojupyter/
   ```bash
   git checkout main
   git pull origin main
-  git tag -a v2.0.0 -m "Release v2.0.0 - Focused notebook generator"
-  git push origin v2.0.0
+  git tag -a v1.0.0 -m "Release v1.0.0 - Focused notebook generator"
+  git push origin v1.0.0
   ```
 
 - [ ] **Create GitHub release**:
-  - Use tag v2.0.0
-  - Title: "v2.0.0 - Major Refactoring"
+  - Use tag v1.0.0
+  - Title: "v1.0.0 - Major Refactoring"
   - Description: Release notes
   - Mark as major release
 
@@ -652,9 +647,9 @@ sphinx_tojupyter/
 - [ ] **Be ready to do patch release** if critical bugs found
 
 **Exit Criteria**: 
-- ✅ v2.0.0 merged to main
-- ✅ v2.0.0 tagged and released on GitHub
-- ✅ v2.0.0 available on PyPI
+- ✅ v1.0.0 merged to main
+- ✅ v1.0.0 tagged and released on GitHub
+- ✅ v1.0.0 available on PyPI
 - ✅ Documentation updated
 - ✅ Release announced
 
@@ -671,7 +666,7 @@ sphinx_tojupyter/
 
 ### Key Decisions Made
 <!-- Document important decisions as we go -->
-1. v1.0 → v2.0 clean break (no deprecation period)
+1. v1.0 → v1.0 clean break (no deprecation period)
 2. Single PR for entire refactoring
 3. Remove all execution/HTML/PDF features
 4. Focus solely on notebook generation
@@ -735,7 +730,7 @@ See Phase 1, Section 1.3 for complete list
 
 ## 🎉 Success Criteria
 
-v2.0 is ready when:
+v1.0 is ready when:
 - ✅ All obsolete features removed
 - ✅ Codebase reduced by ~50%
 - ✅ Config options reduced to ~12
@@ -745,4 +740,4 @@ v2.0 is ready when:
 - ✅ Migration guide is comprehensive
 - ✅ Can generate notebooks from RST/MyST sources
 - ✅ Works seamlessly with Jupyter Book
-- ✅ v2.0.0 released to PyPI
+- ✅ v1.0.0 released to PyPI

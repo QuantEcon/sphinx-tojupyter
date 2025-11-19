@@ -12,7 +12,7 @@ kernelspec:
 (config_extension)=
 # Extension Configuration and Options
 
-Version 2.0 focuses on notebook generation from RST and MyST source files.
+Version 1.0 focuses on notebook generation from RST and MyST source files.
 
 ## Notebook Configuration
 

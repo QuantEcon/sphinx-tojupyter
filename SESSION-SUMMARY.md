@@ -1,7 +1,7 @@
-# v2.0 Refactoring Session Summary
+# v1.0 Refactoring Session Summary
 
 ## Overview
-Successfully completed Phase 1-2 of v2.0 refactoring, removing PDF/HTML/book_index logic and validating all tests.
+Successfully completed Phase 1-2 of v1.0 refactoring, removing PDF/HTML/book_index logic and validating all tests.
 
 ## Accomplishments
 
@@ -125,7 +125,7 @@ Individual session: 3-13 seconds
 - ✅ **Phase 2:** Reorganize (structure flattened, translators/ created)
 - ✅ **Phase 2.5:** Translator Cleanup (220 lines removed, validated)
 - 🔲 **Phase 3:** Documentation Overhaul
-- 🔲 **Phase 4:** Update Tests (add new v2.0 specific tests)
+- 🔲 **Phase 4:** Update Tests (add new v1.0 specific tests)
 - 🔲 **Phase 5:** Version and Release Prep
 - 🔲 **Phase 6:** Release
 
@@ -209,11 +209,11 @@ Individual session: 3-13 seconds
 
 ## Conclusion
 
-The v2.0 refactoring is progressing excellently:
+The v1.0 refactoring is progressing excellently:
 - **220 lines removed** with **zero behavior changes**
 - **All tests pass** across **6 Python/Sphinx combinations**
 - **Test suite enhanced** with better organization
 - **Ready to proceed** to documentation phase
 
-The next major milestone is updating documentation to reflect the simplified v2.0 architecture and creating a migration guide for users.
+The next major milestone is updating documentation to reflect the simplified v1.0 architecture and creating a migration guide for users.
 

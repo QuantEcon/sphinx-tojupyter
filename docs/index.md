@@ -13,11 +13,11 @@ kernelspec:
 
 This sphinx extension converts RST and MyST source files to Jupyter notebooks.
 
-**Version 2.0** focuses solely on notebook generation. For notebook execution, PDF generation, 
+**Version 1.0** focuses solely on notebook generation. For notebook execution, PDF generation, 
 and website building, use [Jupyter Book](https://jupyterbook.org/).
 
 ```{note}
-Version 2.0 is a major refactoring that removes PDF, HTML, and execution features.
+Version 1.0 is a major refactoring that removes PDF, HTML, and execution features.
 See the [migration guide](https://github.com/QuantEcon/sphinx-tojupyter/blob/main/MIGRATION.md) 
 if upgrading from v1.x.
 ```

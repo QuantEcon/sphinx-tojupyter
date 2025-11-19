@@ -4,15 +4,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-## [2.0.0] - 2024-TBD
+## [1.0.0] - 2024-11-19
 
-### 🚀 Major Refactoring - Breaking Changes
+### 🎉 First Stable Release
 
-Version 2.0 **focuses solely on converting RST and MyST source files to Jupyter notebooks**. 
-PDF generation, HTML website building, and notebook execution have been removed. Use 
-[Jupyter Book](https://jupyterbook.org/) for these features.
+Version 1.0 is the first stable release of sphinx-tojupyter, **focused solely on converting 
+RST and MyST source files to high-quality Jupyter notebooks**. PDF generation, HTML website 
+building, and notebook execution have been removed in favor of seamless integration with 
+[Jupyter Book](https://jupyterbook.org/).
 
-See [MIGRATION.md](MIGRATION.md) for detailed migration instructions.
+See [MIGRATION.md](MIGRATION.md) for upgrade instructions from v0.6.0.
 
 ### ❌ Removed Features
 

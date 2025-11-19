@@ -1,8 +1,8 @@
-# Migration Guide: v1.x to v2.0
+# Migration Guide: v0.6.0 to v1.0.0
 
 ## Overview
 
-Version 2.0 is a **major refactoring** that focuses `sphinx-tojupyter` on its core strength: 
+Version 1.0.0 is the **first stable release** that focuses `sphinx-tojupyter` on its core strength: 
 converting RST and MyST source files to Jupyter notebooks.
 
 **What Changed:**
@@ -16,7 +16,7 @@ converting RST and MyST source files to Jupyter notebooks.
 - ✅ **Enhanced:** LaTeX macro support
 
 **Rationale:** Jupyter Book and MyST-NB provide excellent execution, PDF generation, and 
-website building capabilities. Version 2.0 delegates these features to focus on producing 
+website building capabilities. Version 1.0 delegates these features to focus on producing 
 high-quality notebooks from documentation source.
 
 ## Breaking Changes
@@ -107,7 +107,7 @@ jupyter-book build --builder pdflatex yourbook/
 The following core notebook generation options **remain supported**:
 
 ```python
-# ✅ Supported in v2.0
+# ✅ Supported in v1.0
 extensions = ["sphinx_tojupyter"]
 
 jupyter_conversion_mode = "all"  # or "code"
@@ -162,7 +162,7 @@ pip install 'sphinx-tojupyter<2.0'
    jupyter-book create mybook/
    ```
 
-3. **Use sphinx-tojupyter v2.0 for notebook generation:**
+3. **Use sphinx-tojupyter v1.0 for notebook generation:**
    ```python
    # conf.py
    extensions = ["sphinx_tojupyter"]
@@ -191,7 +191,7 @@ pip install 'sphinx-tojupyter<2.0'
 
 ### Strategy 3: Hybrid Approach
 
-Use sphinx-tojupyter v2.0 for notebook generation, then use specialized tools:
+Use sphinx-tojupyter v1.0 for notebook generation, then use specialized tools:
 
 - **Execution:** [myst-nb](https://myst-nb.readthedocs.io/) or [papermill](https://papermill.readthedocs.io/)
 - **PDF:** [nbconvert](https://nbconvert.readthedocs.io/) or Jupyter Book
@@ -207,7 +207,7 @@ jupyter_execute_notebooks = True
 jupyter_cache_execute = True
 ```
 
-**v2.0 + Jupyter Book:**
+**v1.0 + Jupyter Book:**
 ```python
 extensions = ["jupyter_book"]
 nb_execution_mode = "cache"
@@ -220,7 +220,7 @@ nb_execution_mode = "cache"
 make jupyterpdf
 ```
 
-**v2.0 + Jupyter Book:**
+**v1.0 + Jupyter Book:**
 ```bash
 jupyter-book build --builder pdflatex mybook/
 ```
@@ -233,14 +233,14 @@ jupyter_make_site = True
 jupyter_generate_html = True
 ```
 
-**v2.0 + Jupyter Book:**
+**v1.0 + Jupyter Book:**
 ```bash
 jupyter-book build mybook/
 ```
 
-### MyST-NB Glue (Enhanced in v2.0)
+### MyST-NB Glue (Enhanced in v1.0)
 
-**v2.0 has full support:**
+**v1.0 has full support:**
 
 ```markdown
 \```{code-cell} ipython3
@@ -251,9 +251,9 @@ glue("my_variable", 42)
 The answer is {glue:text}`my_variable`.
 ```
 
-### sphinx-proof (Enhanced in v2.0)
+### sphinx-proof (Enhanced in v1.0)
 
-**v2.0 has full support:**
+**v1.0 has full support:**
 
 ```markdown
 \```{prf:theorem} Pythagorean Theorem
@@ -271,6 +271,6 @@ For questions or issues during migration:
 
 ## Version History
 
-- **v2.0.0** (2024) - Focus on notebook generation, remove PDF/HTML/execution
+- **v1.0.0** (2024) - Focus on notebook generation, remove PDF/HTML/execution
 - **v1.0.0** (2023) - Stable release with all features
 - **v0.6.0** and earlier - Development releases

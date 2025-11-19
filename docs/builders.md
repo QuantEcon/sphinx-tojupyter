@@ -13,7 +13,7 @@ kernelspec:
 # Builders
 
 ```{note}
-**Version 2.0** provides only the `jupyter` builder for notebook generation.
+**Version 1.0** provides only the `jupyter` builder for notebook generation.
 For PDF, HTML, and execution features, use [Jupyter Book](https://jupyterbook.org/).
 ```
 
@@ -53,9 +53,9 @@ jupyter:
 	@$(SPHINXBUILD) -M jupyter "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 ```
 
-## Removed Builders (v2.0)
+## Removed Builders (v1.0)
 
-The following builders have been removed in v2.0:
+The following builders have been removed in v1.0:
 
 - **jupyterpdf**: Use Jupyter Book for PDF generation
   ```bash

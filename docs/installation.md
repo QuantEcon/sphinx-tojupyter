@@ -13,7 +13,7 @@ kernelspec:
 # Installation
 
 ```{note}
-**Version 2.0** focuses on notebook generation. For execution, PDF, or HTML features, 
+**Version 1.0** focuses on notebook generation. For execution, PDF, or HTML features, 
 also install [Jupyter Book](https://jupyterbook.org/): `pip install jupyter-book`
 ```
 

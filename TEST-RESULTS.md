@@ -1,4 +1,4 @@
-# Test Validation Results - v2.0 Refactoring
+# Test Validation Results - v1.0 Refactoring
 
 ## Summary
 ✅ **All tests pass-s tests-full* The 220-line refactoring (removing PDF/HTML/book_index logic) maintains full backward compatibility with existing test outputs.
@@ -46,7 +46,7 @@
 
 1. ✅ Tests validated - refactoring successful
 2. 🔲 Update test suite organization (add latex_macros, review project tests)
-3. 🔲 Add new tests for v2.0 features
+3. 🔲 Add new tests for v1.0 features
 4. 🔲 Update documentation
 5. 🔲 Prepare for release
 

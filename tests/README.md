@@ -32,11 +32,11 @@ Custom LaTeX macro support in math expressions.
 - **Run:** `make jupyter` from `latex_macros/`
 
 ### 5. Configuration Validation Tests (`test_config_validation.py`)
-Tests for v2.0 configuration handling and backward compatibility.
+Tests for v1.0 configuration handling and backward compatibility.
 - **Format:** pytest-based unit tests
 - **Tests:** 
   - Deprecated config options handled gracefully
-  - Core v2.0 config options work correctly
+  - Core v1.0 config options work correctly
   - Minimal configuration works
 - **Run:** `nox -s test-config`
 
@@ -44,7 +44,7 @@ Tests for v2.0 configuration handling and backward compatibility.
 Full project integration test with Jupyter Book.
 - **Format:** Jupyter Book project structure
 - **Dependencies:** jupyter-book
-- **Status:** May be deprecated in v2.0 (out of scope)
+- **Status:** May be deprecated in v1.0 (out of scope)
 
 ## Running Tests
 
@@ -106,7 +106,7 @@ git commit -m "test: update reference notebooks for <reason>"
 - ✅ Sphinx-proof (theorem, lemma, proof)
 - ✅ LaTeX macros
 - ✅ Solutions/tests (drop functionality)
-- ✅ Configuration validation (v2.0)
+- ✅ Configuration validation (v1.0)
 - ✅ Deprecated options backward compatibility
 
 ## Development

@@ -1,4 +1,4 @@
-# Test Validation Plan for v2.0 Refactoring
+# Test Validation Plan for v1.0 Refactoring
 
 ## Summary
 We've removed 220 lines of PDF/HTML/book_index logic from the translators. Now we need to validate that:
@@ -78,7 +78,7 @@ git diff ipynb/
 
 # If good, commit
 git add ipynb/
-git commit -m "test: update reference notebooks for v2.0 simplified output"
+git commit -m "test: update reference notebooks for v1.0 simplified output"
 ```
 
 ### Step 4: Full Test Matrix
@@ -140,13 +140,13 @@ nox -s test-proof
 
 ### If Base Tests Fail:
 **Option A: Update References** (recommended if output is correct but different)
-- Pro: Reflects new v2.0 behavior
+- Pro: Reflects new v1.0 behavior
 - Con: Loses old behavior for comparison
 - Action: Update ipynb/ with new output
 
 **Option B: Fix Code** (if output is actually broken)
 - Pro: Maintains compatibility
-- Con: May not be necessary for v2.0 goals
+- Con: May not be necessary for v1.0 goals
 - Action: Review and fix translator logic
 
 ### If Glue/Proof Tests Fail:

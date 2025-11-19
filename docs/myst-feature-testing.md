@@ -1,12 +1,14 @@
-# MyST Feature Test Results
+# MyST Feature Testing Results
 
+**Version:** sphinx-tojupyter v1.0  
 **Date:** November 19, 2024  
-**Test File:** `tests/myst_features/index.md`  
-**Converter:** sphinx-tojupyter v1.0
+**Test Suite:** `tests/myst_features/`
+
+This document presents detailed test results for MyST markdown feature conversion to Jupyter notebooks.
 
 ## Summary
 
-Tested conversion of various MyST markdown features to Jupyter notebooks. Results show **mixed support** with some features working perfectly, some degraded, and some missing styling.
+Comprehensive testing shows **mixed support** with some features working perfectly, some with graceful degradation, and some requiring future enhancements (planned for v1.1+).
 
 ---
 

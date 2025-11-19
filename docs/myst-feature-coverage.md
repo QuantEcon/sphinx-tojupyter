@@ -1,4 +1,6 @@
-# MyST Markdown Feature Coverage Analysis
+# MyST Markdown Feature Coverage
+
+This document provides a comprehensive analysis of MyST markdown feature support in sphinx-tojupyter v1.0.
 
 ## Currently Supported MyST Features
 

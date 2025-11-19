@@ -93,15 +93,16 @@ See [MIGRATION.md](MIGRATION.md) for upgrade instructions from v0.6.0.
 ### 📚 Documentation
 
 **New:**
-- `MIGRATION.md` - Comprehensive migration guide from v1.x to v2.0
+- `MIGRATION.md` - Comprehensive migration guide from v0.6.0 to v1.0.0
+- `FUTURE-DEVELOPMENT-PLAN.md` - Roadmap for v1.x features (MyST enhancements)
 - Enhanced `tests/README.md` - Complete test suite documentation
 - Added `latex_macros` to test suite with dedicated session
 
 **Updated:**
-- `README.md` - v2.0 focus statement and simplified feature list
-- `docs/index.md` - Updated for v2.0, added migration notice
+- `README.md` - v1.0 focus statement and simplified feature list
+- `docs/index.md` - Updated for v1.0, added migration notice
 - `docs/config-extension.md` - Simplified to notebooks-only
-- `docs/config-extension-notebooks.md` - Focused on v2.0 configs
+- `docs/config-extension-notebooks.md` - Focused on v1.0 configs
 
 **Removed:**
 - `docs/config-extension-pdf.md`
@@ -126,15 +127,26 @@ See [MIGRATION.md](MIGRATION.md) for upgrade instructions from v0.6.0.
 
 ### 🔄 Migration Path
 
-**For v1.x users:**
+**For v0.6.0 users:**
 1. Review removed features (PDF, HTML, execution)
 2. Migrate to Jupyter Book for removed features
 3. Update `conf.py` to remove unsupported options
 4. See [MIGRATION.md](MIGRATION.md) for detailed instructions
 
 **For new users:**
-- ✅ Use sphinx-tojupyter v2.0 for notebook generation
+- ✅ Use sphinx-tojupyter v1.0 for notebook generation
 - ✅ Use Jupyter Book for execution, PDF, and HTML
+
+### ⚠️ Known Limitations
+
+**MyST Feature Support:**
+- ✅ `{note}` admonitions work with blockquote formatting
+- ⚠️ Other admonitions (warning, tip, etc.) render as plain text (content preserved)
+- ⚠️ Code block options (`:linenos:`, `:emphasize-lines:`) are ignored
+- ⚠️ `:caption:` becomes separate paragraph above code
+- ⚠️ Nested directives may split into multiple cells
+
+See [FUTURE-DEVELOPMENT-PLAN.md](FUTURE-DEVELOPMENT-PLAN.md) for planned MyST enhancements in v1.1+.
 
 ### 🙏 Credits
 

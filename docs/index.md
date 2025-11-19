@@ -35,6 +35,8 @@ installation
 config-sphinx
 config-extension
 myst-nb
+myst-feature-coverage
+myst-feature-testing
 latex-macros
 examples
 config-example

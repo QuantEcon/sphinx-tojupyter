@@ -11,7 +11,7 @@ from sphinx.util.console import bold
 from sphinx.util.fileutil import copy_asset
 from sphinx.util import logging
 import time
-from .writers.utils import copy_dependencies
+from .utils import copy_dependencies
 
 class JupyterBuilder(Builder):
     """

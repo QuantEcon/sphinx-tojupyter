@@ -3,7 +3,7 @@ import re
 import nbformat.v4
 from docutils import nodes, writers
 from .code import JupyterCodeTranslator
-from ..writers.utils import JupyterOutputCellGenerators
+from ..utils import JupyterOutputCellGenerators
 from shutil import copyfile
 import copy
 import os

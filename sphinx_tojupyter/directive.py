@@ -1,14 +1,41 @@
+"""
+Sphinx directives for Jupyter notebook generation.
+
+This module provides custom RST directives for controlling notebook generation:
+- jupyter: Insert cell breaks and slide markers
+- jupyter-dependency: Specify file dependencies
+"""
 from docutils import nodes
 from docutils.parsers.rst import directives, Directive
 
-class jupyter_node(nodes.Structural, nodes.Element): 
+
+class jupyter_node(nodes.Structural, nodes.Element):
+    """
+    Custom docutils node for Jupyter-specific markup.
+    
+    This node carries metadata about cell breaks, slides, and file dependencies.
+    """
     pass
 
+
 class Jupyter(Directive):
-    # defines the parameter the directive expects
-    # directives.unchanged means you get the raw value from RST
-    # directives.flag doesn't expect an extra argument, hence if it's there
-    # it means that we want a cell-break or a slide
+    """
+    Directive for controlling notebook cell generation.
+    
+    Usage::
+    
+        .. jupyter::
+           :cell-break:
+           
+        .. jupyter::
+           :slide: enable
+           :slide-type: slide
+           
+    Options:
+        cell-break: Force a new notebook cell
+        slide: Enable/disable slide mode (enable/disable)
+        slide-type: Type of slide (slide, subslide, fragment, etc.)
+    """
 
     required_arguments = 0
     optional_arguments = 0
@@ -38,6 +65,15 @@ class Jupyter(Directive):
 
 
 class JupyterDependency(Directive):
+    """
+    Directive for specifying file dependencies.
+    
+    Usage::
+    
+        .. jupyter-dependency:: data/dataset.csv
+        
+    This ensures the specified file is copied to the notebook output directory.
+    """
     required_arguments = 1
     optional_arguments = 0
     final_argument_whitespace = True

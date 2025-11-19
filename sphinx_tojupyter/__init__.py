@@ -6,9 +6,9 @@ except AttributeError:
     pass
 
 from .builder import JupyterBuilder
-from .directive.jupyter import jupyter_node
-from .directive.jupyter import Jupyter as JupyterDirective
-from .directive.jupyter import JupyterDependency
+from .directive import jupyter_node
+from .directive import Jupyter as JupyterDirective
+from .directive import JupyterDependency
 
 try:
     from importlib.metadata import version as get_version

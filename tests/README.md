@@ -31,7 +31,16 @@ Custom LaTeX macro support in math expressions.
 - **Tests:** Custom LaTeX commands, MathJax configuration
 - **Run:** `make jupyter` from `latex_macros/`
 
-### 5. Project Tests (`project/`)
+### 5. Configuration Validation Tests (`test_config_validation.py`)
+Tests for v2.0 configuration handling and backward compatibility.
+- **Format:** pytest-based unit tests
+- **Tests:** 
+  - Deprecated config options handled gracefully
+  - Core v2.0 config options work correctly
+  - Minimal configuration works
+- **Run:** `nox -s test-config`
+
+### 6. Project Tests (`project/`)
 Full project integration test with Jupyter Book.
 - **Format:** Jupyter Book project structure
 - **Dependencies:** jupyter-book
@@ -58,6 +67,7 @@ nox -s tests-full
 ```bash
 nox -s test-glue    # MyST-NB glue tests
 nox -s test-proof   # sphinx-proof tests
+nox -s test-config  # Configuration validation tests
 ```
 
 ## Test Validation
@@ -96,6 +106,8 @@ git commit -m "test: update reference notebooks for <reason>"
 - ✅ Sphinx-proof (theorem, lemma, proof)
 - ✅ LaTeX macros
 - ✅ Solutions/tests (drop functionality)
+- ✅ Configuration validation (v2.0)
+- ✅ Deprecated options backward compatibility
 
 ## Development
 

@@ -341,3 +341,39 @@ def check_manifest(session):
     """
     session.install("check-manifest")
     session.run("check-manifest")
+
+
+@nox.session(python=PYTHON_VERSIONS, name="test-config")
+@nox.parametrize("sphinx", SPHINX_VERSIONS)
+def test_config(session, sphinx):
+    """
+    Run configuration validation tests.
+    
+    Tests that:
+    - Deprecated config options don't cause crashes
+    - Core config options work correctly
+    - Minimal configuration works
+    """
+    # Install with specific Sphinx version
+    import tempfile
+    with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
+        f.write(f"sphinx=={sphinx}\n")
+        constraints_file = f.name
+    
+    try:
+        session.install("-c", constraints_file, f"sphinx=={sphinx}")
+        session.install("-c", constraints_file, "pytest")
+        session.install("-c", constraints_file, "-e", ".")
+    finally:
+        import os
+        os.unlink(constraints_file)
+    
+    # Run pytest on config validation tests
+    session.run(
+        "pytest",
+        "tests/test_config_validation.py",
+        "-v",
+        env={"PYTHONDONTWRITEBYTECODE": "1"}
+    )
+    
+    session.log("✅ Config validation tests passed")

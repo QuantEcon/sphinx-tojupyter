@@ -95,7 +95,7 @@ def tests_full(session):
     )
     
     # Test glue support (MyST-NB)
-    if session.posargs and "skip-glue" not in session.posargs:
+    if not session.posargs or "skip-glue" not in session.posargs:
         session.log("Testing MyST-NB glue support...")
         session.run(
             "python", "-m", "sphinx",
@@ -105,13 +105,23 @@ def tests_full(session):
         )
     
     # Test sphinx-proof support
-    if session.posargs and "skip-proof" not in session.posargs:
+    if not session.posargs or "skip-proof" not in session.posargs:
         session.log("Testing sphinx-proof support...")
         session.run(
             "python", "-m", "sphinx",
             "-b", "jupyter",
             "tests/sphinx_proof",
             "tests/sphinx_proof/_build/jupyter",
+        )
+    
+    # Test LaTeX macros support
+    if not session.posargs or "skip-macros" not in session.posargs:
+        session.log("Testing LaTeX macros support...")
+        session.run(
+            "python", "-m", "sphinx",
+            "-b", "jupyter",
+            "tests/latex_macros",
+            "tests/latex_macros/_build/jupyter",
         )
     
     session.log("✅ Full test suite passed")
@@ -205,6 +215,32 @@ def test_proof(session):
         "assert os.path.exists('tests/sphinx_proof/_build/jupyter/test_numbered_directives.ipynb'), 'Numbered directives notebook not found'; "
         "assert os.path.exists('tests/sphinx_proof/_build/jupyter/test_proofs.ipynb'), 'Proofs notebook not found'; "
         "print('✅ All sphinx-proof notebooks generated')"
+    )
+
+
+@nox.session(python=DEFAULT_PYTHON, name="test-macros")
+def test_macros(session):
+    """Test LaTeX macros support specifically."""
+    session.install(
+        "sphinx>=8.0",
+        "myst-parser>=4.0",
+    )
+    session.install("-e", ".")
+    
+    session.log("Testing LaTeX macros support...")
+    session.run(
+        "python", "-m", "sphinx",
+        "-b", "jupyter",
+        "tests/latex_macros",
+        "tests/latex_macros/_build/jupyter",
+    )
+    
+    # Verify notebooks were created
+    session.run(
+        "python", "-c",
+        "import os; "
+        "assert os.path.exists('tests/latex_macros/_build/jupyter/test_macros.ipynb'), 'Macros notebook not found'; "
+        "print('✅ LaTeX macros notebooks generated')"
     )
 
 

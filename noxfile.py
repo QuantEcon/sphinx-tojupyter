@@ -144,8 +144,9 @@ def lint(session):
     session.run(
         "python", "-c",
         "import sphinx_tojupyter; "
-        "from sphinx_tojupyter.builders.jupyter import JupyterBuilder; "
-        "from sphinx_tojupyter.writers.jupyter import JupyterWriter; "
+        "from sphinx_tojupyter.builder import JupyterBuilder; "
+        "from sphinx_tojupyter.writer import JupyterWriter; "
+        "from sphinx_tojupyter.translators import JupyterTranslator, JupyterCodeTranslator; "
         "print('✅ All imports successful')"
     )
 

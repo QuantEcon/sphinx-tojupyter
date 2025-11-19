@@ -12,6 +12,11 @@ kernelspec:
 (config_extension_notebooks)=
 # Constructing Jupyter Notebooks
 
+```{note}
+**Version 2.0** focuses on notebook generation only. For execution, PDF, or HTML features, 
+see the [migration guide](https://github.com/QuantEcon/sphinx-tojupyter/blob/main/MIGRATION.md).
+```
+
 ```{contents} Options
 ---
 depth: 1
@@ -245,33 +250,6 @@ Enable this option to allow `.. only:: html` pass through to the notebooks.
 
 ```python
 jupyter_allow_html_only = True
-```
-
-## jupyter_target_html
-
-Enable this option to generate notebooks that favour the inclusion of `html`
-in notebooks to support more advanced features.
-
-
-
-
-
-
-
-|Values|
-|:--------------------------------------------------------------------------------------------------:|
-|False (|**|default|**|)|
-|True|
-
-Supported Features:
-
-1. html based table support
-1. image inclusion as `html` figures
-
-`conf.py` usage:
-
-```python
-jupyter_target_html = True
 ```
 
 ## jupyter_images_markdown

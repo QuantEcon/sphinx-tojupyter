@@ -12,28 +12,51 @@ kernelspec:
 (installation)=
 # Installation
 
-To install the extension:
+```{note}
+**Version 2.0** focuses on notebook generation. For execution, PDF, or HTML features, 
+also install [Jupyter Book](https://jupyterbook.org/): `pip install jupyter-book`
+```
 
-```{code-block} bash
+## Requirements
+
+- Python >= 3.11
+- Sphinx >= 7.0
+
+## Installation
+
+Install via pip:
+
+```bash
 pip install sphinx-tojupyter
 ```
 
-to upgrade your current installation to the latest version:
+To upgrade to the latest version:
 
-```{code-block} bash
+```bash
 pip install --upgrade sphinx-tojupyter
 ```
 
-```{todo}
-# Todo
+## Optional Features
 
-Add installation to distribute via conda-forge.
-See Issue [#160](https://github.com/QuantEcon/sphinx-tojupyter/issues/160).
+For enhanced functionality, install optional dependencies:
 
+```bash
+# MyST-NB glue support
+pip install myst-nb
+
+# sphinx-proof support
+pip install sphinx-proof
 ```
 
-You can refer to the [release notes](https://github.com/QuantEcon/sphinx-tojupyter/releases)
-for information on each release.
+## Release Notes
+
+See the [release notes](https://github.com/QuantEcon/sphinx-tojupyter/releases) 
+and [CHANGELOG](https://github.com/QuantEcon/sphinx-tojupyter/blob/main/CHANGELOG.md) 
+for version information.
+
+## Migration from v1.x
+
+If upgrading from v1.x, see the [migration guide](https://github.com/QuantEcon/sphinx-tojupyter/blob/main/MIGRATION.md).
 
 ## Alternative
 

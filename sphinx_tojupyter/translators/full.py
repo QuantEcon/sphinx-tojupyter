@@ -912,8 +912,8 @@ class JupyterTranslator(JupyterCodeTranslator, object):
         refdoc = getattr(node, 'refdoc', 'unknown')
         
         # Warn the user
-        if hasattr(self, 'builder'):
-            self.builder.warn(
+        if hasattr(self, 'builder') and hasattr(self.builder, 'logger'):
+            self.builder.logger.warning(
                 f"Unresolved glue reference to key '{key}' in document '{refdoc}'. "
                 "This may indicate that MyST-NB's post-transform didn't run, or the "
                 "referenced glue key doesn't exist. Check that myst-nb is properly "

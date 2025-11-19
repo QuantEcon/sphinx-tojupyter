@@ -51,18 +51,18 @@ class JupyterWriter(docutils.writers.Writer):
         code_only = False
         if "tojupyter_conversion_mode" not in builder.config \
                 or builder.config["tojupyter_conversion_mode"] is None:
-            self.builder(
+            builder.logger.warning(
                 "tojupyter_conversion_mode is not given in conf.py. "
-                "Set conversion_mode as default(code)")
-            code_only = True
+                "Defaulting to 'all' mode.")
+            code_only = False
         else:
             if builder.config["tojupyter_conversion_mode"] == "code":
                 code_only = True
             elif builder.config["tojupyter_conversion_mode"] != "all":
-                builder.warn(
-                    "Invalid tojupyter_conversion_mode is given({}). "
-                    "Set conversion_mode as default(code)"
+                builder.logger.warning(
+                    "Invalid tojupyter_conversion_mode is given ({}). "
+                    "Must be 'all' or 'code'. Defaulting to 'all'."
                     .format(builder.config["tojupyter_conversion_mode"]))
-                code_only = True
+                code_only = False
 
         return JupyterCodeTranslator if code_only else JupyterTranslator

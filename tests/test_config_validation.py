@@ -1,5 +1,5 @@
 """
-Test configuration validation for v2.0
+Test configuration validation for v1.0
 
 Ensures that:
 1. Deprecated config options don't cause crashes
@@ -21,8 +21,8 @@ def test_deprecated_config_options_dont_crash():
     conf_content = """
 extensions = ["sphinx_tojupyter"]
 
-# v2.0 core options (should work)
-jupyter_kernels = {
+# v1.0 core options (should work)
+tojupyter_kernels = {
     "python3": {
         "kernelspec": {
             "display_name": "Python",
@@ -40,8 +40,6 @@ jupyter_execute_notebooks = True
 jupyter_make_site = True
 jupyter_generate_html = True
 jupyter_coverage_dir = "coverage"
-tojupyter_target_pdf = True
-tojupyter_target_html = True
 """
     
     # Create a minimal RST document
@@ -94,16 +92,16 @@ This is a test.
 
 
 def test_core_config_options_work():
-    """Test that core v2.0 config options work correctly"""
+    """Test that core v1.0 config options work correctly"""
     
     conf_content = """
 extensions = ["sphinx_tojupyter"]
 
-jupyter_conversion_mode = "all"
-jupyter_default_lang = "python3"
-jupyter_lang_synonyms = ["pycon", "ipython"]
+tojupyter_conversion_mode = "all"
+tojupyter_default_lang = "python3"
+tojupyter_lang_synonyms = ["pycon", "ipython"]
 
-jupyter_kernels = {
+tojupyter_kernels = {
     "python3": {
         "kernelspec": {
             "display_name": "Python 3",
@@ -114,19 +112,20 @@ jupyter_kernels = {
     }
 }
 
-jupyter_static_file_path = []
-jupyter_images_markdown = True
+tojupyter_static_file_path = []
+tojupyter_images_markdown = True
 """
     
     rst_content = """
 Test Document
 =============
 
-Code block:
+This is a test document with code.
 
 .. code-block:: python
 
     x = 42
+    print(x)
 """
     
     with tempfile.TemporaryDirectory() as tmpdir:
@@ -156,11 +155,20 @@ Code block:
         with open(notebook_path) as f:
             nb_data = json.load(f)
         
-        # Check kernel metadata
+        # Check kernel metadata - this verifies tojupyter_kernels was read
         assert nb_data["metadata"]["kernelspec"]["name"] == "python3"
+        assert nb_data["metadata"]["kernelspec"]["display_name"] == "Python 3"
         
-        # Check that notebook has cells (markdown or code)
+        # Check that notebook has cells
         assert len(nb_data["cells"]) > 0
+        
+        # Verify conversion_mode="all" produces markdown cells (at minimum)
+        cell_types = [cell["cell_type"] for cell in nb_data["cells"]]
+        assert "markdown" in cell_types, "conversion_mode='all' should produce markdown cells"
+        
+        # Verify at least one cell has content
+        assert any(len(cell.get("source", [])) > 0 for cell in nb_data["cells"]), \
+            "Notebook should have cells with content"
 
 
 def test_minimal_config():
@@ -169,7 +177,7 @@ def test_minimal_config():
     conf_content = """
 extensions = ["sphinx_tojupyter"]
 
-jupyter_kernels = {
+tojupyter_kernels = {
     "python3": {
         "kernelspec": {
             "display_name": "Python",

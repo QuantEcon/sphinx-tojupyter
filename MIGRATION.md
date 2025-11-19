@@ -104,14 +104,14 @@ jupyter-book build --builder pdflatex yourbook/
 
 ### Retained Configuration Options
 
-The following core notebook generation options **remain supported**:
+The following core notebook generation options **remain supported** (with renamed prefix):
 
 ```python
-# ✅ Supported in v1.0
+# ✅ Supported in v1.0 (note: jupyter_* → tojupyter_*)
 extensions = ["sphinx_tojupyter"]
 
-jupyter_conversion_mode = "all"  # or "code"
-jupyter_kernels = {
+tojupyter_conversion_mode = "all"  # or "code"
+tojupyter_kernels = {
     "python3": {
         "kernelspec": {
             "display_name": "Python",
@@ -122,20 +122,36 @@ jupyter_kernels = {
     }
 }
 
-jupyter_default_lang = "python3"
-jupyter_lang_synonyms = ["pycon", "ipython"]
+tojupyter_default_lang = "python3"
+tojupyter_lang_synonyms = ["pycon", "ipython"]
 
-jupyter_static_file_path = ["source/_static"]
-jupyter_header_block = ["source/header.rst"]
-jupyter_dependencies = {}
+tojupyter_static_file_path = ["source/_static"]
+tojupyter_dependency_lists = {}
 
-jupyter_drop_solutions = False
-jupyter_drop_tests = False
-jupyter_ignore_no_execute = False
-jupyter_ignore_skip_test = False
-jupyter_allow_html_only = False
-jupyter_images_markdown = True
+tojupyter_drop_solutions = True
+tojupyter_drop_tests = True
+tojupyter_drop_raw_html = True  # NEW in v1.0
+tojupyter_images_markdown = True
 ```
+
+### Configuration Option Renames
+
+All configuration options have been renamed from `jupyter_*` to `tojupyter_*`:
+
+| Old (v0.6) | New (v1.0) | Status |
+|------------|------------|--------|
+| `jupyter_conversion_mode` | `tojupyter_conversion_mode` | ✅ Renamed |
+| `jupyter_kernels` | `tojupyter_kernels` | ✅ Renamed |
+| `jupyter_default_lang` | `tojupyter_default_lang` | ✅ Renamed |
+| `jupyter_lang_synonyms` | `tojupyter_lang_synonyms` | ✅ Renamed |
+| `jupyter_static_file_path` | `tojupyter_static_file_path` | ✅ Renamed |
+| `jupyter_drop_solutions` | `tojupyter_drop_solutions` | ✅ Renamed |
+| `jupyter_drop_tests` | `tojupyter_drop_tests` | ✅ Renamed |
+| `jupyter_images_markdown` | `tojupyter_images_markdown` | ✅ Renamed |
+| `jupyter_dependencies` | `tojupyter_dependency_lists` | ✅ Renamed |
+| `jupyter_header_block` | (removed) | ❌ Deleted |
+| `jupyter_write_metadata` | (removed) | ❌ Deleted |
+| `jupyter_allow_html_only` | (removed) | ❌ Deleted |
 
 ## Migration Strategies
 

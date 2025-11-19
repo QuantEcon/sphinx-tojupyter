@@ -29,8 +29,8 @@ extensions = [
     'sphinx_tojupyter',
 ]
 
-# Optional: Specify default kernel
-jupyter_default_kernel = 'python3'
+# Optional: Specify default language
+tojupyter_default_lang = 'python3'
 ```
 
 Run with:
@@ -90,7 +90,7 @@ html_static_path = ['_static']
 # -- sphinx-tojupyter configuration ------------------------------------------
 
 # Kernel specifications for different languages
-jupyter_kernels = {
+tojupyter_kernels = {
     'python3': {
         'kernelspec': {
             'display_name': 'Python 3',
@@ -109,32 +109,23 @@ jupyter_kernels = {
     }
 }
 
-# Default kernel for notebooks
-jupyter_default_kernel = 'python3'
+# Default language for code blocks
+tojupyter_default_lang = 'python3'
 
-# Conversion mode: "all" or "code"
-jupyter_conversion_mode = "all"
-
-# Write notebook metadata
-jupyter_write_metadata = True
-
-# Header code cells to add at the start of each notebook
-jupyter_headers = {
-    "python3": [
-        "# Setup code",
-        "import numpy as np",
-        "import matplotlib.pyplot as plt"
-    ],
-}
+# Conversion mode: "all" (markdown+code) or "code" (code only)
+tojupyter_conversion_mode = "all"
 
 # Static file paths for images and assets
-jupyter_static_file_path = ["_static"]
+tojupyter_static_file_path = ["_static"]
 
 # Language synonyms (e.g., treat "ipython" as "python")
-jupyter_lang_synonyms = ["ipython"]
+tojupyter_lang_synonyms = ["ipython"]
 
-# Allow HTML passthrough in notebooks
-jupyter_allow_html_only = True
+# Use markdown syntax for images (vs HTML)
+tojupyter_images_markdown = True
+
+# Drop raw HTML/script blocks (Thebe config, etc.)
+tojupyter_drop_raw_html = True
 ```
 
 ---
@@ -182,14 +173,7 @@ See {doc}`myst-nb` for complete glue documentation.
 For consistent LaTeX macros across HTML and notebooks:
 
 ```python
-# Define macros once
-latex_macros = r"""
-    \newcommand{\EE}{\mathbb{E}}
-    \newcommand{\PP}{\mathbb{P}}
-    \newcommand{\RR}{\mathbb{R}}
-"""
-
-# For HTML (MathJax 3)
+# For HTML and notebooks (MathJax 3)
 mathjax3_config = {
     'tex': {
         'macros': {
@@ -199,6 +183,8 @@ mathjax3_config = {
         }
     }
 }
+
+# Macros are automatically injected into notebooks
 
 # For notebooks
 jupyter_latex_macros = latex_macros

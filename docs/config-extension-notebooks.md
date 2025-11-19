@@ -24,87 +24,65 @@ local:
 ---
 ```
 
-## jupyter_conversion_mode
+## tojupyter_conversion_mode
 
 Specifies which writer to use when constructing notebooks.
 
-
-
-
-
-
-
-
-
-
-
-
-
-|Option|Description|
-|:------------------------------------------------:|:------------------------------------------------:|
-|"all" (|**|default|**|)|compile complete notebooks which include |`|markdown cells|`| and |`|code blocks|`|
-|"code"|compile notebooks that only contain the |`|code blocks|`|.|
+| Option | Description |
+|--------|-------------|
+| `"all"` (default) | Compile complete notebooks which include markdown cells and code blocks |
+| `"code"` | Compile notebooks that only contain the code blocks |
 
 `conf.py` usage:
 
 ```python
-jupyter_conversion_mode = "all"
+tojupyter_conversion_mode = "all"
 ```
 
-## jupyter_static_file_path
+## tojupyter_static_file_path
 
-Specify path to _static folder.
+Specify paths to static files/folders to copy to the output directory.
 
 `conf.py` usage:
 
 ```python
-jupyter_static_file_path = ["source/_static"]
+tojupyter_static_file_path = ["source/_static"]
 ```
 
-## jupyter_header_block
+## tojupyter_default_lang
 
-Add a header block to every generated notebook by specifying an RST file
+Specify default language for code blocks when language is not specified.
 
 `conf.py` usage:
 
 ```python
-jupyter_header_block = ["source/welcome.rst"]
+tojupyter_default_lang = "python3"
 ```
 
-## jupyter_default_lang
+## tojupyter_lang_synonyms
 
-Specify default language for collection of RST files
+Specify language synonyms.
 
-`conf.py` usage:
-
-```python
-jupyter_default_lang = "python3"
-```
-
-## jupyter_lang_synonyms
-
-Specify any language synonyms.
-
-This will be used when parsing code blocks. For example, python and ipython
+This is used when parsing code blocks. For example, `python` and `ipython`
 have slightly different highlighting directives but contain code that can both be executed on
-the same kernel
+the same kernel.
 
 `conf.py` usage:
 
 ```python
-jupyter_lang_synonyms = ["pycon", "ipython"]
+tojupyter_lang_synonyms = ["pycon", "ipython"]
 ```
 
-## jupyter_kernels
+## tojupyter_kernels
 
 Specify kernel information for the jupyter notebook metadata.
 
-This is used by jupyter to connect the correct language kernel and is **required** in `conf.py`.
+This is used by Jupyter to connect the correct language kernel and is **required** in `conf.py`.
 
 `conf.py` usage:
 
 ```python
-jupyter_kernels = {
+tojupyter_kernels = {
     "python3": {
         "kernelspec": {
             "display_name": "Python",
@@ -116,88 +94,71 @@ jupyter_kernels = {
 }
 ```
 
-```{todo}
-## Todo
+## tojupyter_drop_solutions
 
-See Issue [196](https://github.com/QuantEcon/sphinx-tojupyter/issues/196%29)
+Drop code blocks that include `:class: solution`.
 
+Useful for generating student versions of notebooks without solutions.
+
+| Values |
+|--------|
+| `True` (default) |
+| `False` |
+
+`conf.py` usage:
+
+```python
+tojupyter_drop_solutions = True
 ```
 
-## jupyter_write_metadata
+## tojupyter_drop_tests
 
-write time and date information at the top of each notebook as notebook metadata
+Drop code blocks that include `:class: test`.
 
-```{note}
-This option is slated to be deprecated
+Useful for removing testing/validation code from user-facing notebooks.
+
+| Values |
+|--------|
+| `True` (default) |
+| `False` |
+
+`conf.py` usage:
+
+```python
+tojupyter_drop_tests = True
 ```
 
-## jupyter_options
+## tojupyter_drop_raw_html
 
-An dict-type object that is used by dask to control execution
+Drop raw HTML/script blocks (e.g., Thebe configuration).
 
-```{todo}
-## Todo
+Prevents web-specific content from appearing as markdown cells in notebooks.
 
-This option needs to be reviewed
+| Values |
+|--------|
+| `True` (default) |
+| `False` |
 
+`conf.py` usage:
+
+```python
+tojupyter_drop_raw_html = True
 ```
 
-## jupyter_drop_solutions
+## tojupyter_images_markdown
 
-Drop `code-blocks` that include `:class: solution`
+Use markdown syntax for images instead of HTML `<img>` tags.
 
+| Values |
+|--------|
+| `True` (default) |
+| `False` |
 
+`conf.py` usage:
 
-
-
-
-
-|Values|
-|:--------------------------------------------------------------------------------------------------:|
-|False (|**|default|**|)|
-|True|
-
-```{todo}
-## Todo
-
-This option needs to be reviewed
-
+```python
+tojupyter_images_markdown = True
 ```
-
-## jupyter_drop_tests
-
-Drop `code-blocks` that include ``:class: test`
-
-
-
-
-
-
-
-|Values|
-|:--------------------------------------------------------------------------------------------------:|
-|False (|**|default|**|)|
-|True|
-
-```{todo}
-## Todo
-
-This option needs to be reviewed
-
-```
-
-## jupyter_ignore_no_execute:
-
-
-
-
-
-
-
-|Values|
-|:--------------------------------------------------------------------------------------------------:|
-|False (|**|default|**|)|
-|True|
 
 When constructing notebooks this option can be enabled to ignore :class: no-execute
 for code-blocks. This is useful for including code examples that may not execute correctly.

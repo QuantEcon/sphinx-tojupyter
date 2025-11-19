@@ -44,8 +44,13 @@ class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
         
         self.tojupyter_images_markdown = builder.config["tojupyter_images_markdown"]
         
-        # v2.0: These options were removed - setting defaults for backward compatibility in code
-        self.tojuyter_drop_html_raw = False  # Don't drop raw HTML nodes
+        # Get tojupyter_drop_raw_html with fallback to True (drop by default)
+        try:
+            self.tojupyter_drop_raw_html = builder.config["tojupyter_drop_raw_html"]
+        except (KeyError, AttributeError):
+            self.tojupyter_drop_raw_html = True
+        
+        # v1.0: These options were removed - setting defaults for backward compatibility in code
         self.tojupyter_target_html = False   # Use Markdown-style links (not HTML-style)
         self.tojupyter_target_pdf = False    # Not targeting PDF output
         self.tojupyter_pdf_showcontentdepth = 0  # Not relevant for notebook output

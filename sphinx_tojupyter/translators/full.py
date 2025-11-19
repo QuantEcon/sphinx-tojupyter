@@ -470,7 +470,17 @@ class JupyterTranslator(JupyterCodeTranslator, object):
         self.table_builder['line_pending'] += "|"
 
     def visit_raw(self, node):
-        # Pass through raw HTML/other formats without dropping
+        """
+        Handle raw HTML/script blocks.
+        
+        By default (tojupyter_drop_raw_html=True), skip raw HTML nodes to prevent
+        web-specific content like Thebe configuration from appearing in notebooks.
+        Set tojupyter_drop_raw_html=False to preserve raw HTML if needed.
+        """
+        if self.tojupyter_drop_raw_html:
+            if node.attributes.get('format') == 'html':
+                raise nodes.SkipNode
+        # Otherwise pass through
         pass
 
 

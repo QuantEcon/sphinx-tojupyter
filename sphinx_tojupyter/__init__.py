@@ -81,6 +81,7 @@ def setup(app):
     app.add_config_value("tojupyter_latex_macros", None, "jupyter")
     app.add_config_value("tojupyter_dependency_lists", {}, "jupyter")
     app.add_config_value("tojupyter_nextprev_ignore", [], "jupyter")
+    app.add_config_value("tojupyter_drop_raw_html", True, "jupyter")  # Drop raw HTML/script blocks by default
 
     # Register Jupyter directives
     app.add_node(jupyter_node, html=(_noop, _noop), latex=(_noop, _noop))

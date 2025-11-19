@@ -244,6 +244,94 @@ def test_macros(session):
     )
 
 
+@nox.session(python=DEFAULT_PYTHON, name="test-urlpath")
+def test_urlpath(session):
+    """Test tojupyter_urlpath configuration for cross-document links."""
+    session.install(
+        "sphinx>=8.0",
+        "myst-parser>=4.0",
+    )
+    session.install("-e", ".")
+    
+    session.log("Testing tojupyter_urlpath configuration...")
+    session.run(
+        "python", "-m", "sphinx",
+        "-b", "jupyter",
+        "tests/urlpath",
+        "tests/urlpath/_build/jupyter",
+    )
+    
+    # Verify notebooks were created
+    session.run(
+        "python", "-c",
+        "import os; "
+        "assert os.path.exists('tests/urlpath/_build/jupyter/doc_a.ipynb'), 'doc_a notebook not found'; "
+        "assert os.path.exists('tests/urlpath/_build/jupyter/doc_b.ipynb'), 'doc_b notebook not found'; "
+        "print('✅ URL path test notebooks generated')"
+    )
+    
+    # Verify link patterns
+    session.log("Verifying link patterns...")
+    session.run(
+        "python", "-c",
+        """
+import json
+import os
+
+def check_links(notebook_path, doc_name):
+    with open(notebook_path, 'r') as f:
+        nb = json.load(f)
+    
+    issues = []
+    base_url = 'https://continuous-time-mcs.quantecon.org/'
+    
+    for i, cell in enumerate(nb.get('cells', [])):
+        if cell.get('cell_type') == 'markdown':
+            source = ''.join(cell.get('source', []))
+            
+            # Check for cross-document links (should have base URL)
+            if 'doc_a.ipynb' in source and doc_name != 'doc_a':
+                if base_url not in source:
+                    issues.append(f"Cell {i}: Cross-doc link to doc_a.ipynb missing base URL")
+            if 'doc_b.ipynb' in source and doc_name != 'doc_b':
+                if base_url not in source:
+                    issues.append(f"Cell {i}: Cross-doc link to doc_b.ipynb missing base URL")
+            
+            # Check that in-page anchors don't have base URL
+            import re
+            local_anchors = re.findall(r'\\]\\(#[^)]+\\)', source)
+            for anchor in local_anchors:
+                if base_url in anchor:
+                    issues.append(f"Cell {i}: In-page anchor has base URL: {anchor}")
+    
+    return issues
+
+# Check doc_a
+issues_a = check_links('tests/urlpath/_build/jupyter/doc_a.ipynb', 'doc_a')
+if issues_a:
+    print("⚠️  Issues in doc_a.ipynb:")
+    for issue in issues_a:
+        print(f"  - {issue}")
+else:
+    print("✅ doc_a.ipynb links verified")
+
+# Check doc_b  
+issues_b = check_links('tests/urlpath/_build/jupyter/doc_b.ipynb', 'doc_b')
+if issues_b:
+    print("⚠️  Issues in doc_b.ipynb:")
+    for issue in issues_b:
+        print(f"  - {issue}")
+else:
+    print("✅ doc_b.ipynb links verified")
+
+if issues_a or issues_b:
+    raise AssertionError("Link verification failed - see issues above")
+
+print("\\n✅ All URL path tests passed!")
+"""
+    )
+
+
 @nox.session(python=DEFAULT_PYTHON)
 def docs(session):
     """Build documentation."""

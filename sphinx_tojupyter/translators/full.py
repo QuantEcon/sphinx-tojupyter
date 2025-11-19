@@ -628,6 +628,21 @@ class JupyterTranslator(JupyterCodeTranslator, object):
                 # add default extension(.ipynb) for internal links
                 if "internal" in node.attributes and node.attributes["internal"] == True:
                     refuri = self.add_extension_to_inline_link(refuri, self.default_ext)
+                    # If a base urlpath is configured, and the refuri is neither an absolute
+                    # URL nor an anchor nor an absolute path, prefix it so cross-document
+                    # links point to the configured site URL.
+                    try:
+                        base_url = self.urlpath
+                    except AttributeError:
+                        base_url = None
+                    if base_url:
+                        is_external = refuri.startswith("http://") or refuri.startswith("https://")
+                        is_anchor = refuri.startswith("#")
+                        is_abs_path = refuri.startswith("/")
+                        if not (is_external or is_anchor or is_abs_path):
+                            base = base_url.rstrip('/')
+                            # strip any leading ./ from refuri to avoid duplicate dots
+                            refuri = f"{base}/{refuri.lstrip('./')}"
             else:
                 # in-page link
                 if "refid" in node:

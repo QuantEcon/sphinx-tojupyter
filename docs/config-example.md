@@ -10,182 +10,231 @@ kernelspec:
 ---
 
 (config_example)=
-# Example conf.py file
+# Example conf.py File
 
-After running a sphinx-quickstart you can add the jupyter options needed
-for your project in a similar fashion to what is shown belows.
+A minimal configuration example for sphinx-tojupyter v1.0.
 
-The below configuration settings are the default ones provided by the
-[jupinx quickstart tool](https://jupinx.readthedocs.io/en/latest/quickstart.html)
+## Minimal Configuration
 
-```{code-cell} python
-# Configuration file for the Jupinx documentation builder.
+The simplest `conf.py` for notebook generation:
+
+```python
+# conf.py
+
+project = 'My Project'
+author = 'Author Name'
+
+# Add sphinx-tojupyter extension
+extensions = [
+    'sphinx_tojupyter',
+]
+
+# Optional: Specify default language
+tojupyter_default_lang = 'python3'
+```
+
+Run with:
+```bash
+sphinx-build -b jupyter source output
+```
+
+---
+
+## Complete Example
+
+A more comprehensive configuration with common options:
+
+```python
+# Configuration file for Sphinx documentation using sphinx-tojupyter
 #
-# This file only contains a selection of the most common options. For a full
-# list see the documentation:
-# http://www.sphinx-doc.org/en/master/config
+# For the full list of configuration options see:
+# https://sphinx-tojupyter.readthedocs.io/
 
 # -- Path setup --------------------------------------------------------------
 
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
-#
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
-
+import os
+import sys
 
 # -- Project information -----------------------------------------------------
 
-project = 'DEMO'
-copyright = '2019, AUTHOR'
-author = 'AUTHOR'
+project = 'My Project'
+copyright = '2024, Author Name'
+author = 'Author Name'
+version = '1.0'
+release = '1.0.0'
 
-# The short X.Y version
-version = '0.1'
+# -- General Sphinx configuration -------------------------------------------
 
-# The full version, including alpha/beta/rc tags
-release = '0.1'
-
-
-# -- General configuration ---------------------------------------------------
-
-# Add any Sphinx extension module names here, as strings. They can be
-# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
-# ones.
 extensions = [
-    'sphinx_tojupyter',
-    'sphinxcontrib.bibtex',
+    'sphinx_tojupyter',      # Notebook generation
+    'myst_nb',                # MyST-NB support (optional)
+    'myst_parser',            # MyST markdown support (optional)
+    'sphinx_proof',           # Math theorems/proofs (optional)
 ]
 
-# Add any paths that contain templates here, relative to this directory.
-templates_path = ['templates']
+# Source files
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.md': 'markdown',
+}
 
-# The suffix(es) of source filenames.
-# You can specify multiple suffix as a list of string:
-#
-# source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
-
-# The master toctree document.
 master_doc = 'index'
 
-# List of patterns, relative to source directory, that match files and
-# directories to ignore when looking for source files.
-# This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
+# -- HTML output options -----------------------------------------------------
 
-# -- Options for HTML output -------------------------------------------------
-
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-#
 html_theme = 'alabaster'
+html_static_path = ['_static']
 
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['static']
+# -- sphinx-tojupyter configuration ------------------------------------------
 
-
-# -- Extension configuration -------------------------------------------------
-
-# -- jupyter build configuration ---------------------------------------------------
-jupyter_kernels = {
+# Kernel specifications for different languages
+tojupyter_kernels = {
     'python3': {
         'kernelspec': {
-            'display_name': 'Python',
-            'language': 'python3',
+            'display_name': 'Python 3',
+            'language': 'python',
             'name': 'python3'
         },
         'file_extension': '.py'
     },
-    'python2': {
+    'julia': {
         'kernelspec': {
-            'display_name': 'Python',
-            'language': 'python2',
-            'name': 'python2'
-        },
-        'file_extension': '.py'
-    },
-    'julia-1.1': {
-        'kernelspec': {
-            'display_name': 'Julia 1.1',
+            'display_name': 'Julia',
             'language': 'julia',
-            'name': 'julia-1.1'
+            'name': 'julia'
         },
         'file_extension': '.jl'
     }
 }
 
-# --------------------------------------------
-# jupyter Sphinx Extension conversion settings
-# --------------------------------------------
+# Default language for code blocks
+tojupyter_default_lang = 'python3'
 
-# Conversion Mode Settings
-# If "all", convert codes and texts into notebook
-# If "code", convert codes only
-jupyter_conversion_mode = "all"
+# Conversion mode: "all" (markdown+code) or "code" (code only)
+tojupyter_conversion_mode = "all"
 
-jupyter_write_metadata = False
+# Static file paths for images and assets
+tojupyter_static_file_path = ["_static"]
 
-# Location for _static folder
-jupyter_static_file_path = ["source/_static"]
+# Language synonyms (e.g., treat "ipython" as "python")
+tojupyter_lang_synonyms = ["ipython"]
 
-# Configure jupyter headers
-jupyter_headers = {
-    "python3": [
-        # nbformat.v4.new_code_cell("%autosave 0")      #@mmcky please make this an option
-        ],
-    "julia": [
-        ],
-}
+# Use markdown syntax for images (vs HTML)
+tojupyter_images_markdown = True
 
-# Filename for the file containing the welcome block
-jupyter_welcome_block = ""
-
-#Adjust links to target html (rather than ipynb)
-jupyter_target_html = False
-
-#path to download notebooks from
-jupyter_download_nb_urlpath = None
-
-#allow downloading of notebooks
-jupyter_download_nb = False
-
-#Use urlprefix images
-jupyter_download_nb_image_urlpath = None
-
-#Allow ipython as a language synonym for blocks to be ipython highlighted
-jupyter_lang_synonyms = ["ipython"]
-
-#Execute skip-test code blocks for rendering of website (this will need to be ignored in coverage testing)
-jupyter_ignore_skip_test = True
-
-#allow execution of notebooks
-jupyter_execute_notebooks = False
-
-# Location of template folder for coverage reports
-jupyter_template_coverage_file_path = False
-
-# generate html from IPYNB files
-jupyter_generate_html = False
-
-# html template specific to your website needs
-jupyter_html_template = ""
-
-# latex template specific to your website needs
-jupyter_latex_template = ""
-
-#make website
-jupyter_make_site = False
-
-#force markdown image inclusion
-jupyter_images_markdown = True
-
-#This is set true by default to pass html to the notebooks
-jupyter_allow_html_only=True
+# Drop raw HTML/script blocks (Thebe config, etc.)
+tojupyter_drop_raw_html = True
 ```
 
+---
+
+## MyST Markdown Support
+
+If using MyST markdown files, add `myst_parser` configuration:
+
+```python
+extensions = [
+    'sphinx_tojupyter',
+    'myst_parser',
+]
+
+myst_enable_extensions = [
+    "colon_fence",
+    "deflist",
+    "substitution",
+]
+
+myst_heading_anchors = 3
+```
+
+---
+
+## MyST-NB Glue Support
+
+For MyST-NB glue functionality:
+
+```python
+extensions = [
+    'sphinx_tojupyter',
+    'myst_nb',
+]
+
+nb_execution_mode = "off"
+```
+
+See {doc}`myst-nb` for complete glue documentation.
+
+---
+
+## LaTeX Macros
+
+For consistent LaTeX macros across HTML and notebooks:
+
+```python
+# For HTML and notebooks (MathJax 3)
+mathjax3_config = {
+    'tex': {
+        'macros': {
+            'EE': r'\mathbb{E}',
+            'PP': r'\mathbb{P}',
+            'RR': r'\mathbb{R}',
+        }
+    }
+}
+
+# Macros are automatically injected into notebooks
+
+# For notebooks
+jupyter_latex_macros = latex_macros
+```
+
+See {doc}`latex-macros` for complete guide.
+
+---
+
+## Migration from v0.6.0
+
+If upgrading from v0.6.0, remove these obsolete options:
+
+```python
+# ❌ REMOVED - Do not use these:
+# jupyter_execute_notebooks = ...
+# jupyter_make_site = ...
+# jupyter_generate_html = ...
+# jupyter_target_html = ...
+# jupyter_target_pdf = ...
+```
+
+See the [MIGRATION.md](https://github.com/QuantEcon/sphinx-tojupyter/blob/main/MIGRATION.md) guide for complete migration instructions.
+
+---
+
+## Validation
+
+After configuration, validate with:
+
+```bash
+# Test notebook generation
+sphinx-build -b jupyter source output
+
+# Check for warnings
+sphinx-build -b jupyter source output -W
+```
+
+---
+
+## Additional Resources
+
+- {doc}`config-sphinx` - Sphinx-specific configuration
+- {doc}`config-extension` - Extension configuration reference
+- {doc}`config-extension-notebooks` - Notebook-specific options
+- {doc}`builders` - Available builders
+
+---
+
+## Minimal Example Repository
+
+A complete minimal example is available:
+[sphinx-tojupyter.minimal](https://github.com/QuantEcon/sphinx-tojupyter.minimal)

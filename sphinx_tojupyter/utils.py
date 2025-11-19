@@ -1,14 +1,20 @@
+"""
+Utility functions for Jupyter notebook generation.
+
+This module provides helper classes and functions for:
+- Language translation between Sphinx and Jupyter
+- Cell type generation (code, markdown, output)
+- File path utilities
+- Dependency copying
+"""
 import os.path
 import os
-import sys
+import fnmatch
 import nbformat.v4
 from xml.etree.ElementTree import ElementTree
 from enum import Enum
 from sphinx.util.osutil import ensuredir
 from shutil import copy
-
-if sys.version_info.major == 2:
-    import fnmatch
 
 class LanguageTranslator:
     """
@@ -125,6 +131,19 @@ class JupyterOutputCellGenerators(Enum):
 
 
 def get_source_file_name(filepath, srcdir):
+    """
+    Extract the relative path of a file from the source directory.
+    
+    Args:
+        filepath: Absolute path to the file
+        srcdir: Absolute path to the source directory
+        
+    Returns:
+        Relative path from srcdir to filepath, using forward slashes
+        
+    Raises:
+        ValueError: If filepath is not within srcdir
+    """
     delimiter = os.sep
     file_path_list = filepath.split(delimiter)
     srcdir_path_list = str(srcdir).split(delimiter)
@@ -134,26 +153,43 @@ def get_source_file_name(filepath, srcdir):
             raise ValueError("File path does not exist in the source directory")
 
     file_name_list = file_path_list[len(srcdir_path_list) - 1:]
-    return "/".join(file_name_list) # Does this also need to be changed?
+    return "/".join(file_name_list)
 
 
 def _str_to_lines(x):
+    """
+    Convert a string to a list of lines with newlines.
+    
+    Args:
+        x: Input string or other value
+        
+    Returns:
+        If x is a string, returns list of lines with stripped whitespace and trailing newlines.
+        Otherwise, returns x unchanged.
+    """
     if isinstance(x, str):
         return list(map(lambda y: y.strip() + "\n", x.splitlines()))
 
     return x
 
-def copy_dependencies(builderSelf, outdir = None):
+def copy_dependencies(builder_self, outdir=None):
     """
-    Copies the dependencies of source files or folders specified in the config to their respective output directories
+    Copy file dependencies to output directories.
+    
+    Copies dependencies of source files or folders specified in the 
+    tojupyter_dependencies config option to their respective output directories.
+    
+    Args:
+        builder_self: The Sphinx builder instance
+        outdir: Output directory path (defaults to builder_self.outdir)
     """
     if outdir is None:
-        outdir = builderSelf.outdir
+        outdir = builder_self.outdir
     else:
         outdir = outdir
-    srcdir = builderSelf.srcdir
-    if 'tojupyter_dependencies' in builderSelf.config and builderSelf.config['tojupyter_dependencies'] is not None:
-        depenencyObj = builderSelf.config['tojupyter_dependencies']
+    srcdir = builder_self.srcdir
+    if 'tojupyter_dependencies' in builder_self.config and builder_self.config['tojupyter_dependencies'] is not None:
+        depenencyObj = builder_self.config['tojupyter_dependencies']
         for key, deps in depenencyObj.items():
             full_src_path = srcdir + "/" + key
             if full_src_path.find('.') == -1:
@@ -176,22 +212,39 @@ def copy_dependencies(builderSelf, outdir = None):
 
 
 def python27_glob(path, pattern):
+    """
+    Recursively find files matching a pattern.
+    
+    Note: This function is kept for backward compatibility with test utilities.
+    For new code, prefer using pathlib.Path.rglob() or glob.glob() with recursive=True.
+    
+    Args:
+        path: Root directory to search
+        pattern: Filename pattern to match (e.g., "*.ipynb")
+        
+    Returns:
+        List of absolute paths to matching files
+    """
     matches = []
     for root, dirnames, filenames in os.walk(path):
         for filename in fnmatch.filter(filenames, pattern):
             matches.append(os.path.join(root, filename))
     return matches
 
-def get_list_of_files(dirName):
-    # create a list of file and sub directories 
-    # names in the given directory 
-    list_of_file = os.listdir(dirName)
+def get_list_of_files(dir_name):
+    """
+    Recursively get all files in a directory and its subdirectories.
+    
+    Args:
+        dir_name: Path to the directory to search
+        
+    Returns:
+        List of absolute paths to all files in the directory tree
+    """
+    list_of_file = os.listdir(dir_name)
     all_files = list()
-    # Iterate over all the entries
     for entry in list_of_file:
-        # Create full path
-        full_path = os.path.join(dirName, entry)
-        # If entry is a directory then get the list of files in this directory 
+        full_path = os.path.join(dir_name, entry)
         if os.path.isdir(full_path):
             all_files = all_files + get_list_of_files(full_path)
         else:

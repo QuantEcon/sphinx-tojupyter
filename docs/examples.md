@@ -120,9 +120,9 @@ will look as follows in the jupyter notebook
 
 ```
 
-```{warning}
-if `jupyter_images_markdown = True` then the `:scale:`, `:height:`
-and `:width:` attributes will be ignored.
+```{note}
+Image sizing attributes (`:scale:`, `:height:`, `:width:`) are converted to Markdown
+format in generated notebooks.
 ```
 
 ## jupyter-directive
@@ -398,9 +398,9 @@ The following code in the .rst file
 Notebook without solutions
 ==========================
 
-The idea is with the use of classes, we can  decide whether to show or not the solutions
-of a particular lecture, creating two different types of jupyter notebooks. For now it only
-works with *code blocks*, you have to include **:class: solution**, and set in  the conf.py file
+The idea is with the use of classes, we can decide whether to show or not the solutions
+of a particular lecture, creating two different types of jupyter notebooks. This works with
+*code blocks* by including **:class: solution**, and setting in the conf.py file
 *jupyter_drop_solutions=True*.
 
 
@@ -564,8 +564,7 @@ will look as follows in the jupyter notebook
 ```
 
 ```{note}
-inclusion of tests in the generated notebook can be controlled in the `conf.py`
-file using `jupyter_drop_tests = False`. This is useful when using the
-`coverage` build pathway.
+Inclusion of test code blocks in the generated notebook can be controlled in the `conf.py`
+file using `jupyter_drop_tests`. Set to `True` to exclude test blocks, `False` to include them.
 ```
 

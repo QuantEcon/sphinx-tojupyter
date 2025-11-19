@@ -3,7 +3,7 @@ import re
 import nbformat.v4
 import os.path
 import datetime
-from .utils import LanguageTranslator, JupyterOutputCellGenerators, get_source_file_name
+from ..utils import LanguageTranslator, JupyterOutputCellGenerators, get_source_file_name
 
 class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
 
@@ -35,21 +35,28 @@ class JupyterCodeTranslator(docutils.nodes.GenericNodeVisitor):
         self.output = nbformat.v4.new_notebook()
 
         # Variables defined in conf.py
-        self.tojuyter_drop_html_raw = builder.config["tojuyter_drop_html_raw"]
         self.tojupyter_static_file_path = builder.config["tojupyter_static_file_path"]
         self.tojupyter_kernels = builder.config["tojupyter_kernels"]
         self.tojupyter_drop_solutions = builder.config["tojupyter_drop_solutions"]
         self.tojupyter_drop_tests = builder.config["tojupyter_drop_tests"]
         self.tojupyter_lang_synonyms = builder.config["tojupyter_lang_synonyms"]
-        self.tojupyter_target_html = builder.config["tojupyter_target_html"]
         self.tojupyter_image_urlpath = builder.tojupyter_image_urlpath
+        
         self.tojupyter_images_markdown = builder.config["tojupyter_images_markdown"]
-        self.tojupyter_target_pdf = builder.config["tojupyter_target_pdf"]
-        self.tojupyter_pdf_showcontentdepth = builder.config["tojupyter_pdf_showcontentdepth"]
-        self.tojupyter_pdf_book = builder.config["tojupyter_pdf_book"]
-        self.book_index = builder.config["tojupyter_pdf_book_index"]
-        if hasattr(builder, 'add_bib_to_latex'):
-            self.add_bib_to_latex = builder.add_bib_to_latex
+        
+        # Get tojupyter_drop_raw_html with fallback to True (drop by default)
+        try:
+            self.tojupyter_drop_raw_html = builder.config["tojupyter_drop_raw_html"]
+        except (KeyError, AttributeError):
+            self.tojupyter_drop_raw_html = True
+        
+        # v1.0: These options were removed - setting defaults for backward compatibility in code
+        self.tojupyter_target_html = False   # Use Markdown-style links (not HTML-style)
+        self.tojupyter_target_pdf = False    # Not targeting PDF output
+        self.tojupyter_pdf_showcontentdepth = 0  # Not relevant for notebook output
+        self.tojupyter_pdf_book = False      # Not building PDF books
+        self.book_index = None               # Not building book index (must be None or string)
+        self.add_bib_to_latex = False        # Not adding bibliography to LaTeX
 
         # set the value of the cell metadata["slideshow"] to slide as the default option
         self.slide = "slide" 

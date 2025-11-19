@@ -11,17 +11,18 @@ kernelspec:
 
 # `sphinx-tojupyter` Documentation
 
-This sphinx extension can be used to build a collection of
-[Jupyter](http://jupyter.org) notebooks for Sphinx Projects.
+This sphinx extension converts RST and MyST source files to Jupyter notebooks.
+
+**Version 1.0** focuses solely on notebook generation. For notebook execution, PDF generation, 
+and website building, use [Jupyter Book](https://jupyterbook.org/).
 
 ```{note}
-It has mainly been written to support the use case of
-scientific publishing and hasn't been well tested outside of this
-domain. Please provide feedback as an issue to this
-[repository](https://github.com/QuantEcon/sphinx-tojupyter).
+Version 1.0 is a major refactoring that removes PDF, HTML, and execution features.
+See the [migration guide](https://github.com/QuantEcon/sphinx-tojupyter/blob/main/MIGRATION.md) 
+if upgrading from v1.x.
 ```
 
-**Requires:** Sphinx >= 1.7.2 (for running tests).
+**Requires:** Sphinx >= 7.0
 
 One of the main benefits of writing Jupyter notebooks as `RST` files is to simplify
 the task of version control for large projects.
@@ -31,14 +32,16 @@ the task of version control for large projects.
 :maxdepth: 1
 
 installation
+builders
 config-sphinx
 config-extension
+config-extension-notebooks
+config-example
 myst-nb
+myst-feature-coverage
+myst-feature-testing
 latex-macros
 examples
-config-example
-config-project
-builders
 ```
 
 ## Credits

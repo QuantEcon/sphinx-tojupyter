@@ -12,33 +12,55 @@ kernelspec:
 (builders)=
 # Builders
 
-This extension has the following Builders
+```{note}
+**Version 1.0** provides only the `jupyter` builder for notebook generation.
+For PDF, HTML, and execution features, use [Jupyter Book](https://jupyterbook.org/).
+```
 
 ## jupyter
 
-This builder currently handles jupyter, html, and coverage output
+The `jupyter` builder converts RST and MyST source files to Jupyter notebooks.
 
-```{code-block} bash
-@$(SPHINXBUILD) -M jupyter "$(SOURCEDIR)" "$(BUILDCOVERAGE)" $(FILES) $(SPHINXOPTS) $(O)
+### Basic Usage
+
+```bash
+make jupyter
 ```
 
-```{warning}
-If your project needs to build jupyter and html then configuration for html
-and coverage is currently handled through Makefile overrides.
-The project is working on separate builders for html and coverage
+Or directly with sphinx-build:
+
+```bash
+sphinx-build -M jupyter "source" "build" $(SPHINXOPTS)
 ```
 
-Example Configuration for HTML production
+### Output
 
-```{code-block} bash
-@$(SPHINXBUILD) -M jupyter "$(SOURCEDIR)" "$(BUILDWEBSITE)" $(FILES) $(SPHINXOPTS) $(O) -D jupyter_make_site=1 -D jupyter_generate_html=1 -D jupyter_download_nb=1 -D jupyter_execute_notebooks=1 -D jupyter_target_html=1 -D jupyter_download_nb_image_urlpath="https://s3-ap-southeast-2.amazonaws.com/lectures.quantecon.org/py/_static/" -D jupyter_images_markdown=0 -D jupyter_html_template="python-html.tpl" -D jupyter_download_nb_urlpath="https://lectures.quantecon.org/" -D jupyter_coverage_dir=$(BUILDCOVERAGE)
+Notebooks are generated in `_build/jupyter/` with:
+- All markdown cells from your documentation
+- Code blocks as executable cells
+- Proper kernel metadata
+- Static assets (images, CSS, etc.)
+
+### Configuration
+
+See [notebook configuration](config_extension_notebooks) for available options.
+
+### Example Makefile Target
+
+```makefile
+.PHONY: jupyter
+jupyter:
+	@$(SPHINXBUILD) -M jupyter "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 ```
 
-## jupyterpdf
+## Removed Builders (v1.0)
 
-This builder handles production of pdf
+The following builders have been removed in v1.0:
 
-```{code-block} bash
-@$(SPHINXBUILD) -M jupyterpdf "$(SOURCEDIR)" "$(BUILDCOVERAGE)" $(FILES) $(SPHINXOPTS) $(O)
-```
+- **jupyterpdf**: Use Jupyter Book for PDF generation
+  ```bash
+  jupyter-book build --builder pdflatex yourbook/
+  ```
+
+See the [migration guide](https://github.com/QuantEcon/sphinx-tojupyter/blob/main/MIGRATION.md) for details.
 

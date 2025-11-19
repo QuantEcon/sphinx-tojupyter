@@ -32,16 +32,16 @@ the task of version control for large projects.
 :maxdepth: 1
 
 installation
+builders
 config-sphinx
 config-extension
+config-extension-notebooks
+config-example
 myst-nb
 myst-feature-coverage
 myst-feature-testing
 latex-macros
 examples
-config-example
-config-project
-builders
 ```
 
 ## Credits

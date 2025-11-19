@@ -200,8 +200,7 @@ This option needs to be reviewed
 |True|
 
 When constructing notebooks this option can be enabled to ignore :class: no-execute
-for code-blocks. This is useful for html writer for pages that are meant to fail
-but shouldn't be included in coverage tests.
+for code-blocks. This is useful for including code examples that may not execute correctly.
 
 `conf.py` usage:
 

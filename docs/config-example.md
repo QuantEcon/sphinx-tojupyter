@@ -221,7 +221,7 @@ If upgrading from v0.6.0, remove these obsolete options:
 # jupyter_target_pdf = ...
 ```
 
-See {doc}`../MIGRATION` for complete migration guide.
+See the [MIGRATION.md](https://github.com/QuantEcon/sphinx-tojupyter/blob/main/MIGRATION.md) guide for complete migration instructions.
 
 ---
 

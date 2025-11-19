@@ -1,3 +1,14 @@
+---
+jupytext:
+  text_representation:
+    extension: .md
+    format_name: myst
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
+
 # MyST Markdown Feature Coverage
 
 This document provides a comprehensive analysis of MyST markdown feature support in sphinx-tojupyter v1.0.

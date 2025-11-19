@@ -11,6 +11,7 @@ tests/**/_build/
 tests/project/lecture-python-programming.myst/.git*
 tests/project/_build
 *.pyc
+*.log
 .DS_Store
 .vscode/
 doctrees/

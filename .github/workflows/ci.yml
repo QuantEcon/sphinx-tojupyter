@@ -105,7 +105,7 @@ jobs:
           nox -s docs
       
       - name: Upload docs artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: documentation
           path: docs/_build/html
